@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+.idea/
+.vscode/
+
+# Local timestamped backups made before scripted edits; never published.
+_backups/

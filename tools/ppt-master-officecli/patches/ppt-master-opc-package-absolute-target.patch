@@ -1,0 +1,13 @@
+diff --git a/skills/ppt-master/scripts/svg_to_pptx/pptx_package/builder.py b/skills/ppt-master/scripts/svg_to_pptx/pptx_package/builder.py
+index 7080ec06..2326421e 100644
+--- a/skills/ppt-master/scripts/svg_to_pptx/pptx_package/builder.py
++++ b/skills/ppt-master/scripts/svg_to_pptx/pptx_package/builder.py
+@@ -261,2 +261,6 @@ def _resolve_package_target(source_part: str, target: str) -> str:
+-    """Resolve a relationship target relative to a package part path."""
+-    return posixpath.normpath(posixpath.join(posixpath.dirname(source_part), target))
++    """Resolve an internal relationship target to a package-relative part path."""
++    if target.startswith("/"):
++        return posixpath.normpath(target.lstrip("/"))
++    return posixpath.normpath(
++        posixpath.join(posixpath.dirname(source_part), target)
++    )

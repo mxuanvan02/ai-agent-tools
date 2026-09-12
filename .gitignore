@@ -1,8 +1,6 @@
 __pycache__/
 *.py[cod]
+.venv/
+.state/
+*.slide-pipeline/
 .DS_Store
-.idea/
-.vscode/
-
-# Local timestamped backups made before scripted edits; never published.
-_backups/
