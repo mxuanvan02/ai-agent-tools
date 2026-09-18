@@ -114,4 +114,110 @@ three before submission; measured drift classes:
   (`research/EXECUTION_RUNBOOK.md` etc.). Test every relative path.
 
 Standing rule (this author): prepare fixes, present the diff, **never push
-without explicit approval** — on both GitHub and HF.
+without explicit approval** — on both GitHub and HF. Exception: when the author
+explicitly says "cập nhật lên repo github nhé", that is the approval — commit and
+push in the same turn.
+
+## 6. pdftotext verification: normalize whitespace before substring checks
+
+Verifying that an edit landed in the built PDF by `phrase in pdftotext_output`
+produces false MISS results, because pdftotext inserts line breaks wherever the
+PDF wraps — including mid-phrase. Measured: 4 of 8 checks reported MISS on a
+correctly built PDF; all 8 passed after normalization. Recipe:
+
+```python
+import re
+tn = re.sub(r'\s+', ' ', pdftotext_output)   # collapse all whitespace
+assert "cụm từ cần kiểm tra" in tn
+```
+
+Also normalize the needle the same way (no double spaces, matching dash
+characters — the source may use en dash `–` where you type hyphen `-`).
+
+## 7. Every float must be anchored by an in-text \ref before delivery
+
+Author rule (this user, item 3 of a 7-point structural review): "Mọi hình/bảng
+nên được nhắc vào trong nội dung bài (\ref{})". A float that no sentence
+references is orphaned — the reader has no entry point. Sweep at delivery time:
+
+1. Collect every `\label{...}` inside `figure`/`table` environments.
+2. Collect every `\ref{...}` in body prose.
+3. Every float label must appear in at least one prose reference *before* the
+   float's position (LaTeX floats can move; the reference carries the reader).
+4. The referencing sentence must be substantive — "Bảng dưới đây tóm tắt kết
+   quả" is `meta_prose`; "Việc cung cấp đoạn trích nguồn đúng làm tăng độ
+   chính xác 8,14–20,93 đpt (Bảng~\ref{tab:acc})" is evidence anchoring.
+
+## 8. Adding citations: Crossref-verify each, then check render order
+
+When a review asks to strengthen claims with references ("bổ sung thêm citation ở
+một số claim"), the workflow that shipped:
+
+1. **Map claim → candidate source.** Typical gaps in an empirical dataset paper:
+   a named statistical test (McNemar 1947), a resampling method (Cameron–Gelbach–
+   Miller 2008 cluster bootstrap), a similarity technique (Broder 1997 shingling),
+   and a documented phenomenon you observe but do not explain (LLM option-order
+   bias — Pezeshkpour & Hruschka 2024; pretraining contamination — Magar &
+   Schwartz 2022). Citing the method at its *definition site* and the phenomenon
+   at its *observation site* is what turns "chưa xác định nguyên nhân" from a gap
+   into a positioned observation.
+2. **Verify every candidate through Crossref** (`api.crossref.org/works?query.bibliographic=…`,
+   then re-resolve the DOI and compare author/year/title). A candidate whose DOI
+   cannot be verified is dropped, not guessed — measured: "Oren 2023 test-set
+   contamination" did not resolve to the intended work and was excluded while the
+   other five shipped.
+3. **Numbered-style (Vancouver) order check after adding entries.** In-text
+   citation numbers must equal first-appearance order. Inserting `\bibitem`s at
+   the end of `thebibliography` in insertion-order-of-thinking silently breaks
+   this: measured, Broder (first used at line 151) was listed *after* Cameron
+   (first used at line 149), which would render [19]=Broder, [20]=Cameron while
+   the text cites them in the opposite order. Fix by sorting new bibitems by
+   first `\cite` position in the source. Verify from the built PDF text:
+   for each new ref, find its in-text phrase and the bibliography entry number
+   and assert they match (`[18]` McNemar, `[19]` Cameron, `[20]` Broder,
+   `[21]` Pezeshkpour, `[22]` Magar).
+4. Update the width argument of `\begin{thebibliography}{NN}` when the entry
+   count grows past two digits' worth of label width (17 → 22).
+
+## 9. Renaming public artifacts (GitHub repo, HF dataset) mid-submission
+
+When the dataset/repo gets a better name after the manuscript already links the
+old one, the rename touches every surface. Measured recipe:
+
+- **GitHub**: `gh api -X PATCH repos/<owner>/<old> -f name=<new>` renames for
+  real and old URLs keep redirecting. Then sweep the repo for the old name in
+  user-facing docs (README, README_COLAB, LICENSE links, bibtex `url`).
+  **Distinguish URLs from provenance paths**: `/content/TQA_Pipeline/...` inside
+  scripts and dataset records is the environment where the data was generated —
+  rewriting it falsifies provenance and breaks defaults; leave it and say why in
+  the commit message.
+- **Hugging Face**: the REST API has **no dataset rename** for token auth —
+  `PUT /settings {"name": ...}` returns 200 but only sets the display name, the
+  repo id does not change (verify via `api/datasets/<new>` → 404). Reliable path:
+  `create_repo(new, public)` → `upload_folder(staging)` → verify per-file SHA-256
+  remote-vs-staged (8/8 measured) → update every reference → **ask the author
+  before deleting the old repo** (irreversible; offer "delete" vs "keep with
+  pointer README").
+- **Branch sync after rename**: a shallow clone (`--depth`) lacks the other
+  branch's refs, so `git checkout -b main origin/main` fails confusingly. Clone
+  full, merge, push. Verify with the GitHub compare API (`status/ahead_by/behind_by`),
+  not local `git rev-list`, whose merge-base output is meaningless on a shallow
+  clone.
+- **Final sweep**: grep every artifact (manuscript PDF text, GH README on *both*
+  branches, HF card live via `raw/main/README.md`, source-package BUILD.md) for
+  the old identifiers; only provenance-path hits may remain.
+
+## 10. Conclusion must contain no measurement values
+
+See SKILL.md "Conclusion progression". Mechanical gate on the built PDF:
+
+```python
+i = text.find('Kết luận'); j = text.find('Lời cảm ơn')
+nums = re.findall(r'\d[\d.,]*', text[i:j])
+# expect [] — the only digit runs allowed are in the footer/page number,
+# which pdftotext interleaves; strip standalone page numbers before asserting.
+```
+
+Measured false positive to expect: the page number ("10") lands inside the
+conclusion span because pdftotext emits footers inline. Check each numeric token
+against its raw-text context before calling it a violation.

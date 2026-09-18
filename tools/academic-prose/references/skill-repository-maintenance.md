@@ -110,14 +110,25 @@ check establishes and, separately, the property it does not.
 
 ## 5. Publishing
 
-Branch, commit, push, open a pull request, wait for CI, then merge. The history here
-is pull-request based, and a direct push to the default branch breaks that. Scan the
+Branch, commit, push, open a pull request, wait for CI, then merge. The history here is
+pull-request based, and a direct push to the default branch breaks that. Scan the
 staged diff for secrets before committing: the fixtures deliberately contain
 path-shaped and commit-hash-shaped strings, which are synthetic test data rather than
 credentials and should be recognized as such rather than removed.
 
 Bump the version in the `SKILL.md` frontmatter, then reconcile the runtime copy so the
 two locations do not drift apart again.
+
+### This skill's home is the ai-agent-tools monorepo
+
+Measured correction (user): academic-prose lives at `tools/academic-prose/` inside
+`github.com/mxuanvan02/ai-agent-tools` — that is where updates go. A legacy
+standalone repo `mxuanvan02/academic-prose` still exists and accepts pushes; pushing
+there is not an error the remote will catch, so check the intended destination with
+the user (or their latest instruction) before pushing. When syncing runtime →
+monorepo with rsync, exclude the repo-only directories (`evals/`, `tests/`,
+`agents/`, `schemas/`, `.git`, `__pycache__`) so repo-owned assets are not deleted
+by `--delete`; the runtime tree does not carry them.
 
 ## 6. Publishing when the host CLI cannot see the repository
 
