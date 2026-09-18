@@ -144,8 +144,58 @@ GET  /repos/{owner}/{repo}/commits/{sha}/check-runs   -> wait for conclusion
 PUT  /repos/{owner}/{repo}/pulls/{n}/merge
 ```
 
+A confined `gh` also cannot read `/tmp`: snaps get a private mount, so
+`--input /tmp/body.json` fails with `open /tmp/body.json: no such file or
+directory` while `ls -l` shows the file present. Write request payloads under
+`$HOME` instead (job logs too, when fetching them with
+`gh api .../jobs/{id}/logs`). The error looks like a missing file, not like a
+confinement problem, so it invites a pointless rewrite of the payload.
+
+Set the PR base from the remote's actual default branch, not from an assumed
+`main`. A monorepo may keep its work on a long-lived feature branch as
+`origin/HEAD`; `git fetch origin main` then fails with
+`couldn't find remote ref main`. Check `git branch -r` and where `origin/HEAD`
+points before choosing `base`.
+
 Read the token from the host's own credential store rather than echoing it, and
 never interpolate it into a shell string — a malformed assignment produced a
 syntax error that leaked the surrounding command into the log. Wait for the CI
 conclusion before merging; a `mergeable: clean` response says nothing about
 whether the checks passed.
+
+## 7. A red CI on your PR may be the base branch's fault
+
+Read the failing job log before touching your change, and read the **base
+branch's** log too. Fetch both by run/job id and compare the traceback:
+
+```text
+GET /repos/{o}/{r}/actions/runs?branch={b}&per_page=1  -> runs[0].id
+GET /repos/{o}/{r}/actions/runs/{run}/jobs             -> jobs[0].id, step conclusions
+GET /repos/{o}/{r}/actions/jobs/{job}/logs             -> the raw log
+```
+
+A docs-only PR that failed `validate` with
+`ModuleNotFoundError: No module named 'defusedxml'` turned out to fail identically
+on the base branch two days earlier — same step, same traceback. The workflow had
+no dependency-install step at all, and the machine that wrote the skill happened
+to have `defusedxml` and `python-docx` installed, so every local run passed. A
+green local suite therefore proves nothing about the runner; it only proves the
+host has the imports.
+
+Fix the cause, not the symptom: declare the imports the scripts actually make in
+a `requirements.txt` and install it in the workflow before the contract step.
+Never skip, disable or `continue-on-error` the failing test to get a green tick —
+the OOXML test exists because DOCX input is untrusted and parsing it with the
+stdlib parser allows entity expansion.
+
+Then prove the fix under runner conditions rather than host conditions: build a
+fresh venv, confirm the missing imports are absent in it (reproducing the
+failure), install the requirements file, and re-run **every** command the workflow
+runs with the venv interpreter. Scripts that spawn subprocesses via
+`sys.executable` make this meaningful — the child inherits the venv, so the whole
+gate runs dependency-clean. Only commit once that passes.
+
+Note also that a repository's own `.github/workflows/` copy inside a tool
+directory is not what CI executes: GitHub Actions reads `.github/workflows/` at
+the **repo root** only. Diff the two; a nested copy can silently list different
+steps than the one actually running.
