@@ -15,6 +15,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install academic-prose dependencies
+        run: pip install -r tools/academic-prose/requirements.txt
+
       - name: Validate academic-prose contract
         working-directory: tools/academic-prose
         run: |
