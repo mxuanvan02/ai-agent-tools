@@ -244,3 +244,27 @@ and +6 lines of required references, quantified by §3.
 Moving material to an appendix does **not** reduce total page count of the same
 PDF. It helps only when the venue counts the main body separately. State which
 applies before offering it as a fix, or the promised page saving will not arrive.
+
+### The references-only last page is the real floor
+
+A measured end state: after compressing every prose block over 130 words
+(17 blocks) plus the abstract, the final page held **only** bibliography entries
+(307 words, ending at 512pt of 666), while the page above it was full at
+665.9pt. At that point no further prose cut can reach the target, because the
+remaining overflow is reference lines, not body lines. Diagnose this state
+before promising another page: print the last page's word count *and* its
+content head — if it starts with bibliography entries, the body is already
+compressed to its floor.
+
+The remaining levers then all touch the citation apparatus, which is the
+author's evidence, not padding: dropping long DOI/URL rendering, tightening
+`\itemsep` in `thebibliography`, or shortening venue names. Each is a decision
+for the author or supervisor, not a mechanical cleanup — ask, with the measured
+line count needed, rather than editing citations unilaterally. In the case the
+answer was to accept one page over target with the body intact.
+
+One caution from the same run: after 17 compression patches the body word count
+can *rise* slightly (6,242 → 6,390) because rewriting long paragraphs into
+shorter sentences adds line breaks, and words-per-line drops at paragraph ends.
+Judge compression by rendered lines per section (drift analysis, §3), never by
+word count — the same trap as judging a page budget by words.
