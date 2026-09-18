@@ -199,3 +199,9 @@ Note also that a repository's own `.github/workflows/` copy inside a tool
 directory is not what CI executes: GitHub Actions reads `.github/workflows/` at
 the **repo root** only. Diff the two; a nested copy can silently list different
 steps than the one actually running.
+
+After merging a CI fix, confirm the **base branch itself** goes green — that is
+what proves the fix was the cause, since the base was red before. And check that
+the new check-run's `started_at` is *later* than the merge timestamp and its
+`head_sha` is the merge commit: a green conclusion read too early can be an
+inherited result from the PR head, not a fresh run on the merged base.
