@@ -3,10 +3,19 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.9.2"
+  version: "3.11.0"
 ---
 
 # Academic Prose
+
+**Support files:** when the user proposes swapping one term for a near-synonym
+("dùng từ X thì đúng hơn so với Y nhỉ?"), follow
+[`references/terminology-adjudication.md`](references/terminology-adjudication.md)
+— count every variant, query the target venue's published corpus, find the fixed
+technical term that blocks a global replace, recommend rather than apply, then
+verify counts in the PDF text layer after rebuild.
+
+When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision).
 
 Build academic discourse from claims and evidence, then realize it as precise, appropriately cautious, logically explicit, and natural prose in the target language. This is a **write-first** skill: translation, revision, humanizing, and audit are adapters into the same composition engine. Never create academic authority by inventing evidence or strengthening a claim.
 
@@ -97,6 +106,31 @@ Three consequences carry most of the weight:
 Both directions are in scope: Vietnamese institutional, legal, and academic-title
 terms are system-specific, and mapping them onto a near-equivalent without a gloss
 is `institutional_false_friend`.
+
+**Task family vs answer format are two different concepts; conflating them is a
+blocking ambiguity.** Author correction: *"TQA không hẳn là trắc nghiệm đâu, phải
+định nghĩa rõ ràng."* Textbook question answering (TQA) is a task family spanning
+free-form and multiple-choice answer types; `trắc nghiệm bốn lựa chọn` (four-option
+multiple choice) is one answer format inside it. Rules when a manuscript's artifact
+lives at the format level but the literature sits at the family level:
+
+1. Define the relation explicitly at first use: "Hỏi–đáp dựa trên giáo trình
+   (textbook question answering, TQA) là họ nhiệm vụ rộng, gồm cả dạng trả lời tự
+   do và dạng trắc nghiệm; <dataset> thuộc dạng trắc nghiệm bốn lựa chọn, trong đó
+   mỗi câu hỏi kèm bốn phương án và có đúng một đáp án đúng."
+2. Sweep every later occurrence — title-adjacent abstract sentences, contribution
+   list, captions, conclusion, dataset card, repo README — so each says either
+   "hỏi–đáp … dạng trắc nghiệm bốn lựa chọn" (family+format) or the bare format
+   where the family was already established. A bare "bộ dữ liệu trắc nghiệm" in the
+   abstract while the literature section says "QA resources" reads as two different
+   artifacts.
+3. Never license a format-level claim with a family-level argument or vice versa:
+   "mức Phân tích ít phù hợp với trắc nghiệm bốn lựa chọn" is an unsupported claim
+   about the format; the honest version scopes to the pipeline ("đòi hỏi thiết kế
+   câu hỏi và quy trình thẩm định riêng nên được để lại cho nghiên cứu tiếp theo").
+4. A characterization of the released data ("100% trắc nghiệm bốn lựa chọn") must
+   be verified per-record against the artifact before it may appear in title or
+   abstract; see [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) §4.
 
 Read [Terminology localization policy](references/terminology-localization.md) for
 the tests, the discipline table, the load-bearing distinctions, the designator
@@ -287,6 +321,7 @@ and recommendation calibrated to the evidence, and distinguish unavailable data 
 work that is merely proposed.
 
 When the request is to revise the manuscript itself from reviewer comments, use
+- [Peer-review revision intake](references/peer-review-revision-intake.md) — locate and title-verify the review artifact BEFORE editing. A manuscript-only zip is not a review; similarly named review files in the cache may belong to a different submission at the same venue.
 - [Peer review to evidence-bound manuscript revision](references/peer-review-to-manuscript-revision.md)
 - [Dataset release swap](references/dataset-release-swap.md)
 Build a comment-to-evidence matrix first; route each request as available, derivable,
@@ -391,8 +426,10 @@ until recomputed:
    as a competing default configuration.
 
 Worked recipe (subset-check code, ledger search order, figure regeneration,
-card consolidation, OCR fallback for reading figures without vision tools):
-[Dataset release swap](references/dataset-release-swap.md).
+card consolidation, making the repo public with anonymous verification, GitHub
+shallow-clone branch-consolidation traps, code-only LICENSE scoping, the
+data-availability statement, and OCR fallback for reading figures without vision
+tools): [Dataset release swap](references/dataset-release-swap.md).
 
 For legal scholarship, read [Legal research genres](references/legal-research-genres.md)
 before selecting a structure. Legal work has several distinct reasoning logics;
@@ -485,7 +522,7 @@ Read these references as needed:
 - [Vietnamese AI-pattern gate](references/vi-ai-pattern-gate.md)
 - [Academic discourse gate](references/academic-discourse-gate.md)
 - [Metric and formula exposition](references/metric-and-formula-exposition.md)
-- [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) — prose-extract recipe for paragraph-level scans on `.tex`, the polyglossia `\refname` truncated-heading trap, deriving declarations placement from a published OJS article, per-record verification of dataset claims against the released HF artifact, and the manuscript↔GitHub↔HF drift sweep
+- [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) — prose-extract recipe for paragraph-level scans on `.tex`, the polyglossia `\refname` truncated-heading trap, deriving declarations placement from a published OJS article, per-record verification of dataset claims against the released HF artifact, the manuscript↔GitHub↔HF drift sweep, Crossref-verified citation insertion with Vancouver render-order check, renaming public GH/HF artifacts mid-submission, and the no-numbers-in-conclusion gate
 - [Skill repository maintenance](references/skill-repository-maintenance.md)
 - [Self-narration and config dump](references/self-narration-and-config-dump.md)
 - [Artifact register to scientific register](references/artifact-register-to-scientific-register.md)
@@ -515,6 +552,18 @@ Never introduce or alter any of the following without supplied evidence or an ex
 - whether a statement is the author's result, another source's claim, or an interpretation.
 
 Do not add an explanation merely to make prose sound complete. Put unsupported clarification in `needs_source` or a separate note, not in the academic claim.
+
+**A design rationale may not assert unsuitability without evidence.** Sentences
+that justify a scope choice by claiming an alternative is ill-suited are
+capability judgments the authors never tested. Measured (author-rejected):
+`các mức cao hơn (Phân tích, Đánh giá, Sáng tạo) ... ít phù hợp với câu hỏi trắc
+nghiệm bốn lựa chọn sinh tự động` — Apply-level MCQs are standard in law and
+medical training, so the claim was false as well as unsourced. Recast to the
+scope reason: what the *current pipeline* does not cover and what extending it
+would require (`đòi hỏi thiết kế câu hỏi và quy trình thẩm định riêng nên được
+để lại cho nghiên cứu tiếp theo`). Treat `ít phù hợp với <format>`, `không phù
+hợp với <task>`, `not suitable for <format>` in rationale prose as
+`needs_source` unless a measurement in the paper backs them.
 
 ## Prose Contract
 
@@ -765,6 +814,22 @@ structure.
 6. **Related Work is prose, not a catalogue.** Group related works by theme
    in flowing paragraphs; avoid one-subsection-per-theme unless each carries
    substantial analytical content.
+7. **Every float is referenced in running text.** Each figure and table must
+   be named (`Hình~\ref{}`, `Bảng~\ref{}`, `Figure~\ref{}`) inside a
+   substantive sentence. A float no sentence points to reads as content the
+   authors forgot to integrate.
+8. **Concepts and task formats get definitions, not parenthetical glosses.**
+   When the argument rests on a taxonomy (Bloom levels, annotation
+   categories), define each used level in prose with its authority citation —
+   not inline (`Nhớ (tái hiện)`). Same for the task format: name the task
+   *family* (question–answering) and the instantiated *format* (four-option
+   multiple choice, exactly one key) separately, define the format once, then
+   use the terms consistently; using a family term as if it implied the format
+   invites a reviewer challenge. A claim that a level or method is *unsuitable*
+   for a format is an empirical claim needing evidence; absent evidence,
+   recast as scope ("the remaining levels require separate item design and
+   adjudication and are left to future work"), never as a suitability
+   judgment.
 
 **Pre-draft checklist** (run before writing the first sentence):
 
@@ -934,6 +999,85 @@ shipping a thinner argument.
 Full procedure, worked numbers, and the citation-apparatus cost table:
 [Word budget and rendered-artifact compliance](references/word-budget-and-rendered-artifact-compliance.md).
 
+## Page Budget Is Measured in Points, Not Words
+
+A page ceiling behaves nothing like a word ceiling, and the instinct that works
+for words — shorten prose until the count fits — **does not work for pages**. In
+a measured session a 15-page LaTeX manuscript that had to absorb two new figures
+and a new results subsection was cut by ~350 words of duplicated prose and
+stayed at 16 pages, because every page was already full to the last line: each
+removal only *reflowed* text into the same number of lines. Page count moved only
+when the levers below were used. Measure before cutting, or the cutting is
+theatre.
+
+**Lock a numeric invariant before any compression pass.** Extract the distinct
+set of numeric tokens across all prose files (`\d+(?:[.,]\d+)*`, comments
+stripped) and keep it as a baseline; re-check after every batch that
+`baseline − now` is empty. This is what makes aggressive prose compression safe:
+word count may move freely, evidence may not. Two cautions from measurement —
+a set that *shrinks* means a number was lost, and a set that *grows* is usually
+harmless (a `\label{eq:g78}` contributes the token `78`), so inspect additions
+before calling them findings. Repeat-counts legitimately collapse when a
+duplicated figure is de-duplicated to one site plus a cross-reference; only the
+distinct set is the invariant.
+
+**Diagnose by drift analysis, not by word count.** Extract text per section
+heading from both the old and the new built PDF and compare line counts. In the
+measured case the body had *fewer* words than the original (6,242 against
+6,391) yet ran one page longer, and the drift table localised it exactly: +16
+lines in Results, +6 in References, −4 in Conclusion. Word counts cannot tell
+you this; line counts can.
+
+**Rank the levers by what they actually free.** Measured, in order:
+
+1. **Captions.** A hand-written caption ran 102 and 109 words against the
+   author's own 34-word caption for a comparable figure — three times the
+   density, repeating body text. Trimming both to ~55 words freed a page on its
+   own. Captions are the highest-yield target precisely because authors do not
+   think of them as prose.
+2. **Cross-section duplication.** The same numbers (admission rates, prompt
+   lengths, per-gate rejection counts) appeared in abstract, introduction,
+   methods, results *and* discussion. Keep each figure at one site and
+   cross-reference it; do not delete it. This freed ~200 words without touching
+   a single datum.
+3. **Typography that changes no content.** `microtype` (protrusion/expansion
+   only) was absent from the preamble; adding it moved the last page's overflow
+   from 235 to 163 words with zero content change. Legitimate when it does not
+   alter font size, type area, or margins the venue or author has fixed.
+4. **Prose.** Last, not first, and only where it is genuinely redundant.
+
+**Two levers that failed — do not retry them blind.** `\looseness=-1` on four
+long paragraphs changed nothing: TeX cannot compress a paragraph that has no
+slack. And shortening prose in a document where every page is already full to
+666/666pt produces reflow, not relief. Check whether pages are actually full
+(measure each page's text bottom) before assuming prose is the lever.
+
+**Figures cost height, and the legibility floor bounds how short they can get.**
+A TikZ figure embedded at `\textwidth` scales by `345.83pt / canvas_width`, and
+*every* font in it scales with it — including math subscripts, which
+`\footnotesize` renders at 6pt. The floor therefore sets a **maximum canvas
+width**: `canvas ≤ subscript_pt × 345.83 / 6`. Two figures measured at 323pt and
+340pt canvas against a 346pt ceiling were already at the limit, so neither could
+be widened (and thereby shortened) without dropping below 6pt. Compute this
+ceiling *before* designing the layout; a figure drawn wide-then-scaled-down is
+the usual cause of an unreachable budget. Measure the embedded font on the
+**built manuscript page**, never on the standalone crop — the same figure
+reported 5.5pt standalone and 4.34pt embedded. A pre-existing author figure can
+carry the same defect: its `×` marks measured 4.34pt embedded, 50 sub-floor
+spans, identically in the original build — fix in the generating script, verify
+only the font changed (page size, cell multiset, and mark counts identical).
+
+**Never buy a page by deleting what a reviewer asked for.** The remaining
+candidates for cutting were the stratified bounds and the limitations a peer
+review had required. Stop at the floor and ask instead; report the measured
+ceiling rather than shipping a thinner argument. Note also that moving material
+to an appendix does **not** reduce total page count of the same PDF — it only
+helps when the venue counts the main body separately. Say which applies rather
+than promising a page saving that will not arrive.
+
+Full recipe, measurement scripts, and the worked 15→16 page case:
+[Page-budget compression for LaTeX](references/page-budget-compression.md).
+
 ## Evidence-Bound Full-Manuscript Audit Before Delivery
 
 When the author asks to reread the whole manuscript and fix similar problems, do not stop after repairing the quoted sentence or the abstract. Sweep the entire source, including both abstracts, title/keywords, headings, captions, tables, Methods, Results, Limitations, Future Work, Conclusion, and references as protected citation zones.
@@ -988,6 +1132,36 @@ Structural checks that travel with it:
   user that more than half their text was removed and that the abstract is the
   section most needing their review. A silent 50% cut of an author's own words is
   not a formatting change.
+
+### Conclusion progression: close the loop on the stated objectives
+
+The conclusion answers *were the objectives met*, not *what were the numbers*.
+Author correction, and it generalizes: *"ban đầu đặt ra những mục tiêu gì thì kết
+lại chứ... anh đọc qua thì giống như nói lại các con số, bị lệch trọng tâm nội
+dung cần truyền tải."*
+
+Required progression, in order:
+
+1. **Restate the objectives** in the framing the introduction used — same count,
+   same wording family (three RQs → three objectives).
+2. **State whether they were met**, bounded by the design's reach ("ở mức độ cho
+   phép của thiết kế"), as one clause per objective or one covering sentence.
+3. **Name the transferable lesson** a reader building something similar should
+   keep (e.g. a deterministic audit must follow model-based generation; a single
+   aggregate metric does not describe model behaviour).
+4. **Bound the resource's status** in one sentence, forward-referencing the
+   limitations section instead of restating it.
+
+Blocking check: **no measurement values in the conclusion body.** Counts,
+accuracies, percentage-point ranges and interval bounds belong to Results. The
+conclusion may name *which* quantity was measured ("ngữ cảnh nguồn đúng gắn với
+cải thiện độ chính xác ổn định ở cả bốn mô hình") but never its value. Verify
+mechanically — extract the conclusion span from the built PDF text and assert the
+only numeric token is the page number in the footer.
+
+This mirrors the abstract rule in the opposite direction: the abstract carries the
+principal finding *with* its number; the conclusion carries the finding's meaning
+*without* one.
 
 
 ## Define Every Metric and Formula Before Its First Use
