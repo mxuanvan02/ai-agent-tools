@@ -94,6 +94,17 @@ After a substantive claim change, sweep:
 
 The same claim must not appear as automatic in Methods, validated in the Abstract, and benchmark-grade in the Conclusion.
 
+Two additions that recur on computational papers:
+
+- **Generated artifacts.** Caption and table text emitted by a script is
+  regenerated on every pipeline run, so patching only the emitted `.tex` is
+  silently reverted. Patch the generator, re-emit, and diff the regenerated file
+  against the copy in the manuscript tree.
+- **Search by claim variant, not by the phrase already fixed.** The copy just
+  edited is the worst place to search from; the duplicates that survive use a
+  different wording of the same claim. Enumerate the variants and sweep each,
+  then confirm the change in the rendered PDF, which is what a referee reads.
+
 ## 8. Deliver separate artifacts
 
 When appropriate, provide:

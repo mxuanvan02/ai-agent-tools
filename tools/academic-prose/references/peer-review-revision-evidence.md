@@ -10,9 +10,9 @@ else's paper use the peer-review/refereeing skills instead.
 
 Before planning anything, verify submission ID and title inside the review
 against the manuscript being revised. Machines that host several paper projects
-accumulate review files for *other* submissions (a real near-miss: two
-`STAIS2026_128_review_*` files for a LegalQA-RAG paper sat in the document
-cache while the task was revising RABS, submission 40). A mismatched review
+accumulate review files for *other* submissions, and a cached review whose
+filename pattern matches the task looks authoritative even when it belongs to a
+different paper. A mismatched review
 produces a confidently wrong revision plan. If no review file for the target
 paper exists anywhere, ask the author for it — do not substitute an older
 internal feedback report without explicit confirmation.
@@ -38,11 +38,10 @@ internal feedback report without explicit confirmation.
 ## 2. Read the code behind each reviewer claim
 
 Reviewers routinely collapse two same-named components that live in different
-code paths. Located example (RABS, Reviewer 2 Q4): the submitted ablation
-table removed the risk term from the *ranking score* (`choose_sensors`) only,
-while the namesake mechanism — the risk relaxation `-c_R·R·B` in the *budget
-rule* (`choose_B`) — was never ablated. The reviewer read "the risk term does
-not help" as covering both. Grep the exact functions the reviewer's claim
+code paths. A measured instance: an ablation table removed a named term from
+the *scoring* function only, while the namesake mechanism in the *budget* rule
+was never varied. The reviewer read "the term does not help" as covering both.
+The same shape recurs whenever one named quantity enters a system at two places. Grep the exact functions the reviewer's claim
 touches, and establish what was and was not actually varied, before conceding
 or rebutting.
 
@@ -107,113 +106,68 @@ Each response: quote the reviewer point → state what was measured or changed
 verified-from-code statements from inferred ones. If an answer is "we could
 not measure this", say so and route it to limitations/future work.
 
-Length register: mirror the reviewers' own brevity. Each point should be one
-or two sentences stating what was done plus the numbers; the mechanism belongs
-in the manuscript, not the letter. A letter that re-argues the analysis reads
-as defensive.
+Length register: match the reviewers' own brevity. See *The response letter* in
+`revision-response-genres.md`.
 
 Glyph pitfall when building the letter with `pandoc` + `xelatex` and Latin
 Modern: Greek and math glyphs (ρ, δ, ≈, ≥, −, →) are **silently dropped** — the
 build still exits 0 and prints only a `Missing character` warning. ASCII-fy the
 Markdown before building, then grep the build log for `Missing character`.
 
-## 8. Public-artifact confidentiality: the review never reaches the repo
+## 8. Keep reviewer identities out of the public artifact
 
-A reproducibility repo is publication-facing, so reviewer identities,
-reviewer question numbers, and revision-round framing are prohibited internal
-register there exactly as in the manuscript. The leak channels are wider than
-prose:
+A reproducibility repository is publication-facing. Reviewer identities, reviewer
+question numbers, and revision-round framing are prohibited internal register
+there exactly as in the manuscript: the Internal Register gate covers the
+repository, not only prose.
 
-- **commit messages** naming review rounds and question numbers — these also
-  expose the author's name and email through the `.patch` endpoint;
-- **filenames and output names** tagged with question numbers (a `q4`/`q5` tag
-  maps a public file onto a confidential comment);
-- **README structure**: a "revision-round experiments" section, and per-table
-  reproduction steps, reveal which table answers which reviewer;
-- **script docstrings** ("fixes the Reviewer-1 issue", "regime X (submitted)",
-  "from branch-B").
+The leak channels are wider than prose, and each needs its own sweep:
 
-Write the repo as if no review existed: descriptive file names, and a README
-describing contributions, the algorithm, the application, and a one-command
-quick start. The reviewer-by-reviewer mapping lives only in the letter sent to
-the editor.
+- commit messages, which also expose author name and email through the platform's
+  `.patch` endpoint;
+- file and output names tagged with reviewer question numbers, which map a public
+  path onto a confidential comment;
+- repository documentation whose structure reveals which artifact answers which
+  reviewer -- a "revision-round experiments" section, or reproduction steps keyed
+  one-to-one onto reviewer questions;
+- script docstrings and inline comments recording what a reviewer objected to, or
+  which regime was the one under review.
 
-**Force-push does not remove this material.** GitHub keeps serving the
-orphaned commits after history is rewritten:
+Write the repository as though no review had occurred: descriptive names, and
+documentation covering contributions, method, application, and a one-command
+entry point. The reviewer-to-change mapping belongs only in the letter to the
+editor.
 
-- `/commit/<old-sha>` and `/commit/<old-sha>.patch` still return HTTP 200 with
-  the full message, anonymously;
-- `GET /repos/{owner}/{repo}/events` publicly lists every PushEvent with its
-  `before`/`head` SHAs, so a stranger needs no prior knowledge to recover the
-  entire orphaned chain;
-- `GET /search/commits` and the commit-list UI expose only reachable commits.
+**Rewriting history does not remove the material.** Hosting platforms keep
+serving objects that no reference reaches, and several of those routes are
+anonymous and enumerable:
 
-The last point is the trap: a fresh `git clone` followed by
-`git grep $(git rev-list --all)` therefore reports **zero matches** and gives
-false assurance. Verify a sanitization three ways before calling it clean —
-fresh clone (reachable history), each old SHA fetched by URL, and the Events
-API. Only **deleting the repository** (GitHub then garbage-collects the
-orphaned objects) or **making it private** removes the content; ask the author
-before either, and back up the full history first (`git bundle create --all`).
-Never report "force-pushed, therefore clean", and never characterize residual
-exposure as low-risk without measuring it.
+- a commit page, and its `.patch`/`.diff` form, resolve from the SHA alone;
+- the public events feed lists every push with its before/head SHAs, so the whole
+  orphaned chain is recoverable with no prior knowledge;
+- code search and the commit-list UI expose only reachable commits.
 
-## 9. A claim-strength change is a whole-document sweep, including generated text
+That asymmetry is the trap. A fresh clone grepped across every reachable ref
+reports zero matches and gives false assurance, because the exposure lives in
+objects the clone never fetches. Verify a sanitization three ways before calling
+it clean: reachable history in a fresh clone, each orphaned SHA fetched by URL,
+and the public events feed. Only deleting the repository -- which lets the
+platform garbage-collect the orphaned objects -- or making it private actually
+removes the content. Both need author consent, and the full history is backed up
+first (`git bundle create --all`). Never report "history rewritten, therefore
+clean", and never characterize residual exposure as low-risk without measuring it.
 
-When the author asks to soften a claim, the same claim usually survives in
-several artifacts under different wording, and the copy already fixed is the
-worst place to search from. Observed failure: softening the Results prose left
-two stronger copies behind — a table caption asserting the components were
-"mutually redundant", and a Conclusion sentence calling them "redundant". Both
-survived two review rounds because each search reused the exact phrase from the
-spot that had already been edited.
+## 9. Recurring revision-round failures documented elsewhere
 
-Sweep procedure:
+Two failure modes keep appearing during a revision round. Their general form
+lives in another reference, so consult it rather than re-deriving a local rule:
 
-1. Search the **semantic claim across its variants**, never the last-edited
-   phrase (`redundant`, `mutually redundant`, `adds nothing`, `no measured
-   gain`, `carries N× less information`).
-2. Search **every `.tex` file**, not just the section inputs — conclusions,
-   acknowledgments, and declaration blocks often sit inline in `main.tex`.
-3. Search the **generator scripts in the repo**. Caption and table text emitted
-   by a script is regenerated on every pipeline run, so patching only the
-   emitted `.tex` is silently reverted; patch the generator and re-emit.
-4. Rebuild and probe the **rendered PDF**, which is what a referee reads.
-5. Re-pack and re-verify any delivery bundle (§11).
-
-A claim softened in prose but not in the caption still reads as an overclaim in
-the compiled paper.
-
-## 10. Verification probe hygiene: the probe is often the broken part
-
-Every defect in §9 was found by a probe, and several probes first reported the
-wrong answer. When a probe disagrees with what an edit should have produced,
-debug the probe before believing either side.
-
-- **LaTeX hyphenation defeats substring probes.** Text extracted from a PDF can
-  contain a word split at its own hyphen. Normalize by stripping whitespace
-  *and* hyphens from needle and haystack before comparing.
-- **Case-fold both sides or neither.** Lower-casing the haystack while the
-  needle keeps internal capitals (`AoI`) yields a false negative.
-- **Probe the artifact that actually contains the target.** Scanning a composite
-  paper PDF for figure labels also matches prose mentions and undercounts; open
-  the standalone figure PDF and read its text layer.
-- **Never let a pipe consume an exit code.** `scanner --quiet | sed …` prints
-  nothing and `$?` reports the last stage's status, so a "clean" gate proves
-  nothing. Redirect to a file, then read the code.
-- **A clean scan over too little input is a false pass.** Extracting prose from
-  a root `.tex` that only `\input`s its body yields a few hundred words; extract
-  every input file, concatenate, and confirm the word count is plausible for the
-  paper before trusting `gate: scan_clean`.
-
-## 11. Re-verify the shipped bundle after the last edit
-
-Pack the delivery archive from the current build, then extract it into a clean
-directory and compile **there**. An archive packed before a later edit silently
-ships stale text — observed when the submission bundle still carried the
-pre-softening caption while the working copy was already fixed.
-
-Compare extracted versus working artifacts at the **text level** (normalized
-page-text digest), not by file hash: PDFs embed timestamps and document IDs, so
-byte-level comparison reports a difference for identical content and invites a
-wrong conclusion either way.
+- **A softened or re-scoped claim survives in another artifact** -- a table
+  caption, a conclusion, or text emitted by a generator script. See *Revise all
+  propagation sites* in `peer-review-to-manuscript-revision.md`, which now covers
+  generated artifacts and the search-by-variant rule.
+- **A verification probe reports the wrong verdict** -- hyphenation splitting a
+  phrase, asymmetric case folding, probing a composite file instead of the one
+  that holds the target, an exit code swallowed by a pipe, or a scan run over
+  under-extracted input; and **a delivery bundle packed before the last edit**.
+  See the recipes in `latex-pre-submission-verification.md`.

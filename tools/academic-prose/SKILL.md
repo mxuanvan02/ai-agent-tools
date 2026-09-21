@@ -15,7 +15,7 @@ metadata:
 technical term that blocks a global replace, recommend rather than apply, then
 verify counts in the PDF text layer after rebuild.
 
-When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision, keeping reviewer identities out of the public repo, sweeping a softened claim across captions and generated text, debugging a probe that disagrees with an edit, and re-verifying the shipped bundle).
+When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision, and keeping reviewer identities out of a public reproducibility repo).
 
 Build academic discourse from claims and evidence, then realize it as precise, appropriately cautious, logically explicit, and natural prose in the target language. This is a **write-first** skill: translation, revision, humanizing, and audit are adapters into the same composition engine. Never create academic authority by inventing evidence or strengthening a claim.
 

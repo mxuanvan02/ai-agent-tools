@@ -33,6 +33,11 @@ Scan `prose_only.txt` for paragraph-level gates; keep sentence-level gates
 (vi_ai_pattern, internal_register, process_logic) on the `.tex` directly — they
 tolerate markup and must still see captions.
 
+The converse failure is under-extraction. A root file that only `\input`s its
+body yields a few hundred words, and every paragraph-level gate then reports
+`scan_clean` over almost nothing. Extract each input file, concatenate, and
+confirm the word count is plausible for the paper before trusting a clean result.
+
 ## 2. Bibliography heading render check (`\refname` trap)
 
 With polyglossia Vietnamese + article class, `thebibliography` can render a
@@ -134,6 +139,23 @@ assert "cụm từ cần kiểm tra" in tn
 Also normalize the needle the same way (no double spaces, matching dash
 characters — the source may use en dash `–` where you type hyphen `-`).
 
+Whitespace collapsing is not enough on its own. Three further ways the probe,
+not the manuscript, is wrong:
+
+- **A term broken at its own hyphen.** Line wrapping can split a hyphenated word
+  (`load-\nbearing`), which survives whitespace collapsing. Strip whitespace *and*
+  hyphens from both sides before comparing.
+- **Asymmetric case folding.** Lower-casing the haystack while the needle keeps
+  internal capitals (`AoI`) yields a false negative. Fold both sides or neither.
+- **Probing the wrong artifact.** Scanning a composite paper PDF for float labels
+  also matches prose mentions of the same names and undercounts. Probe the
+  standalone float PDF when that is where the target lives.
+
+And never let a pipeline stage consume an exit code: `scanner --quiet | sed …`
+prints nothing and `$?` reports the last stage's status, so a "clean" gate proves
+nothing. Redirect to a file, then read the code. When a probe disagrees with an
+edit that should have produced it, debug the probe before believing either side.
+
 ## 7. Every float must be anchored by an in-text \ref before delivery
 
 Author rule (this user, item 3 of a 7-point structural review): "Mọi hình/bảng
@@ -221,3 +243,15 @@ nums = re.findall(r'\d[\d.,]*', text[i:j])
 Measured false positive to expect: the page number ("10") lands inside the
 conclusion span because pdftotext emits footers inline. Check each numeric token
 against its raw-text context before calling it a violation.
+
+## 11. Re-verify the shipped bundle after the last edit
+
+Pack the delivery archive from the current build, then extract it into a clean
+directory and compile *there*. An archive packed before a later edit silently
+ships stale text: the working copy can already be fixed while the bundle still
+carries the superseded wording.
+
+Compare extracted against working artifacts at the text level — a digest over
+normalized page text — not by file hash. PDFs embed timestamps and document IDs,
+so byte-level comparison reports a difference for identical content and invites a
+wrong conclusion in either direction.
