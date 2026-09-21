@@ -108,6 +108,16 @@ check establishes and, separately, the property it does not.
   test file so removing any one entry fails, and let the behavioural tests cover
   semantics rather than coverage.
 
+- **`SKILL.md` has a hard size ceiling (100,000 characters) enforced by the
+  editing tool, not by the validator.** `scripts/validate_skill.py` does not
+  measure file size, so a green validation run does not mean the file is
+  patchable — every edit against an oversized `SKILL.md` is rejected wholesale.
+  When that happens, compress rather than append: find a section whose detail
+  already lives in a reference, verify by normalized substring probe that every
+  rule and failure code survives in the reference, then reduce the `SKILL.md`
+  copy to the decision rules plus a pointer. Move anything unique to its owning
+  reference *before* cutting it.
+
 ## Generalizing a lesson into a reference
 
 A lesson learned on one manuscript is not a list from that manuscript. When
