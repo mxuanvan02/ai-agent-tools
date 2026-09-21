@@ -1,6 +1,6 @@
 # LaTeX Pre-Submission Verification Recipes
 
-Measured on the HOEIT-LegalQA HUJOS submission (XeLaTeX + polyglossia Vietnamese,
+Measured on a Vietnamese journal submission (XeLaTeX + polyglossia Vietnamese,
 article class). Five reusable gates that caught real defects after all four prose
 scans reported clean.
 
@@ -60,7 +60,7 @@ generative-AI disclosure): download one recent published article PDF from the
 same journal section and read where its declarations sit relative to References.
 
 OJS galley recipe: `…/issue/current` → collect `article/view/<id>` links →
-fetch `article/view/<id>/<galleyId>` (returns the PDF). Measured HUJOS-TT:
+fetch `article/view/<id>/<galleyId>` (returns the PDF). Measured on an OJS-based
 Acknowledgement (with grant code) sits immediately before References.
 
 Vietnamese triad that shipped (unnumbered `\section*`, after Kết luận, before

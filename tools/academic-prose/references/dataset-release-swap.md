@@ -1,6 +1,6 @@
 # Dataset release swap: manuscript + repository consolidation
 
-Condensed from the HOEIT-LegalQA case (Sep 2026): author decided the audited
+Condensed from a measured case: author decided the audited
 subset (4,668) supersedes the pre-audit eval layer (14,210) and asked to "drop
 the version label — this is the final for submission". The manuscript had
 passed six review rounds on the old numbers.
@@ -88,7 +88,7 @@ archify lesson about missing glyphs.
 - README metric claims must match the manuscript protocol (cluster bootstrap,
   not "Wilson intervals" left over from an earlier design).
 - Declarations block placement: check a recently published article from the
-  same journal section (fetch PDF, pdftotext, search "Acknowledg") — HUJOS-TT
+  same journal section (fetch PDF, pdftotext, search "Acknowledg") — measured on an
   puts Acknowledgement immediately before References; unnumbered
   `\section*{Lời cảm ơn}` / `\section*{Tài trợ}` / `\section*{Khai báo sử dụng
   trí tuệ nhân tạo}` matched that convention.
@@ -217,7 +217,7 @@ implying redistribution rights the data does not have.
 
 Once the artifacts are public, add an unnumbered `\section*{Tính sẵn có của dữ
 liệu và mã nguồn}` in the declarations block — placed after Funding and before
-the AI-disclosure, matching the HUJOS-TT declarations ordering. It carries the
+the AI-disclosure, matching that journal's declarations ordering. It carries the
 two canonical links (HF dataset, GitHub repo) plus one clause each on what is
 reproducible there (audit/verify/recompute scripts) and the license scope (MIT
 for code, not the corpus). Use `\url{}` (hyperref is already loaded); after the

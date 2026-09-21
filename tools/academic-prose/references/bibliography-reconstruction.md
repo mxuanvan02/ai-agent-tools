@@ -6,7 +6,7 @@ Use when a manuscript cites `[1]–[22]` (or any range) but ships no `Tài liệ
 
 - Parse `word/document.xml` for bracket tokens `\[...\]`; expand ranges (`[1–5]`, `[10–12]`) and splits (`[6,7]`).
 - Exclude false positives like `[Q(0,025), Q(0,975)]` (formula quantiles, not citations).
-- Measured case (HOEIT round 6): raw max was 22 but distinct set was `[1-12,18-22]` — `[13-17]` never cited. Missing numbers are a finding, not a renumbering license until confirmed.
+- Measured case (late revision round): raw max was 22 but distinct set was `[1-12,18-22]` — `[13-17]` never cited. Missing numbers are a finding, not a renumbering license until confirmed.
 
 ## 2. Verify each candidate before writing prose
 
