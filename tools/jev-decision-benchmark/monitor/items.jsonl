@@ -1,0 +1,20 @@
+{"title": "URGENT: Production DB down, all writes failing", "text": "Postgres primary unreachable since 14:02, users cannot save. On-call paged.", "gold": 9}
+{"title": "Invoice #4821 payment failed 3rd time", "text": "Customer on 199k plan, card declined repeatedly, subscription lapses tomorrow.", "gold": 8}
+{"title": "Security: unusual login from new country", "text": "Admin account login from IP in a country never seen before, 03:14 local.", "gold": 9}
+{"title": "SSL certificate expires in 2 days", "text": "cert for api.example.com expires Fri; renewal not yet run.", "gold": 8}
+{"title": "Weekly newsletter: 10 CSS tricks", "text": "Roundup of frontend tips from a design blog.", "gold": 1}
+{"title": "Your Amazon order has shipped", "text": "Package with USB cables is on the way, arriving Thursday.", "gold": 2}
+{"title": "Meeting moved to 3pm", "text": "Standup rescheduled from 2pm to 3pm today per manager.", "gold": 5}
+{"title": "Re: contract signature needed by EOD", "text": "Legal needs your signature on the vendor contract before 5pm or the deal slips a week.", "gold": 8}
+{"title": "GitHub: CI failing on main branch", "text": "Test suite red on main after last merge, blocking all deploys.", "gold": 7}
+{"title": "LinkedIn: someone viewed your profile", "text": "A recruiter viewed your profile this week.", "gold": 1}
+{"title": "Reminder: dentist appointment next month", "text": "Cleaning scheduled for the 15th, no action needed now.", "gold": 3}
+{"title": "Server disk 92% full on app-01", "text": "Disk usage climbing, logs not rotating; will fill within a day.", "gold": 7}
+{"title": "Spam: You won a free iPhone!!!", "text": "Click here to claim your prize now, limited time offer.", "gold": 0}
+{"title": "Customer complaint: data export broken", "text": "Paying customer says CSV export returns empty file since yesterday.", "gold": 7}
+{"title": "Slack: happy birthday to Minh!", "text": "Team wishing a colleague happy birthday in general channel.", "gold": 1}
+{"title": "Password reset requested for your account", "text": "Someone requested a password reset; if not you, secure the account.", "gold": 6}
+{"title": "Quarterly report draft ready for review", "text": "Finance shared the Q3 draft, feedback wanted by end of week.", "gold": 5}
+{"title": "AWS bill up 40% this month", "text": "Unexpected cost spike, mostly from a new EC2 instance left running.", "gold": 6}
+{"title": "New follower on Twitter", "text": "You gained a new follower.", "gold": 0}
+{"title": "Incident: payment webhook dropping events", "text": "SePay webhook missing ~15% of events, some paid orders not marked paid.", "gold": 8}
