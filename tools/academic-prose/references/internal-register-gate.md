@@ -222,6 +222,36 @@ The general rule these share: **severity follows what the reader can reach.** A
 public repository path is reachable and belongs in a data statement; a path on
 one machine, a chat turn, and a placeholder are unreachable and block.
 
+### Calibration: the subject matter can be the lexical trigger
+
+A fourth false positive, measured on an English manuscript whose *topic* is
+automated verification (five-arm evaluation of deterministic admission
+conditions, 2026-09-22). `internal_register_scan --genre manuscript` returned two
+`verification_log_prose` hits, both non-blocking, both **licensed**:
+
+1. `every field checked by Eqs.~(7)--(14) was fixed before the item was worded`
+   — the subject is the *paper's own verifier*, which is the object of study.
+2. `leaves the question text unchecked, so a paraphrase passes it` — a stated
+   boundary of condition $G_6$, i.e. a Limitations claim.
+
+The English marker list for this class is
+`we checked / verified / confirmed / reran / compiled`. In a paper *about*
+verification those verbs are the domain vocabulary, so the marker fires on the
+subject matter rather than on the register.
+
+Adjudication rule: apply Test 1 (referent) as usual. If the semantic subject of
+`checked` is **the artifact under study** — a verifier, a test, a grading
+pipeline, a released script — the sentence is scientific prose about the world
+and is licensed. If the subject is **the writing team's own run** (`we reran the
+build and it compiled`), it is operational log and stays a finding.
+
+Do not silence this class by renaming the verb. `every field validated by
+Eqs.~(7)--(14)` still fires (`verified|confirmed` family) and reads worse; the
+technical meaning is carried by the word the pattern was built to find. Record
+the licence instead. This is the same shape as the repository-filename case
+above: **severity follows what the reader can reach**, and a condition the
+reader can inspect in the published paper is reachable.
+
 ### Bilingual symmetry is part of the gate, not an extension of it
 
 The class inventory above was built from Vietnamese examples. Run against English

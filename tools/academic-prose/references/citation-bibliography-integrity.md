@@ -1,6 +1,6 @@
 # Citation–Bibliography Integrity
 
-Session: HOEIT-LegalQA round 6 (2026-09-14) — doc_60e477135d35_HOEIT-LegalQA_revised_round6_clean.docx
+Measured on a Vietnamese LaTeX manuscript (XeLaTeX + `polyglossia`, `article` class) at a late revision round.
 
 ## Failure observed
 4 prose gates clean (internal_register 349 sents, process_logic 334, vi_ai 311, academic_discourse 69 paras) yet manuscript had **15 bracket-citation groups** (`[1–5]`, `[6,7]`, `[8,9]`, `[1]..[22]`) and **no §6 Tài liệu tham khảo / References** section. LibreOffice PDF 9 pages rendered without bibliography — submission blocker missed by prose scans.
@@ -25,7 +25,7 @@ Session: HOEIT-LegalQA round 6 (2026-09-14) — doc_60e477135d35_HOEIT-LegalQA_r
 A "clean 4-gate" report is not submission-ready. Always run citation-bibliography check as gate 5 before claiming ready-to-submit, especially for DOCX manuscripts with numeric bracket citations.
 
 ## LaTeX variant — the heading can render broken while the source looks fine
-Session 2026-09-16, HOEIT HUJOS XeLaTeX build (`polyglossia`, vietnamese default, `article` class): all 17 `\bibitem`s present, citations [1]–[17] resolved, zero build warnings — yet `pdftotext` showed the bibliography heading truncated to `Tài liệu` immediately followed by `[1] Kembhavi…`. The rendered artifact, not the source, carried the defect; both prose scans and a source grep passed.
+Measured on a Vietnamese XeLaTeX build (`polyglossia`, vietnamese default, `article` class): all 17 `\bibitem`s present, citations [1]–[17] resolved, zero build warnings — yet `pdftotext` showed the bibliography heading truncated to `Tài liệu` immediately followed by `[1] Kembhavi…`. The rendered artifact, not the source, carried the defect; both prose scans and a source grep passed.
 
 Rules:
 1. Verify the bibliography heading on **pdftotext of the built PDF**, not by grepping the `.tex`: search for the full string `Tài liệu tham khảo` (or `References`) and confirm the first `[1]` entry does not directly abut a partial heading.

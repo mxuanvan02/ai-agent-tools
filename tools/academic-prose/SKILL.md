@@ -3,7 +3,7 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.11.0"
+  version: "3.13.0"
 ---
 
 # Academic Prose
@@ -15,7 +15,7 @@ metadata:
 technical term that blocks a global replace, recommend rather than apply, then
 verify counts in the PDF text layer after rebuild.
 
-When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision).
+When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision, and keeping reviewer identities out of a public reproducibility repo).
 
 Build academic discourse from claims and evidence, then realize it as precise, appropriately cautious, logically explicit, and natural prose in the target language. This is a **write-first** skill: translation, revision, humanizing, and audit are adapters into the same composition engine. Never create academic authority by inventing evidence or strengthening a claim.
 
@@ -69,78 +69,32 @@ present in the other. Divergence between versions is a `CONS` failure.
 ## Terminology Localization
 
 Whether a foreign term is translated, kept, or glossed is a **terminology decision
-made once per concept**, recorded in the glossary, and enforced everywhere. It is
-not a stylistic preference and not a per-sentence judgment. Author-drafted text
-needs this as much as translation does: a writer leaves source-language terms in
-place because those are the words the work was done in, so an untranslated term is
-usually a decision nobody made.
-
-Decide by referent and reader, never by how familiar the word looks. Familiarity in
-a laboratory, a codebase, or an English-language literature is not evidence that a
-word is a proper name. Apply four tests in order — is the term a rigid designator;
-does the field already own a rendering; would translating collapse a distinction the
-argument needs; can the intended reader index the result — and record the verdict as
-`keep_source`, `translate`, `translate_with_gloss`, `keep_with_gloss`, or
+made once per concept**, recorded in the glossary and enforced everywhere — not a
+per-sentence judgment. Author-drafted text needs it as much as translation does: an
+untranslated term is usually a decision nobody made. Decide by referent and reader,
+never by how familiar the word looks; apply the four tests in order (rigid
+designator? does the field own a rendering? does translating collapse a needed
+distinction? can the reader index the result?) and record
+`keep_source` / `translate` / `translate_with_gloss` / `keep_with_gloss` /
 `needs_review`.
 
-Three consequences carry most of the weight:
-
-1. **The rendering depends on the discipline, not the word.** `baseline` is `mốc cơ
-   sở` in an evaluation, `kỳ gốc` in econometrics, and `giá trị ban đầu` in a
-   clinical trial. A single global word list is therefore the wrong instrument; each
-   glossary entry carries its domain.
-2. **A rendering needs an authority, and inference is the lowest tier.** Legal
-   instrument or national standard, then discipline textbook or approved
-   dictionary, then attested journal usage, then an official international version,
-   then the writer's own morphology. Presenting a tier-5 coinage as the field's
-   settled term is `invented_vietnamese_term`. Where a calque is the settled term
-   (`rủi ro đạo đức`, `án lệ`, `học sâu`), the settled term wins.
-3. **Translating a rigid designator is blocking, and so is collapsing a
-   distinction.** Model, product, standard, statute, gene, taxon, dataset, unit, and
-   identifier strings carry retrieval; a Vietnamese frame may surround them
-   (`hệ số alpha của Cronbach`) but the name survives. In the other direction,
-   validity/reliability, efficacy/effectiveness, hazard/risk, and
-   verification/validation each collapse into one Vietnamese word unless the
-   renderings are deliberately kept apart.
-
-Both directions are in scope: Vietnamese institutional, legal, and academic-title
-terms are system-specific, and mapping them onto a near-equivalent without a gloss
-is `institutional_false_friend`.
-
-**Task family vs answer format are two different concepts; conflating them is a
-blocking ambiguity.** Author correction: *"TQA không hẳn là trắc nghiệm đâu, phải
-định nghĩa rõ ràng."* Textbook question answering (TQA) is a task family spanning
-free-form and multiple-choice answer types; `trắc nghiệm bốn lựa chọn` (four-option
-multiple choice) is one answer format inside it. Rules when a manuscript's artifact
-lives at the format level but the literature sits at the family level:
-
-1. Define the relation explicitly at first use: "Hỏi–đáp dựa trên giáo trình
-   (textbook question answering, TQA) là họ nhiệm vụ rộng, gồm cả dạng trả lời tự
-   do và dạng trắc nghiệm; <dataset> thuộc dạng trắc nghiệm bốn lựa chọn, trong đó
-   mỗi câu hỏi kèm bốn phương án và có đúng một đáp án đúng."
-2. Sweep every later occurrence — title-adjacent abstract sentences, contribution
-   list, captions, conclusion, dataset card, repo README — so each says either
-   "hỏi–đáp … dạng trắc nghiệm bốn lựa chọn" (family+format) or the bare format
-   where the family was already established. A bare "bộ dữ liệu trắc nghiệm" in the
-   abstract while the literature section says "QA resources" reads as two different
-   artifacts.
-3. Never license a format-level claim with a family-level argument or vice versa:
-   "mức Phân tích ít phù hợp với trắc nghiệm bốn lựa chọn" is an unsupported claim
-   about the format; the honest version scopes to the pipeline ("đòi hỏi thiết kế
-   câu hỏi và quy trình thẩm định riêng nên được để lại cho nghiên cứu tiếp theo").
-4. A characterization of the released data ("100% trắc nghiệm bốn lựa chọn") must
-   be verified per-record against the artifact before it may appear in title or
-   abstract; see [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) §4.
+The blocking failures this gate exists to catch: a rendering that depends on the
+discipline, not the word (`baseline` = `mốc cơ sở` / `kỳ gốc` / `giá trị ban đầu`);
+a coinage presented as the field's settled term (`invented_vietnamese_term`); a
+translated rigid designator (`overtranslation_of_designator`); two source concepts
+collapsing into one Vietnamese word (`distinction_collapse_by_translation`); a
+near-equivalent for a system-specific institutional or legal term
+(`institutional_false_friend`); and a task family conflated with one instance
+format — the `hỏi–đáp`/TQA vs `trắc nghiệm bốn lựa chọn` trap, which must be
+defined at first use, swept through every propagation site, and verified per-record
+before any "100% …" claim may enter the title or abstract.
 
 Read [Terminology localization policy](references/terminology-localization.md) for
-the tests, the discipline table, the load-bearing distinctions, the designator
-inventory, the protected zones, and the audit procedure.
-
-**Do not re-narrow this section to the current paper.** A term that appeared in
-one manuscript is locked in that document's glossary. Add a row to the polysemy
-table only when the same source word has been observed to split across fields.
-Persist a new lesson only as a test, an authority, a distinction, or a
-genre/audience rule — never as another NLP (or any single-field) word list.
+the four tests, the discipline table, the load-bearing distinctions, the designator
+inventory, the protected zones, the task-family repair pattern, and the audit
+procedure. (A lesson learned on one manuscript is recorded there as a test,
+authority, or distinction — never as a single-field word list; see
+[Skill repository maintenance](references/skill-repository-maintenance.md).)
 
 ## Internal Register (prohibited)
 
@@ -219,7 +173,7 @@ evidence boundary.
 Run [`scripts/process_logic_scan.py`](scripts/process_logic_scan.py) on every
 `draft`, `revise`, `translate`, and `audit` delivery. A hit is a candidate for
 the three-proposition test, never an automatic rewrite; a clean scan is a
-partial verification only. See [Process logic gate](references/process-logic-gate.md). When the manuscript source is LaTeX, extract prose first with [`scripts/tex_prose_extract.py`](scripts/tex_prose_extract.py): raw `.tex` markup (preamble, `tabular` rows, float scaffolding) otherwise yields false `clause_overload` and lexical hits — measured 7 markup-only candidates on a clean 11-page HUJOS build; see [Academic discourse gate](references/academic-discourse-gate.md) §6.
+partial verification only. See [Process logic gate](references/process-logic-gate.md). When the manuscript source is LaTeX, extract prose first with [`scripts/tex_prose_extract.py`](scripts/tex_prose_extract.py): raw `.tex` markup (preamble, `tabular` rows, float scaffolding) otherwise yields false `clause_overload` and lexical hits — measured 7 markup-only candidates on a clean 11-page Vietnamese XeLaTeX build; see [Academic discourse gate](references/academic-discourse-gate.md) §6.
 
 For Vietnamese deliveries, also run
 [`scripts/vi_ai_pattern_scan.py`](scripts/vi_ai_pattern_scan.py) on every
@@ -603,7 +557,7 @@ For revisions that change an abstract, results interpretation, or quantitative f
 3. Treat labels, manifests, and checksums as part of the evidence boundary. If a manifest label conflicts with its count, repair the label and update every covering digest before reporting the artifact as valid.
 4. Preserve distinctions between processing failure, unresolved judgment, semantic rejection, replay recovery, and expert validation. An outage or missing retrieval result must not be narrated as legal/content incorrectness.
 5. After edits, rebuild with the document's declared engine rather than assuming `pdflatex`; record the actual page count with `pdfinfo` or PyMuPDF. Compare against a baseline build of the pre-edit source, not only against stale status notes.
-6. Run text-level checks for citation/reference resolution, overfull boxes, notation and dash integrity, abstract word limits, and presence of every new quantitative claim. Explicitly verify bibliography presence: extract bracket citations (`[1]`, `[1–5]`, `[6,7]`) from accepted text and confirm a References / Tài liệu tham khảo section exists covering the cited range. A manuscript with in-text citations but no bibliography is a submission blocker even when all four prose scans are clean. Never invent missing entries — emit a placeholder or request the source list. If automated visual review is unavailable, report that limitation and inspect rendered pages directly; do not call the visual gate fully passed. See `references/citation-bibliography-integrity.md` and `references/bibliography-reconstruction.md` for the HOEIT round-6 extraction → verification → remap recipe.
+6. Run text-level checks for citation/reference resolution, overfull boxes, notation and dash integrity, abstract word limits, and presence of every new quantitative claim. Explicitly verify bibliography presence: extract bracket citations (`[1]`, `[1–5]`, `[6,7]`) from accepted text and confirm a References / Tài liệu tham khảo section exists covering the cited range. A manuscript with in-text citations but no bibliography is a submission blocker even when all four prose scans are clean. Never invent missing entries — emit a placeholder or request the source list. If automated visual review is unavailable, report that limitation and inspect rendered pages directly; do not call the visual gate fully passed. See `references/citation-bibliography-integrity.md` and `references/bibliography-reconstruction.md` for the extraction → verification → remap recipe.
 7. Treat any prose edit after packaging as invalidating the release archive, even when the edit is only stylistic. Freeze the source only after the final content and visual gates, recreate the PDF and archive from that frozen tree, then extract the archive into a clean directory and rebuild it. Compare page count and fatal/citation/reference/overfull status with the release build; record final digests only after this clean rebuild. Never deliver an older archive beside a newer PDF.
 
 ## From Project Artifacts to Scientific Prose

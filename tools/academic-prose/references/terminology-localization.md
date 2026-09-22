@@ -247,7 +247,7 @@ the text claims rather than how it reads.
 whose resources are named after a broad task family (TQA, QA, reading
 comprehension) but whose artifact is one narrow format (four-option MCQ) must
 define both at first use and then keep them distinct everywhere — title,
-abstract, contributions, captions, conclusion. Measured author correction:
+abstract, contributions, captions, conclusion, dataset card, and repository README. Measured author correction:
 *"TQA không hẳn là trắc nghiệm đâu, phải định nghĩa rõ ràng"* — the draft had
 used `trắc nghiệm` and `hỏi–đáp` interchangeably for a resource that is
 specifically a four-option MCQ instance of the broader textbook-QA family. The

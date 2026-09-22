@@ -1,7 +1,7 @@
 # HUL Template Decoy and Caption Orphan Fix
 
-Session: HOEIT-LegalQA round 6 -> HUL journal reframe (2026-09-14).
-User correction: submitted DOCX used the wrong template; `Hình`/`Bảng`
+Measured case: a Vietnamese manuscript reframed for the HUL journal template.
+Author correction: submitted DOCX used the wrong template; `Hình`/`Bảng`
 captions stood alone.
 
 ## 1. Template decoy (HUL `hul_journal_assets/`)
