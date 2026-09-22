@@ -108,6 +108,30 @@ check establishes and, separately, the property it does not.
   test file so removing any one entry fails, and let the behavioural tests cover
   semantics rather than coverage.
 
+- **`SKILL.md` has a hard size ceiling (100,000 characters) enforced by the
+  editing tool, not by the validator.** `scripts/validate_skill.py` does not
+  measure file size, so a green validation run does not mean the file is
+  patchable — every edit against an oversized `SKILL.md` is rejected wholesale.
+  When that happens, compress rather than append: find a section whose detail
+  already lives in a reference, verify by normalized substring probe that every
+  rule and failure code survives in the reference, then reduce the `SKILL.md`
+  copy to the decision rules plus a pointer. Move anything unique to its owning
+  reference *before* cutting it.
+
+## Generalizing a lesson into a reference
+
+A lesson learned on one manuscript is not a list from that manuscript. When
+recording one:
+
+- **Never re-narrow an existing section to the paper currently in hand.** A term
+  that appeared in one manuscript is locked in that document's own glossary; it
+  does not become policy.
+- **Add a row to a polysemy or distinction table only when the same source word
+  has been observed to split across fields**, not because one paper used it.
+- **Persist a new lesson only as a test, an authority, a distinction, or a
+  genre/audience rule** — never as another single-field word list. A word list
+  rots; the test that would have caught the word does not.
+
 ## 5. Publishing
 
 Branch, commit, push, open a pull request, wait for CI, then merge. The history here is

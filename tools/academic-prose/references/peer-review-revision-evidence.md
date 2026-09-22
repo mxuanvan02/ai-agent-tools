@@ -10,9 +10,9 @@ else's paper use the peer-review/refereeing skills instead.
 
 Before planning anything, verify submission ID and title inside the review
 against the manuscript being revised. Machines that host several paper projects
-accumulate review files for *other* submissions (a real near-miss: two
-`STAIS2026_128_review_*` files for a LegalQA-RAG paper sat in the document
-cache while the task was revising RABS, submission 40). A mismatched review
+accumulate review files for *other* submissions, and a cached review whose
+filename pattern matches the task looks authoritative even when it belongs to a
+different paper. A mismatched review
 produces a confidently wrong revision plan. If no review file for the target
 paper exists anywhere, ask the author for it — do not substitute an older
 internal feedback report without explicit confirmation.
@@ -38,11 +38,10 @@ internal feedback report without explicit confirmation.
 ## 2. Read the code behind each reviewer claim
 
 Reviewers routinely collapse two same-named components that live in different
-code paths. Located example (RABS, Reviewer 2 Q4): the submitted ablation
-table removed the risk term from the *ranking score* (`choose_sensors`) only,
-while the namesake mechanism — the risk relaxation `-c_R·R·B` in the *budget
-rule* (`choose_B`) — was never ablated. The reviewer read "the risk term does
-not help" as covering both. Grep the exact functions the reviewer's claim
+code paths. A measured instance: an ablation table removed a named term from
+the *scoring* function only, while the namesake mechanism in the *budget* rule
+was never varied. The reviewer read "the term does not help" as covering both.
+The same shape recurs whenever one named quantity enters a system at two places. Grep the exact functions the reviewer's claim
 touches, and establish what was and was not actually varied, before conceding
 or rebutting.
 
@@ -106,3 +105,69 @@ Each response: quote the reviewer point → state what was measured or changed
 → cite the exact table/figure/line where the change lives. Distinguish
 verified-from-code statements from inferred ones. If an answer is "we could
 not measure this", say so and route it to limitations/future work.
+
+Length register: match the reviewers' own brevity. See *The response letter* in
+`revision-response-genres.md`.
+
+Glyph pitfall when building the letter with `pandoc` + `xelatex` and Latin
+Modern: Greek and math glyphs (ρ, δ, ≈, ≥, −, →) are **silently dropped** — the
+build still exits 0 and prints only a `Missing character` warning. ASCII-fy the
+Markdown before building, then grep the build log for `Missing character`.
+
+## 8. Keep reviewer identities out of the public artifact
+
+A reproducibility repository is publication-facing. Reviewer identities, reviewer
+question numbers, and revision-round framing are prohibited internal register
+there exactly as in the manuscript: the Internal Register gate covers the
+repository, not only prose.
+
+The leak channels are wider than prose, and each needs its own sweep:
+
+- commit messages, which also expose author name and email through the platform's
+  `.patch` endpoint;
+- file and output names tagged with reviewer question numbers, which map a public
+  path onto a confidential comment;
+- repository documentation whose structure reveals which artifact answers which
+  reviewer -- a "revision-round experiments" section, or reproduction steps keyed
+  one-to-one onto reviewer questions;
+- script docstrings and inline comments recording what a reviewer objected to, or
+  which regime was the one under review.
+
+Write the repository as though no review had occurred: descriptive names, and
+documentation covering contributions, method, application, and a one-command
+entry point. The reviewer-to-change mapping belongs only in the letter to the
+editor.
+
+**Rewriting history does not remove the material.** Hosting platforms keep
+serving objects that no reference reaches, and several of those routes are
+anonymous and enumerable:
+
+- a commit page, and its `.patch`/`.diff` form, resolve from the SHA alone;
+- the public events feed lists every push with its before/head SHAs, so the whole
+  orphaned chain is recoverable with no prior knowledge;
+- code search and the commit-list UI expose only reachable commits.
+
+That asymmetry is the trap. A fresh clone grepped across every reachable ref
+reports zero matches and gives false assurance, because the exposure lives in
+objects the clone never fetches. Verify a sanitization three ways before calling
+it clean: reachable history in a fresh clone, each orphaned SHA fetched by URL,
+and the public events feed. Only deleting the repository -- which lets the
+platform garbage-collect the orphaned objects -- or making it private actually
+removes the content. Both need author consent, and the full history is backed up
+first (`git bundle create --all`). Never report "history rewritten, therefore
+clean", and never characterize residual exposure as low-risk without measuring it.
+
+## 9. Recurring revision-round failures documented elsewhere
+
+Two failure modes keep appearing during a revision round. Their general form
+lives in another reference, so consult it rather than re-deriving a local rule:
+
+- **A softened or re-scoped claim survives in another artifact** -- a table
+  caption, a conclusion, or text emitted by a generator script. See *Revise all
+  propagation sites* in `peer-review-to-manuscript-revision.md`, which now covers
+  generated artifacts and the search-by-variant rule.
+- **A verification probe reports the wrong verdict** -- hyphenation splitting a
+  phrase, asymmetric case folding, probing a composite file instead of the one
+  that holds the target, an exit code swallowed by a pipe, or a scan run over
+  under-extracted input; and **a delivery bundle packed before the last edit**.
+  See the recipes in `latex-pre-submission-verification.md`.

@@ -118,7 +118,7 @@ SHA256, and send both artifacts to the correct
 
 ## Worked example
 
-Manuscript: a Vietnamese dataset/benchmark paper for HUJOS. User asks whether
+Manuscript: a Vietnamese dataset/benchmark paper for a local journal. User asks whether
 *thử nghiệm* is better than *thực nghiệm*.
 
 Findings: 6× *thực nghiệm*, 0× *thử nghiệm*, 1× *thí nghiệm* (line 214). Venue

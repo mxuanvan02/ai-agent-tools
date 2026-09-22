@@ -192,6 +192,26 @@ class RepositoryContractTests(unittest.TestCase):
 
         self.assertIn("## Reviewer recomputation gate", rubric)
         self.assertTrue(reference.is_file())
+
+        # Lessons measured on a real manuscript are pinned by heading form, for
+        # the recorded reason: a section name also occurs in prose links, so the
+        # bare words cannot prove the section survived. Delete either heading and
+        # this test must go red.
+        # (a) An LLM judge is an instrument, and instruments need a fixture gate.
+        self.assertIn(
+            "## 9. An LLM judge is an instrument",
+            reference.read_text(encoding="utf-8"),
+            "the LLM-judge fixture-gate lesson lost its heading",
+        )
+        # (b) Internal register: the subject matter can be the lexical trigger.
+        internal_register = (
+            ROOT / "references/internal-register-gate.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "### Calibration: the subject matter can be the lexical trigger",
+            internal_register,
+            "the verification-vocabulary calibration lesson lost its heading",
+        )
         self.assertIn(
             "references/reviewer-recomputation-gate.md",
             skill,

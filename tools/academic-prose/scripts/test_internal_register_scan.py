@@ -224,6 +224,57 @@ class TestFalsePositives(unittest.TestCase):
         self.assertEqual(actionable_classes(scan(text)), set(), scan(text)["findings"])
 
 
+class TestVerificationVocabularyCalibration(unittest.TestCase):
+    """Measured calibration case, 2026-09-22: an English manuscript whose
+    subject matter *is* automated verification.
+
+    The English markers for `verification_log_prose` are
+    `checked / verified / confirmed / reran / compiled`. In a paper about
+    verification those verbs are domain vocabulary, so the pattern fires on the
+    subject matter rather than on the register. This test pins what the scanner
+    actually does, which is deliberately less than what the gate decides: it
+    flags a sentence about the studied artifact, a sentence stating a
+    condition's boundary, and a genuine operational log **identically** (one
+    non-blocking hit each, exit 2). The scanner has no referent test, so
+    distinguishing them is the human adjudication recorded in
+    `references/internal-register-gate.md` ("the subject matter can be the
+    lexical trigger"). What must never regress is that this class cannot block:
+    a paper about verification would otherwise be unshippable.
+    """
+
+    def test_subject_matter_hits_are_non_blocking_and_indistinguishable(self) -> None:
+        about_the_artifact = scan(
+            "The declared tuple is returned unchanged, so every field checked "
+            "by Eqs.~(7)--(14) was fixed before the item was worded.",
+            "manuscript",
+        )
+        condition_boundary = scan(
+            "Eq.~(9) compares two returned strings and leaves the question text "
+            "unchecked, so a paraphrase passes it.",
+            "manuscript",
+        )
+        operational_log = scan(
+            "We checked the build output and confirmed that it compiled "
+            "without errors.",
+            "manuscript",
+        )
+        for name, r in (
+            ("about_the_artifact", about_the_artifact),
+            ("condition_boundary", condition_boundary),
+            ("operational_log", operational_log),
+        ):
+            with self.subTest(case=name):
+                self.assertIn("verification_log_prose", classes(r))
+                self.assertEqual(r["blocking"], [])
+                self.assertEqual(r["exit_code"], 2)
+        # The scanner cannot separate the licensed cases from the real one; the
+        # reference carries the adjudication rule, not the regex.
+        self.assertEqual(
+            len(about_the_artifact["findings"]), len(operational_log["findings"])
+        )
+        self.assertNotIn("verification_log_prose", BLOCKING)
+
+
 class TestArtifactSeverity(unittest.TestCase):
     """Criterion 9: a machine-local path blocks; a repo script name is revision-level."""
 
