@@ -34,3 +34,8 @@ jobs:
           bash -n tools/ppt-master-officecli/scripts/install.sh
           test -x tools/ppt-master-officecli/scripts/install.sh
           test -x tools/ppt-master-officecli/scripts/slide_pipeline.py
+
+      - name: Validate evidence-first-research
+        run: |
+          python3 tools/evidence-first-research/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/evidence-first-research/scripts/*.py
