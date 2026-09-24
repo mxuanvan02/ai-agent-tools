@@ -55,3 +55,39 @@ Ba ca kiểm chứng đã chạy (backend=jev, jev-1.13.0):
 4. **Jev chỉ nhận text** (chưa hỗ trợ ảnh/audio). Bảng số liệu/hình phải chuyển thành text/JSON trong state trước.
 5. **Calibration đo trên nhóm, không đảm bảo từng câu đúng** (docs TypeSafe) → pass noul cao ≠ chân lý; với claim hệ trọng vẫn đối chiếu nguồn gốc như quy trình cũ.
 6. `jev_recipe` có sẵn 4 recipe mẫu (support-route, computer-use, destructive-gate, compaction) — xem để học protocol trước khi tự lắp câu hỏi.
+
+## Fallback offline: laya (System-One mã nguồn mở) khi Jev không sẵn
+
+Jev là PRIMARY. Khi thiếu mạng / thiếu `TYPESAFE_API_KEY` / claim-check tài liệu nhạy cảm
+không muốn rời máy / rà lô hàng chục claim không muốn tốn API → dùng **laya** (Apache-2.0,
+weights mở trên HuggingFace `convaiinnovations/laya`, ModernBERT-large 421M) làm fallback.
+
+Cài trong venv riêng, torch CPU-only, model cache trên ổ dữ liệu (placeholder `<venv>`, `<hf-cache>`):
+
+```bash
+python3 -m venv <venv>
+<venv>/bin/pip install --index-url https://download.pytorch.org/whl/cpu torch
+<venv>/bin/pip install laya
+# chạy: HF_HOME=<hf-cache> LAYA_DEVICE=cpu <venv>/bin/python ...
+```
+
+API giống Jev: `agent.system_one(state=..., questions={...})`, noul trả `answers[id]["noul"]` = P(true).
+
+Benchmark THẬT (2026-09-24, Intel i5-12400 12-thread, CPU, laya 0.3.11) trên CHÍNH 3 ca claim-gate ở trên:
+
+| Ca | laya noul (CPU) | Jev noul | laya latency | verdict |
+|---|---|---|---|---|
+| Nói quá "tuyệt đối" | 0.156 | 0.03 | 320ms | cùng BLOCK |
+| Nói quá "accuracy" | 0.139 | 0.04 | 236ms | cùng BLOCK |
+| Paraphrase+inference | 0.667 | 0.58 | 259ms | cùng ESCALATE |
+
+Verdict 3 dải TRÙNG 3/3. Batched ~230ms/state.
+
+**Kết luận (theo ROI, đã trả giá bằng số):** laya = FALLBACK, KHÔNG phải primary.
+1. **Quyết định thực tế y nhau** (3/3 cùng band) nhưng noul laya **kém dứt khoát** (0.156 vs 0.03) → nếu siết ngưỡng, Jev an toàn hơn.
+2. **CẢNH BÁO calibration thật khi load:** laya in `"checkpoint ships invalid temperatures... Treat confidence as uncalibrated"` → confidence laya CHƯA đáng tin tuyệt đối, đây là lý do kỹ thuật để không cho làm primary. Với claim hệ trọng, verify nguồn gốc thủ công như cũ.
+3. **Ưu thế fallback:** offline, miễn phí, không API key, dữ liệu không rời máy, rà lô rẻ.
+4. **BẪY chi phí:** cold-load model trên CPU mất **~228 giây**. PHẢI chạy dạng server thường trú (`laya serve` / `LAYA_DEVICE=cpu laya-mcp-server`), load 1 lần rồi tái dùng — TUYỆT ĐỐI không `laya.load()` lại mỗi call.
+5. Ngưỡng 3 dải (≥0.8/≤0.2) áp cho laya vẫn cho verdict đúng ở 3 ca này, nhưng vì uncalibrated nên với claim hệ trọng hãy coi laya là "cờ cần người xem", đừng auto-act theo confidence của nó.
+
+Script benchmark tái lập nằm trong môi trường maintainer (`<bench-dir>/bench.py`, kết quả `result.json`); tự viết lại theo API ở trên nếu cần tái tạo.
