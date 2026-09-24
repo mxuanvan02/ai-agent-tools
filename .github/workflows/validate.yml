@@ -39,3 +39,8 @@ jobs:
         run: |
           python3 tools/evidence-first-research/scripts/public_hygiene_check.py
           python3 -m py_compile tools/evidence-first-research/scripts/*.py
+
+      - name: Validate system-one-work-loop
+        run: |
+          python3 tools/system-one-work-loop/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/system-one-work-loop/scripts/*.py
