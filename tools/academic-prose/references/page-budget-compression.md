@@ -158,10 +158,76 @@ was already dense.
 
 - `\looseness=-1` on four long paragraphs: no change. TeX cannot compress a
   paragraph with no slack.
-- Shortening prose in an already-full document: reflow only.
+- Shortening prose when the spill is a **large block**: reflow only. The measured
+  case cut ~350 words from a full 16-page manuscript and stayed at 16.
 - Removing a displayed-equation line break to save height: it *added* height when
   a shared `\label` had to be split into two, because two lines occupied what had
   been one.
+
+## 4b. When prose compression does work: the spill is a heading, not a block
+
+The item above is not "prose never helps". It fails when the overflow page holds a
+large body of content that must all move. It **succeeds** when the spill is small
+enough that a handful of saved lines pulls a *heading* up one page, because the
+block under that heading then reflows into the space the heading vacated.
+
+Measured: LNCS manuscript at 16 pages, page 16 holding 12 bibliography lines.
+Pages 1–15 each ended at 665.9pt against a type-area bottom of 665.9pt — full to
+the last line, so there was no slack to absorb anything and every saving had to
+come from real line reductions. Fourteen prose sites were tightened (restatements
+and wordy constructions only, no datum, bound, limitation or hedge removed):
+**4692 → 4658 words, and the document reached 15 pages**, with References starting
+on page 15 and zero spill. The yield was not proportional to the word count; it
+came from ~12 saved *lines*, which was exactly the cost of moving the References
+heading from page 16 to page 15 and letting 64 bibliography lines fit there.
+
+So budget prose cuts in **lines toward the heading move**, not in words toward a
+percentage. Rule of thumb from the two measured cases: if the spill is more than
+roughly a third of a page of continuous content, prose is the wrong lever; if the
+spill is a heading plus a few lines, prose is the *only* lever left once captions
+and typography are spent.
+
+**Check whether the caption lever is already spent before ranking it first.** The
+ordering above assumes captions are fat. Measure them: in the LNCS case all
+captions totalled **126 words with a 37-word maximum**, so lever 1 was unavailable
+and `microtype` was already loaded with `\looseness` unused, so lever 3 was too.
+A ranking is a prior, not a measurement.
+
+## 4c. Measure fullness against the type area, not the paper
+
+To find out whether pages have slack, divide the last text baseline by the
+**type-area height**, not by the paper height. Using 842pt (A4) on an LNCS build
+reported every page as ~68% full, which made all fifteen pages look like they had
+room to give and pointed at a lever that did not exist. The correct denominator
+made the opposite visible: `bottom == type-area bottom`, i.e. zero slack anywhere,
+which is precisely why only genuine line reductions could help.
+
+Likewise, take per-section budgets from the `.tex` sources. Slicing the extracted
+PDF at `\section` boundaries makes the final section swallow the References
+(measured: "Conclusion" reporting 797 words, Abstract reporting 0).
+
+## 4d. Test whether the weakest cut was necessary
+
+A compression pass that reaches the target usually contains at least one edit that
+bought nothing, because page count is quantised. Identify the cut that most
+damaged the prose — typically one that replaced a self-contained claim with a
+cross-reference, which the Conclusion must never do since it has to close the loop
+on the stated objectives — and rebuild **both** versions in scratch.
+
+Measured: with the cross-referencing Conclusion the build was 15 pages with zero
+spill; restoring the self-contained Conclusion was *also* 15 pages with zero spill.
+The weaker wording had purchased nothing, so the stronger one went back at no
+cost. The only difference worth reporting was informational: References moved from
+page 14 to page 15, so body length read 14 pages instead of 13, while the total
+the venue counts stayed 15.
+
+When reading the edited regions back, normalise whitespace in both probe and
+haystack before matching — LaTeX source line-breaks mid-phrase, and a probe with a
+single space silently misses an edit that landed. Print the neighbourhood and read
+it; do not extract sentences with `rfind('. ')`, which walks back past the edit
+into the previous section. And when the boundary check greps the rendered PDF,
+expect hyphenation (`seman- tic`): a strict pattern will report a missing claim
+that is in fact present.
 
 ## 5. Figures: height cost and the legibility floor
 
