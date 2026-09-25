@@ -57,6 +57,24 @@ FRAMING = "Decision 1418"
 CITATION_FILE = "references/academic-vietnamese-standard.md"
 WORD_LIMIT_FILE = "references/word-budget-and-rendered-artifact-compliance.md"
 
+# THE GATE IS CANONICAL-ONLY INFRASTRUCTURE, AND tests/ IS NOT.
+# ---------------------------------------------------------------------------
+# Every tool directory of this repository ships a copy of the gate, but the runtime tree
+# (~/.hermes/skills/academic-prose/) ships none, and has no sibling tools/ directory either --
+# evidence-first-research and system-one-work-loop have no runtime copy at all. The tests/ folder,
+# however, IS part of the runtime tree, so this file can legitimately be executed from a place
+# where nothing it inspects exists. Measured rather than assumed: copied into a runtime-shaped
+# tree it produced 2 failures and 12 errors out of 14, because REPO_ROOT resolved to the tree's
+# grandparent and both GATE and TOOLS_DIR were missing.
+#
+# So skip, with the reason stated, when the gate is not here. A red runtime suite would be a false
+# alarm about content that was never supposed to be there, and a failure everyone learns to ignore
+# is worse than a skip. Inside the repository HAS_REPO_GATE is true, so all 14 tests really run --
+# which CI proves on every push.
+HAS_REPO_GATE = GATE.is_file() and TOOLS_DIR.is_dir()
+SKIP_REASON = ("the public-hygiene gate is canonical-only infrastructure: no %s and no %s/ here, "
+               "so this suite only runs inside the monorepo" % (GATE_NAME, TOOLS_DIR.name))
+
 
 def run_gate(tool_dir: Path) -> tuple[int, str]:
     """Run the tool's own copy of the gate as a subprocess, the way CI does."""
@@ -92,6 +110,7 @@ def build_tool(files: dict[str, str]) -> str:
     return tmp
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
 class TestWrappedTokensAreCaught(unittest.TestCase):
     """The defect that motivated this suite: a line break used to defeat every literal pattern."""
 
@@ -139,6 +158,7 @@ class TestWrappedTokensAreCaught(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
 class TestAllowlistIsNarrow(unittest.TestCase):
     """The two scholarly citations are kept as evidence; the allowance must not grow beyond them."""
 
@@ -202,6 +222,7 @@ class TestAllowlistIsNarrow(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
 class TestByteCodeLitterIsIgnored(unittest.TestCase):
     """README's validation block runs test suites before the gate; their caches must not fail it."""
 
@@ -232,6 +253,7 @@ class TestByteCodeLitterIsIgnored(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
 class TestGateCoverageAcrossTheRepository(unittest.TestCase):
     def test_every_tool_ships_a_gate(self) -> None:
         tools = sorted(p.name for p in TOOLS_DIR.iterdir() if p.is_dir())
