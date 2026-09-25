@@ -1,6 +1,6 @@
 # Jev trong Hermes Harness — Trang quyết định
 
-_Cập nhật: sau 2 PoC chạy live (guardian + monitor). Tác giả: Hermes, cho anh Văn._
+_Cập nhật: sau 2 PoC chạy live (guardian + monitor). Bản ghi do agent Hermes soạn cho người bảo trì repo này._
 
 ## TL;DR
 

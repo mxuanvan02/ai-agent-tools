@@ -18,10 +18,12 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 
 ```bash
 python3 tools/academic-prose/scripts/validate_skill.py
+python3 tools/academic-prose/scripts/public_hygiene_check.py
 python3 -m unittest discover -s tools/academic-prose/tests -v
 python3 -m unittest discover -s tools/ppt-master-officecli/tests -v
 python3 -m py_compile tools/ppt-master-officecli/scripts/*.py
 bash -n tools/ppt-master-officecli/scripts/install.sh
+python3 tools/ppt-master-officecli/scripts/public_hygiene_check.py
 python3 tools/evidence-first-research/scripts/public_hygiene_check.py
 python3 -m py_compile tools/evidence-first-research/scripts/*.py
 python3 tools/system-one-work-loop/scripts/public_hygiene_check.py
@@ -29,6 +31,7 @@ python3 -m py_compile tools/system-one-work-loop/scripts/*.py
 python3 tools/evidence-verified-auditing/scripts/public_hygiene_check.py
 python3 -m py_compile tools/evidence-verified-auditing/scripts/*.py
 python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
+python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
 python3 -m py_compile tools/github-pr-workflow/scripts/*.py
 ```
 

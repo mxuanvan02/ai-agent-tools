@@ -27,6 +27,11 @@ jobs:
           (cd scripts && python3 test_process_logic_scan.py)
           (cd scripts && python3 test_vi_ai_pattern_scan.py)
 
+      - name: Validate academic-prose hygiene
+        run: |
+          python3 tools/academic-prose/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/academic-prose/scripts/*.py
+
       - name: Validate PowerPoint integration
         run: |
           python3 -m unittest discover -s tools/ppt-master-officecli/tests -v
@@ -34,6 +39,10 @@ jobs:
           bash -n tools/ppt-master-officecli/scripts/install.sh
           test -x tools/ppt-master-officecli/scripts/install.sh
           test -x tools/ppt-master-officecli/scripts/slide_pipeline.py
+
+      - name: Validate ppt-master-officecli hygiene
+        run: |
+          python3 tools/ppt-master-officecli/scripts/public_hygiene_check.py
 
       - name: Validate evidence-first-research
         run: |
@@ -54,3 +63,7 @@ jobs:
         run: |
           python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
           python3 -m py_compile tools/github-pr-workflow/scripts/*.py
+
+      - name: Validate jev-decision-benchmark
+        run: |
+          python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
