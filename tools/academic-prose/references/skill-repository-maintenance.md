@@ -118,6 +118,54 @@ check establishes and, separately, the property it does not.
   copy to the decision rules plus a pointer. Move anything unique to its owning
   reference *before* cutting it.
 
+- **Do not normalise frontmatter to match one existing tool.** Publishing two new
+  skills, the obvious move was to rewrite their frontmatter to the shape
+  `system-one-work-loop` uses (`metadata:` carrying `version`/`license`/`status`).
+  But the published tools do not share a convention: `academic-prose` uses top-level
+  `license:` plus `metadata.version`; `system-one-work-loop` uses `metadata:` only;
+  `ppt-master-officecli` has no metadata block at all. There was no convention to
+  conform to, and the rewrite produced frontmatter carrying `version` **twice** while
+  diverging from the live tree. Copy the live file verbatim and assert only what a
+  public repo actually needs -- a licence and a version are declared, and no top-level
+  key is duplicated. When a convention is worth having, establish it across every tool
+  in its own change; do not smuggle it in through a publish PR.
+- **`git status --porcelain` output must not be stripped before comparing.** Porcelain
+  encodes "modified, not staged" as a LEADING SPACE, so the line is `' M path'`. A
+  scope assertion written as `out.strip().split('\n') == [' M path']` can never match:
+  it reported a scope failure on a commit that had exactly the intended one-file
+  scope. Compare against the raw lines, or strip each line and compare the stripped
+  forms on both sides. The dangerous direction is the opposite mistake -- a loose
+  comparison that passes a wrong scope.
+  A convenience wrapper that returns `r.stdout.strip()` reintroduces the bug
+  invisibly: it removes the leading space from the FIRST line only, so a
+  single-file scope check fails while a multi-file one appears to pass. Read
+  porcelain through a call that does not strip, and assert on the raw lines.
+- **`python -B -m py_compile` still writes `__pycache__`.** `-B` suppresses caches
+  written by *importing*; `py_compile` writes its output deliberately, so the cache
+  appears anyway (measured: one `.pyc` after a `-B` run). That matters here because the
+  repo's hygiene gate treats a file it cannot decode as a `binary-file` finding, so
+  running README's validation block twice in a row fails the second time on litter the
+  first run left -- and `py_compile` runs immediately after the gate in that same
+  block. Compile with an explicit `cfile` outside the repo
+  (`py_compile.compile(src, cfile=<tmp>, doraise=True)`), or delete the caches and
+  assert zero before committing. CI is unaffected: it checks out fresh and `__pycache__`
+  is gitignored, so this is a local-verification trap only. Do not "fix" it by editing
+  the gate, which ships byte-identically in every tool; that belongs in its own change.
+- **Run the repository's own gate as a subprocess, the way CI does.** Reusing a gate's
+  pattern list by importing it (`importlib` on `public_hygiene_check.py` to read
+  `FORBIDDEN`) is convenient for scanning *other* trees, but it proves only that those
+  patterns match. Whether the shipped script passes on the shipped tree is a different
+  question, and the only honest test is to execute it:
+  `python3 tools/<name>/scripts/public_hygiene_check.py`. Note that the script derives
+  its scan root from `__file__` parents[1] and excludes itself, so an identical copy
+  dropped into a new tool directory scopes correctly with no edit.
+- **A renumbered section is not a deleted section.** Syncing a reference whose sections
+  had grown from five to eighteen made a line-level diff report
+  `## 5. Checklist before calling it submission-ready` as content canonical held and
+  live lacked. It was present in live as section 18 with all six items byte-identical.
+  Before treating a heading difference as a loss, extract the section BODY from both
+  trees and compare the items; accept a renumber, abort on a missing item.
+
 ## Generalizing a lesson into a reference
 
 A lesson learned on one manuscript is not a list from that manuscript. When
@@ -140,8 +188,25 @@ staged diff for secrets before committing: the fixtures deliberately contain
 path-shaped and commit-hash-shaped strings, which are synthetic test data rather than
 credentials and should be recognized as such rather than removed.
 
-Bump the version in the `SKILL.md` frontmatter, then reconcile the runtime copy so the
-two locations do not drift apart again.
+Bump the version in the `SKILL.md` frontmatter **in the same commit that changes the
+content**, then reconcile the runtime copy so the two locations do not drift apart
+again. Bump in both trees at once and compare them byte for byte afterwards; editing
+only one recreates the drift this section exists to prevent, and the next sync
+silently reverts whichever side was missed.
+
+This rule was written and then not followed: three consecutive content commits
+carried `3.13.0` unchanged, the last real bump having been `3.11.0 -> 3.13.0`. A
+version that never moves cannot do the one job it exists for -- telling an installed
+copy apart from the current one -- so treat an unchanged version on a content commit
+as a defect in that commit. Choose the increment by what the change does to a
+consumer: added sections and references that break nothing is a minor bump, not a
+patch bump and not a major one.
+
+Before bumping, check whether the version is hard-coded anywhere else
+(`grep -rn '<old version>' scripts/ tests/`); here it was not, and `validate_skill.py`
+asserts no particular value, so the bump could not break CI. Verify that rather than
+assuming it, because a validator that pins the version turns a one-line edit into a
+two-file change.
 
 ### This skill's home is the ai-agent-tools monorepo
 
@@ -170,16 +235,81 @@ PUT  /repos/{owner}/{repo}/pulls/{n}/merge
 
 A confined `gh` also cannot read `/tmp`: snaps get a private mount, so
 `--input /tmp/body.json` fails with `open /tmp/body.json: no such file or
-directory` while `ls -l` shows the file present. Write request payloads under
-`$HOME` instead (job logs too, when fetching them with
-`gh api .../jobs/{id}/logs`). The error looks like a missing file, not like a
-confinement problem, so it invites a pointless rewrite of the payload.
+directory` while `ls -l` shows the file present. The error looks like a missing
+file, not like a confinement problem, so it invites a pointless rewrite of the
+payload.
+
+**Moving the file under `$HOME` is not sufficient, and this section previously said
+it was.** The snap `home` interface excludes hidden paths, so
+`gh pr create --body-file ~/.pr_body.md` fails with `permission denied` on a file
+that `ls -l` shows as `-rw-rw-r--` and that the shell reads without complaint. Two
+distinct symptoms, one cause:
+
+| payload path | error |
+| --- | --- |
+| `/tmp/body.json` | `no such file or directory` (private `/tmp` mount) |
+| `~/.pr_body.md` | `permission denied` (hidden paths excluded) |
+
+The robust fix is to stop asking `gh` to open anything -- let the HOST shell read
+the file and pipe the payload on stdin:
+
+```bash
+# Written on one line on purpose: this text lives inside a non-raw Python triple-quoted
+# string, where a trailing backslash is a LINE CONTINUATION and would silently join the
+# lines on the way into the file.
+python3 -c 'import json,pathlib,sys; a=sys.argv; print(json.dumps({"title":a[1],"head":a[2],"base":a[3],"body":pathlib.Path(a[4]).read_text()}))' T H B /tmp/body.md > /tmp/payload.json
+cat /tmp/payload.json | gh api repos/$OWNER/$REPO/pulls --method POST --input -
+```
+
+`json.dumps` also removes the shell-quoting problem for a body containing backticks,
+`$`, or newlines. A non-hidden path under `$HOME` works too (`~/pr_body.md`, and the
+same applies to job logs fetched with `gh api .../jobs/{id}/logs`), but stdin needs no
+writable location the snap can see at all. Then verify from the remote rather than
+from the push output: a failed create leaves the branch pushed and zero PRs, which
+reads like success. Check for an existing PR on the same head first
+(`GET /repos/{o}/{r}/pulls?head={owner}:{branch}&state=all`) -- retrying after a
+confusing failure otherwise opens a duplicate.
 
 Set the PR base from the remote's actual default branch, not from an assumed
 `main`. A monorepo may keep its work on a long-lived feature branch as
 `origin/HEAD`; `git fetch origin main` then fails with
 `couldn't find remote ref main`. Check `git branch -r` and where `origin/HEAD`
 points before choosing `base`.
+
+**A default branch name may itself contain a slash**, and the obvious way to strip
+the remote prefix destroys it. Measured: `origin/HEAD` resolved to
+`origin/feat/ai-agent-tools-monorepo`, and `.split('/')[-1]` turned that into
+`ai-agent-tools-monorepo` -- not a ref, so `git rev-parse` died with
+`Needed a single revision` before a single file was touched. Strip the literal
+`origin/` prefix and then verify the remainder resolves:
+
+```python
+ref = git('rev-parse', '--abbrev-ref', 'origin/HEAD')
+base = ref[len('origin/'):] if ref.startswith('origin/') else ref
+assert git('rev-parse', '--verify', '-q', 'origin/' + base, check=False)
+```
+
+**The clone may be single-branch and shallow**, which breaks the usual way of
+confirming a push. Such a clone's fetch refspec covers only the default branch
+(`git config --get-all remote.origin.fetch`), so after
+`git push -u origin my-new-branch` the ref `origin/my-new-branch` does not resolve
+locally and `git rev-parse origin/my-new-branch` fails -- while the push actually
+succeeded. Ask the remote instead of the local ref store:
+
+```bash
+git ls-remote --heads origin my-new-branch   # prints the sha that is really there
+git rev-parse HEAD                            # must equal it
+```
+
+`gh` printing "Create a pull request for ... by visiting" is a hint that the push
+landed, not proof of it; and a `fatal: Needed a single revision` from
+`rev-parse origin/<branch>` is not proof that it did not. Only `ls-remote` settles
+it.
+
+**`git branch -D` refuses to delete the branch a worktree currently sits on**
+(`cannot delete branch ... used by worktree`). That is exactly the state an aborted
+run leaves behind, so a retry script that wants to recreate its branch must detach
+first: `git checkout -q --detach origin/$BASE`, then delete, then re-create.
 
 Read the token from the host's own credential store rather than echoing it, and
 never interpolate it into a shell string — a malformed assignment produced a
