@@ -44,3 +44,13 @@ jobs:
         run: |
           python3 tools/system-one-work-loop/scripts/public_hygiene_check.py
           python3 -m py_compile tools/system-one-work-loop/scripts/*.py
+
+      - name: Validate evidence-verified-auditing
+        run: |
+          python3 tools/evidence-verified-auditing/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/evidence-verified-auditing/scripts/*.py
+
+      - name: Validate github-pr-workflow
+        run: |
+          python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/github-pr-workflow/scripts/*.py
