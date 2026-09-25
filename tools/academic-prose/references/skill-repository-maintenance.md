@@ -6,7 +6,7 @@ without the other is the usual cause of lost work.
 | Location | Role |
 | --- | --- |
 | the runtime skills tree, wherever the host agent loads skills from | what the agent actually reads; edited first, because that is where a lesson is discovered |
-| this repository | the published source; it alone owns `README.md`, `evals/`, `tests/`, `scripts/validate_skill.py`, and the CI workflow |
+| this repository | the published source; it alone owns the CI workflow and `scripts/public_hygiene_check.py` |
 
 ## 1. Never copy one-way
 
@@ -166,6 +166,66 @@ check establishes and, separately, the property it does not.
   Before treating a heading difference as a loss, extract the section BODY from both
   trees and compare the items; accept a renumber, abort on a missing item.
 
+- **A gate with no tests can be defeated by a line break, and its PASS is believed.** The
+  repo's hygiene gate builds literals by concatenation so it does not flag itself;
+  `institution-3` was `"Hue " + "University"`, and the reference text wrapped between the two
+  words, so the pattern never matched and the gate printed `PASS` on the exact text it exists to
+  catch. Nothing noticed because the gate had zero tests. Match on whitespace-normalised text and
+  keep an offset map back to the original, so the reported context and any allowlist's line test
+  still resolve against the real file. Normalising cannot invent a match for secret-shaped
+  patterns — a space breaks every character class they use — it can only reveal what a wrap was
+  hiding; that reasoning was then asserted, not assumed, by a control on
+  `BEGIN\nRSA PRIVATE KEY`, which the old gate also passed. Any gate like this needs a test that
+  the wrapped form fires, and the fix needs one that the ordinary form still fires.
+- **`tests/` ships to the runtime tree, so a repo-structure test must skip with a stated reason.**
+  Measured: the runtime tree carries `evals/`, `tests/`, `agents/`, `schemas/`, `README.md` and
+  `scripts/validate_skill.py`, byte-identical to canonical, while `scripts/public_hygiene_check.py`
+  exists only in canonical and has no sibling `tools/` directory at runtime. A suite written on the
+  opposite assumption computed `REPO_ROOT` as the tree's grandparent and produced **2 failures and
+  12 errors out of 14** when copied to runtime. Guard it with
+  `@unittest.skipUnless(GATE.is_file() and TOOLS_DIR.is_dir(), REASON)` where the reason names both
+  missing things. A red runtime suite is a false alarm about content that was never meant to be
+  there, and a failure everyone learns to ignore is worse than a skip. Then measure BOTH sides: in
+  the repository the tests must really run (14 result markers `... ok`, 0 `... skipped`), and at
+  runtime they must skip cleanly (`OK (skipped=14)`, no `ERROR`, no `FAILED`). A guard that skips
+  everywhere is worse than no guard, so the in-repo count is the half that proves the tests exist.
+- **Count unittest result markers, not substrings — and only with `-v`.** Two opposite failures,
+  same cause. A check written as `'skipped' in line` reported a skip that had not happened, because
+  this very suite contains a test NAMED `test_pycache_and_pyc_are_skipped`; the name alone tripped
+  the counter and the run was reported as defective. Running without `-v` removes the per-test
+  lines entirely, so the same counter reads `ok=0, skipped=0` against a summary of
+  `OK (skipped=14)` — again a defect that does not exist. Match on `... ok` / `... skipped` /
+  `... FAIL` / `... ERROR`, run with `-v`, and assert `ok + skipped == Ran N`. Read the
+  `Ran N tests` line's own suite before attributing a count: in one CI log `Ran 40 tests` was the
+  tool suite containing the gate tests, while a nearby `Ran 14 tests in 0.006s` belonged to a
+  scanner self-test in `__main__`, and taking the latter as evidence would have "proved" the gate
+  tests ran when the numbers belonged to something else.
+- **Derive a positive control's expectation from the text, not from the intent behind it.** A
+  control mutated the real reference by replacing `at Hue\nUniversity of Education` with
+  `at Some\nInstitute` and expected a finding, on the reasoning that the institution
+  abbreviation inside the decision number would then sit on a line without citation
+  framing. It expected 1 and got 0 — and the gate was right: the mutation
+  left `Decision 1418` on the SAME line as that abbreviation, so the citation is still
+  legitimately allowed, and `institution-3` no longer matched because its text had been
+  replaced. Diagnosing it meant
+  printing every pattern match with its allow decision and the line it came from, which separates
+  "nothing matched" from "matched and was allowed" — two states that mean opposite things about a
+  gate, and a control asserting only a finding count cannot tell them apart. The controls that
+  actually proved the allowance narrow were different ones: appending an unframed mention to an
+  allowed file must still fail, with exactly one finding, because the framed citation on its own
+  line stays allowed. That is what shows the context test is per LINE and not per FILE — a
+  distinction that silently collapses if the context is checked against normalised text, where a
+  whole file is one line.
+- **Measure whether an open PR is superseded, and test for conflict instead of inferring it.** An
+  open PR touching 18 files that base had also changed looked like a rebase job. Two measurements
+  replaced the guess. For supersession, take the lines the PR *adds* from each file's patch and
+  count how many already appear in current base content: **166 of 167 (99.4%)** did, and the single
+  missing line was an older `version: "3.12.0"` — so the content had landed another way and the PR
+  was stale, not behind. For conflict, overlapping filenames prove nothing: `git merge-tree
+  --write-tree --name-only <base> <head>` reported real content conflicts in only **2 of the 18**
+  (exit 0 means clean, 1 means conflict). Report both numbers and let the owner decide; do not
+  rebase or close a PR on a filename-overlap count, and never on a guess.
+
 ## Generalizing a lesson into a reference
 
 A lesson learned on one manuscript is not a list from that manuscript. When
@@ -215,9 +275,14 @@ Measured correction (user): academic-prose lives at `tools/academic-prose/` insi
 standalone repo `mxuanvan02/academic-prose` still exists and accepts pushes; pushing
 there is not an error the remote will catch, so check the intended destination with
 the user (or their latest instruction) before pushing. When syncing runtime →
-monorepo with rsync, exclude the repo-only directories (`evals/`, `tests/`,
-`agents/`, `schemas/`, `.git`, `__pycache__`) so repo-owned assets are not deleted
-by `--delete`; the runtime tree does not carry them.
+monorepo with rsync, exclude `.git` and `__pycache__` so repo-owned assets are not
+deleted by `--delete`. **Measured, the runtime tree DOES carry `evals/`, `tests/`,
+`agents/`, `schemas/`, `README.md` and `scripts/validate_skill.py`** — they are
+byte-identical to canonical, so an earlier claim here that it "does not carry them"
+was wrong and is the reason a repo-structure test was written that could not run at
+runtime (see the `tests/` pitfall in section 4). The single canonical-only file is
+`scripts/public_hygiene_check.py`; never sync it to the runtime tree, and never write
+a runtime test that assumes it is there.
 
 ## 6. Publishing when the host CLI cannot see the repository
 
