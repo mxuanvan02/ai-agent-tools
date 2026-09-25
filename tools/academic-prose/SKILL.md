@@ -530,6 +530,8 @@ These constraints hold in both languages. Language-specific realization lives in
 - Keep one stable rendering per concept unless context changes the concept.
 - Make logical relations explicit only when licensed by the evidence or stated reasoning.
 - Preserve calibrated hedging; academic tone is not synonymous with stronger claims or heavier formal vocabulary.
+- Frame the gap by its IMPLICATION about the reader: no strawman, no defensive negation; make the deficit a property of process, artifacts or scale, not the person. See references/framing-gap-motivation.md.
+- Numbered footnote/table edits: a new criterion needs its own citation; renumber captions, mentions and count headings; verify in the DOCX. See references/numbered-footnote-table-manuscript.md.
 - Avoid journalistic emphasis, promotional claims, bureaucratic padding, conversational fillers, ceremonial vocabulary, and ornamental synonyms.
 
 ## Audit Output
