@@ -101,6 +101,25 @@ check establishes and, separately, the property it does not.
   `[Process logic gate](process-logic-gate.md)`. Pin the heading form,
   `assertIn("## Process logic gate", rubric)`, and mutate by deleting that exact
   line to confirm red.
+- **A concatenated forbidden literal must be raw on BOTH halves.** The gate splits
+  its tokens so it does not flag itself, and five entries wrote the second half as a
+  plain string: `"BS\b"` is backspace 0x08, not a word boundary, so the compiled
+  pattern ended in a control character and could never match anything. The gate
+  printed PASS while real leaks of two codenames and one institution abbreviation sat
+  in shipped files. `tests/test_public_hygiene_gate.py::TestEveryPatternIsAlive` now
+  asserts (a) no compiled pattern contains 0x08 and (b) every label matches a
+  canonical probe, so a pattern that dies fails loudly instead of silently.
+  Two probe-writing traps, both measured here. First, a probe half that itself spells
+  a complete forbidden token makes the gate flag the test file — split the probe the
+  same way the gate splits its pattern, and say the rest by label. Second, a
+  word-boundary pattern does not bound an underscore, so a codename joined into a path
+  or filename with `_` is NOT matched; probe the space-delimited form and treat the
+  underscore-joined form as a known gap, never as a caught case.
+- **A gate that has only ever been seen green proves nothing about its patterns.**
+  The wrapped-token suite showed a line break cannot defeat a LIVE pattern; it said
+  nothing about whether each pattern was alive. Inventory-level assertions (one probe
+  per label, asserted as a set equality against the pattern table) are what turn a
+  new entry into a checked entry instead of a hopeful one.
 - **A class-level detector test only needs one pattern to fire.** Deleting a single
   regex from a scanner left every behavioural test green, because the class still
   matched through its remaining patterns — so a gate whose patterns can be removed

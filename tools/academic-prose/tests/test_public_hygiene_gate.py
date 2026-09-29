@@ -30,6 +30,7 @@ suite is testing. Runtime values are unchanged by the splits.
 from __future__ import annotations
 
 import hashlib
+import importlib.util
 import re
 import shutil
 import subprocess
@@ -292,6 +293,81 @@ class TestGateCoverageAcrossTheRepository(unittest.TestCase):
             capture_output=True, text=True, check=True,
         ).stdout
         self.assertEqual(before, after, "running the gate changed the working tree")
+
+
+def load_gate_module():
+    """Import the gate in-process to inspect FORBIDDEN itself, not just its verdict."""
+    spec = importlib.util.spec_from_file_location("phc_under_test", GATE)
+    assert spec is not None and spec.loader is not None, "gate did not load"
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestEveryPatternIsAlive(unittest.TestCase):
+    """A dead pattern prints PASS on the exact leak it exists to catch.
+
+    Measured defect: five FORBIDDEN entries concatenated a NON-raw string half
+    ("BS\\b" is backspace 0x08, not a word boundary), so the compiled pattern
+    could never match anything -- including two codenames and an institution
+    pattern whose real leaks were sitting in shipped files while the gate
+    reported PASS. The wrapped-token suite proved a line break cannot defeat a
+    LIVE pattern; this suite proves every pattern is live in the first place.
+    One probe per label makes the whole inventory self-checking: a pattern that
+    stops matching its canonical token fails here instead of failing silently.
+    """
+
+    def setUp(self) -> None:
+        self.patterns = dict(load_gate_module().FORBIDDEN)
+
+    def test_no_compiled_pattern_contains_a_backspace(self) -> None:
+        for label, pat in self.patterns.items():
+            with self.subTest(label=label):
+                self.assertNotIn(
+                    chr(8), pat.pattern,
+                    "compiled pattern contains literal backspace 0x08: a non-raw "
+                    "string half turned \\b into a control character, so this "
+                    "pattern can never match and its gate verdict is worthless",
+                )
+
+    def test_every_pattern_matches_its_canonical_probe(self) -> None:
+        # Probes are concatenated for the reason given in the module docstring:
+        # this file lives inside the scanned tool directory.
+        probes = {
+            "personal-name": "đã nhờ " + PERSONAL_NAME + " soát lại",
+            "host-username": "clone vào /home/" + HOST_USERNAME + "/repos",
+            "old-skill-name": "xem skill anh-van-" + "research-workflow",
+            "internal-path": "dữ liệu nằm ở /media/" + "SAS/Research",
+            "codename-1": "bản " + "CAW-" + "VoU chưa công bố",
+            "codename-2": "trong phiên " + "RA" + "BS trước",
+            "codename-3": "pipeline " + "Probe" + "Transmit",
+            "codename-4": "bài " + CODENAME,
+            "codename-5": "thư mục " + "ST" + "AIS đang chạy",
+            "codename-6": "dự án " + "Mekong-" + "Trace",
+            "codename-7": "bộ dữ liệu " + "HO" + "EIT-" + "LegalQA",
+            "institution-1": "trường " + INSTITUTION_1,
+            "institution-2": "Đại học " + "Huế thông báo",
+            "institution-3": INSTITUTION_3 + " press",
+            "institution-4": "mã tài trợ DH" + "H",
+            "institution-5": "viện " + "HO" + "EIT",
+            "institution-6": "campus " + "Thu " + "Dau Mot",
+            "secret-token": "token " + "ghp_" + "A1b2C3d4E5f6G7h8I9j0",
+            "secret-key": SECRET_KEY,
+            "placeholder": "kết quả\x00cũ",
+        }
+        self.assertEqual(
+            set(probes), set(self.patterns),
+            "probe inventory and FORBIDDEN diverged: every label needs a probe, "
+            "and a probe without a label tests nothing",
+        )
+        for label, probe in probes.items():
+            with self.subTest(label=label):
+                self.assertIsNotNone(
+                    self.patterns[label].search(probe),
+                    f"{label} does not match its canonical probe -- the pattern is "
+                    "dead and the gate would print PASS over this leak",
+                )
 
 
 if __name__ == "__main__":
