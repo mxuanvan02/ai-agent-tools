@@ -54,6 +54,11 @@ HOST_USERNAME = "hito" + "kiri"
 CODENAME = "ECM-" + "TQAG"
 SECRET_KEY = "BEGIN " + "RSA PRIVATE KEY"
 FRAMING = "Decision 1418"
+# Domains, concatenated for the same reason: this file sits inside a scanned tool
+# directory, and the gate now has patterns for both of these hostnames.
+SCHOOL_DOMAIN = "dhsphue" + ".edu.vn"
+VENUE_DOMAIN = "jos." + "hueuni" + ".edu.vn"
+VENUE_DOMAIN_BARE = "hueuni" + ".edu.vn"
 
 CITATION_FILE = "references/academic-vietnamese-standard.md"
 WORD_LIMIT_FILE = "references/word-budget-and-rendered-artifact-compliance.md"
@@ -295,6 +300,93 @@ class TestGateCoverageAcrossTheRepository(unittest.TestCase):
         self.assertEqual(before, after, "running the gate changed the working tree")
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestDomainPatternsAreCaught(unittest.TestCase):
+    """Hostnames identify an employer or a submission target as precisely as names do.
+
+    A name-only pattern list left the strongest identifier uncovered: six domain
+    occurrences shipped across two tools while every gate printed PASS. These tests
+    pin both domain patterns, including the bare-journal form and the realistic
+    hard-wrap case, plus the one wrap shape that CANNOT be caught -- recorded as a
+    known limit so it is documented rather than discovered again as a false alarm.
+    """
+
+    def test_school_domain_is_caught(self) -> None:
+        tmp = build_tool({"notes.md": "Tra cứu tại " + SCHOOL_DOMAIN + "/huong-dan.\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("institution-7", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_journal_domain_with_subdomain_is_caught(self) -> None:
+        tmp = build_tool({"notes.md": "Search " + VENUE_DOMAIN + " for each term.\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("venue-1", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_journal_domain_without_subdomain_is_caught(self) -> None:
+        """The optional (?:jos\\.)? group must not narrow the pattern to one host."""
+        tmp = build_tool({"notes.md": "Portal cấp trên (" + VENUE_DOMAIN_BARE + ") cho HTML tĩnh.\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("venue-1", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_journal_domain_split_at_the_subdomain_dot_is_caught(self) -> None:
+        """Hard-wrapped prose can break a URL at a dot; the pattern must survive it.
+
+        normalise() collapses the newline to one space, so this case passes only
+        because the subdomain group is optional: the bare domain still matches on
+        the second line. Measured, and the reason that group exists.
+        """
+        tmp = build_tool({"notes.md": "Search jos.\n" + VENUE_DOMAIN_BARE + " for terms.\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("venue-1", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_domain_split_mid_token_is_a_known_limit(self) -> None:
+        """Pinned as a limit, NOT as a pass: do not "fix" this by relaxing normalise.
+
+        normalise() collapses whitespace to a single space; it never deletes it. A
+        domain has no internal space, so a break inside the hostname leaves
+        "dhsph ue.edu.vn" in the normalised text and a spaceless pattern cannot match.
+        No wrapping convention produces this shape -- markdown and hand wrapping break
+        at whitespace -- so the gate stays correct and the expectation would be
+        impossible. A mutation suite that asserted a catch here reported a false
+        failure; the assertion is inverted on purpose so that anyone who later
+        deletes whitespace in normalise() sees this test change meaning.
+        """
+        split = SCHOOL_DOMAIN[:5] + "\n" + SCHOOL_DOMAIN[5:]
+        tmp = build_tool({"notes.md": "Tra cứu tại " + split + "/mau.\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+            self.assertNotIn("institution-7", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_a_generic_descriptor_is_not_caught(self) -> None:
+        """The sanitised replacement used in the references must stay legal."""
+        tmp = build_tool({"notes.md": "<venue-site> search \"thực nghiệm\" -> 20 articles\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 def load_gate_module():
     """Import the gate in-process to inspect FORBIDDEN itself, not just its verdict."""
     spec = importlib.util.spec_from_file_location("phc_under_test", GATE)
@@ -352,6 +444,10 @@ class TestEveryPatternIsAlive(unittest.TestCase):
             "institution-4": "mã tài trợ DH" + "H",
             "institution-5": "viện " + "HO" + "EIT",
             "institution-6": "campus " + "Thu " + "Dau Mot",
+            # domain probes are split the same way the gate splits its patterns:
+            # this file sits inside a scanned tool directory.
+            "institution-7": "tệp hướng dẫn ở " + "dhsphue" + ".edu.vn",
+            "venue-1": "tra cứu tại " + "jos." + "hueuni" + ".edu.vn",
             "secret-token": "token " + "ghp_" + "A1b2C3d4E5f6G7h8I9j0",
             "secret-key": SECRET_KEY,
             "placeholder": "kết quả\x00cũ",

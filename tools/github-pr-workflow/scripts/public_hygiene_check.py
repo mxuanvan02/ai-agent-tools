@@ -53,6 +53,14 @@ FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
     ("institution-4", re.compile(r"\bDH" + r"H\b|\bDHH\b")),
     ("institution-5", re.compile(r"\bHO" + r"EIT\b")),
     ("institution-6", re.compile("Thu " + "Dau Mot")),
+    # institution and venue DOMAINS. A hostname identifies an employer or a
+    # submission target as precisely as its name does, and it survives every
+    # rewrite of the prose around it, so a name-only pattern list leaves the
+    # strongest identifier uncovered. Measured: six occurrences across two tools
+    # shipped while every gate printed PASS, because no pattern matched a domain.
+    # Both halves raw -- see the note above internal-path.
+    ("institution-7", re.compile(r"dhsphue" + r"\.edu\.vn")),
+    ("venue-1", re.compile(r"(?:jos\.)?hueuni" + r"\.edu\.vn")),
     # secret shapes
     ("secret-token", re.compile(r"gh[oprsu]_[A-Za-z0-9]{10,}|sk-[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}")),
     ("secret-key", re.compile("BEGIN [A-Z ]*PRIVATE KEY")),
