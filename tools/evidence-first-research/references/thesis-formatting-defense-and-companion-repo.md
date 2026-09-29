@@ -40,8 +40,8 @@ Người dùng coi repo công khai là MỘT phần bộ nộp; chỉ đẩy COD
 
 ## 6. Fetch quy chế/quy định trường khi search engine + site bị chặn
 - Google/Bing/DuckDuckGo đều bung CAPTCHA/Cloudflare với headless browser — đừng retry mãi.
-- Site trường (dhsphue.edu.vn) là ASP.NET frameset + UpdatePanel postback: danh sách file nạp động qua `__VIEWSTATE`, curl tĩnh KHÔNG lấy được link file. Iframe lồng nhau làm browser-snapshot vô dụng.
-- Portal cấp trên (hueuni.edu.vn) cho HTML tĩnh — curl đọc được; tìm bài theo slug đoán (`quy-che-dao-tao-trinh-do-thac-si`) rồi grep link `.doc/.pdf` đính kèm. `.doc` cũ convert bằng `libreoffice --headless --convert-to txt`.
+- Site trường là ASP.NET frameset + UpdatePanel postback: danh sách file nạp động qua `__VIEWSTATE`, curl tĩnh KHÔNG lấy được link file. Iframe lồng nhau làm browser-snapshot vô dụng.
+- Portal cấp trên cho HTML tĩnh — curl đọc được; tìm bài theo slug đoán (`quy-che-dao-tao-trinh-do-thac-si`) rồi grep link `.doc/.pdf` đính kèm. `.doc` cũ convert bằng `libreoffice --headless --convert-to txt`.
 - **Bài học quan trọng:** Thông tư cấp Bộ/quy chế đào tạo (vd TT23/2021, TT10/2011) chỉ quy định QUY TRÌNH, KHÔNG quy định chi tiết định dạng (lề/font/giãn dòng). Phần định dạng nằm ở "Hướng dẫn trình bày luận văn" do Trường/Khoa phát riêng — thường sau lớp postback, headless không lách được. Khi không lấy được: nói thẳng với người dùng (người dùng dặn không bịa), áp chuẩn trường ĐH phổ biến và đánh dấu rõ chỗ nào là suy luận, đề nghị người dùng gửi file hướng dẫn của Trường để đối chiếu 100%.
 
 ## 7. Dựng slide bảo vệ Beamer từ nội dung luận văn

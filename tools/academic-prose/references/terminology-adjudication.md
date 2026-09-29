@@ -38,8 +38,8 @@ Report what was found before recommending anything.
 Search the journal/conference site for each term and count published articles:
 
 ```
-jos.hueuni.edu.vn search "thực nghiệm" → 20 articles
-jos.hueuni.edu.vn search "thử nghiệm"  → 23 articles
+<venue-site> search "thực nghiệm" → 20 articles
+<venue-site> search "thử nghiệm"  → 23 articles
 ```
 
 Two conclusions follow, and both matter:
