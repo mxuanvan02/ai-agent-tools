@@ -367,9 +367,11 @@ Two guards make this safe:
 
 Do not decide front-matter alignment from taste. Read x0/x1 per line from a **published** article of
 the same venue with PyMuPDF: if x0 differs on every line of the title/author region, that region is
-centred; if x0 is constant, it is left or justified. Measured on two published HUJOS-TT articles
-(`jos.hueuni.edu.vn`, articles 6593 and 6629): title and author block centred, abstract and keywords
-justified.
+centred; if x0 is constant, it is left or justified. Measured on two published articles of the target
+venue, taken from the venue's own archive: title and author block centred, abstract and keywords
+justified. Pick the measurement articles from the venue actually being submitted to, and re-measure
+when the venue changes -- alignment conventions differ between journals, so a measurement carried over
+from another venue is not evidence about this one.
 
 After any layout change, verify by coordinate rather than by eye:
 
@@ -397,7 +399,7 @@ nothing specific -- "kiểm chứng"/"verification" appeared 28 times yet belong
 methods-aware article, and the author rejected it on exactly that ground. Prefer the article's own
 apparatus: its named framework, its study population, its analytical object.
 
-Also measure the venue: both published HUJOS-TT articles carried exactly **3 keywords**, not the 6
+Also measure the venue: both published articles of the target venue carried exactly **3 keywords**, not the 6
 the draft had. Verify each kept keyword still appears in the body after every revision round; a
 keyword used once, or only in the keyword line itself, is not a keyword.
 
