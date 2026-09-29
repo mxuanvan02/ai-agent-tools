@@ -337,6 +337,72 @@ Hai lỗi khung lập luận mà tác giả bắt được, ghi để không l�
 Đồng bộ khi đổi khung nền: một thay đổi trục lập luận kéo theo Tóm tắt/Abstract,
 1.1, 1.2 (câu chốt mỗi hướng), 1.3, 3.7, Kết luận — sửa hết một lượt rồi mới build.
 
+## 19. Front-matter roles: detect by structure, never by literal string
+
+A build script centred the title with `CENTERED = ("TÊN BÀI VIẾT", "PAPER TITLE")`.
+The moment the title was reworded the paragraph fell through to the default `JUSTIFY` branch, so
+the title lost its centring **and** inherited the 1 cm first-line indent: line 1 stretched from
+the indent to the right margin, line 2 sat left-aligned. It stayed invisible while the title fit
+on one line; the first rewording that wrapped to two lines exposed it.
+
+Rule: match front-matter roles by **structure**, not by content.
+
+- Title = paragraph whose letters are all uppercase and whose length > 20 chars.
+- Author block = line starting with a superscript marker (`¹²³`), the corresponding-author
+  asterisk, a labelled contact line (`Tác giả liên hệ:`, `Corresponding author`,
+  `Lead author email:`), or any line containing an e-mail address.
+- Never branch on author names, institution names, or title words.
+
+Two guards make this safe:
+
+1. **Over-match test.** Run each detector over the real body and require 0 hits. Body prose never
+   starts with a superscript digit and never contains `@`, so the author-block detector is safe by
+   construction; the all-uppercase test also returns 0 on body prose and on headings (headings
+   contain lowercase).
+2. **Branch order.** Put the author-block branch *before* the bibliography-entry branch, then assert
+   every reference paragraph is still `LEFT` with a hanging indent -- otherwise a reference whose
+   note contains an e-mail gets centred.
+
+## 20. Centred vs justified: measure a published article, then verify by coordinate
+
+Do not decide front-matter alignment from taste. Read x0/x1 per line from a **published** article of
+the same venue with PyMuPDF: if x0 differs on every line of the title/author region, that region is
+centred; if x0 is constant, it is left or justified. Measured on two published articles of the target
+venue, taken from the venue's own archive: title and author block centred, abstract and keywords
+justified. Pick the measurement articles from the venue actually being submitted to, and re-measure
+when the venue changes -- alignment conventions differ between journals, so a measurement carried over
+from another venue is not evidence about this one.
+
+After any layout change, verify by coordinate rather than by eye:
+
+- Derive the text block from **body pages** (most common x0 and x1 over lines with >= 8 words).
+  Do not compute the right edge from the margin setting: it misreported 538.6 pt against a true
+  541.7 pt and produced 22 false "line overflows the margin" alarms. Measured against the true
+  edge, overflows were 0.
+- Assert |line centre - block centre| < 4 pt for every title and author line (achieved 1.6 pt max).
+- Assert 0 body paragraphs are centred and 0 references lost their hanging indent.
+
+## 21. A tool can report success without writing anything
+
+`skill_manage` returned `operations_applied: 2, success: true` for two patches to this file, yet the
+new text existed in **no** copy on disk (`grep -rl` for the marker across `$HOME` found nothing).
+Treat a reported write as a claim: after every skill edit, re-read the file from disk and assert the
+marker string is present. Verify the *canonical* path, not a mirror -- mirror hashes can match each
+other while both miss the edit.
+
+## 22. Choose keywords from measured usage; reject field-generic verbs
+
+Count each candidate phrase in the body (strip tables and citation markers) and require it to be a
+concept the article actually builds on, preferring phrases that also appear in a heading. Frequency
+alone is not enough: a high-frequency but field-generic term is a bad keyword because it retrieves
+nothing specific -- "kiểm chứng"/"verification" appeared 28 times yet belongs to almost every
+methods-aware article, and the author rejected it on exactly that ground. Prefer the article's own
+apparatus: its named framework, its study population, its analytical object.
+
+Also measure the venue: both published articles of the target venue carried exactly **3 keywords**, not the 6
+the draft had. Verify each kept keyword still appears in the body after every revision round; a
+keyword used once, or only in the keyword line itself, is not a keyword.
+
 ## 18. Checklist before calling it submission-ready
 
 1. `pgSz`/`pgMar` match the proven frame.
@@ -345,3 +411,7 @@ Hai lỗi khung lập luận mà tác giả bắt được, ghi để không l�
 4. Figures re-embedded inline with blip ids.
 5. Footnote/bibliography regime confirmed with the author.
 6. LibreOffice PDF render + 4 academic-prose gates re-run.
+7. Title/author centring re-verified **by coordinate** after any rewording of the title.
+8. Over-match test run: 0 body paragraphs claimed by the title/author detectors.
+9. Every keyword re-counted in the body; venue keyword count matched.
+10. Skill edits re-read from disk at the canonical path (a success report is a claim, not a write).

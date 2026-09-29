@@ -45,6 +45,35 @@ Vietnamese equivalent of §23. These are frames that occupy a clause and assert 
 | `không thể phủ nhận rằng` | delete |
 | `đáng chú ý là`, `cần lưu ý rằng` | delete unless the emphasis carries a real caveat |
 
+## 2b. Explanatory colon chains
+
+Vietnamese academic prose states explanations in clauses, not in label-colon-explanation frames. The colon that introduces an explanation is an English and French punctuation habit; models reproduce it at high density. A Vietnamese manuscript whose body paragraphs carry several explanatory colons reads as translated rather than written.
+
+**Signals.** A noun phrase or a clause ending in `:` followed by the explanation; heading titles of the form `Khung phân tích: ...`; abstract sentences of the form `... với ba điều kiện: A, B và C`; `cơ chế thứ nhất là X: ...` / `cơ chế thứ hai là Y: ...` enumerations inside one paragraph.
+
+| Colon frame | Repair |
+| --- | --- |
+| `... với ba điều kiện: A, B và C` | `... kèm theo ba điều kiện gồm A, B và C` |
+| `Cơ chế thứ nhất là hiệu ứng quy mô: máy rút tiền làm giảm ...` | `Cơ chế thứ nhất là hiệu ứng quy mô, khi máy rút tiền làm giảm ...` |
+| `kết quả đảo ngược hoàn toàn: nhóm dùng AI ...` | `kết quả đảo ngược hoàn toàn khi nhóm dùng AI ...` |
+| `có ý nghĩa quan trọng: một nghề là ...` | `có ý nghĩa quan trọng vì một nghề là ...` |
+| `loại trừ giả thuyết ngược: việc dùng ...` | `loại trừ giả thuyết ngược, cụ thể là việc dùng ...` |
+| `theo một quy luật có thể nhận diện: khi ...` | `theo một quy luật có thể nhận diện, theo đó khi ...` |
+| Heading `Khung phân tích: vòng đời bốn pha` | `Khung phân tích vòng đời bốn pha` |
+
+The connective must match the real logical relation. Use `vì` or `do` for cause, `khi` for condition or time, `theo đó` for restatement, `cụ thể là` for specification, `gồm` for enumeration. Do not substitute one connective for another to silence the rule, and do not delete the explanation to remove the colon; the relation is content.
+
+When the colon separates a long explanation into its own sentence, prefer a full stop plus a new sentence over any connective: `Đối với trí tuệ nhân tạo, các thiết chế tương đương chưa tồn tại ở dạng được xã hội công nhận rộng rãi. Hiện chưa có chuẩn năng lực người dùng ...`.
+
+**False positives.** Do not flag the following, each of which is correct Vietnamese:
+
+- Venue-mandated labels `Tóm tắt.`, `Từ khóa:`, `Abstract.`, `Keywords:`, `Bảng 1.`, `Hình 2.`.
+- Bibliographic punctuation inside reference entries (`Explorations in Economic History, 46(4), 418–435`), publisher places (`Hà Nội: Nhà xuất bản ...`), and DOI or URL strings.
+- Ratios, times, and scriptural or legal citation forms (`10:1`, `08:30`, `Luật số 12/2020: điều 3`).
+- English-language titles and abstracts in a bilingual manuscript, where the colon after a title is standard academic English.
+
+**Threshold.** Body prose should carry at most one explanatory colon per 1.000 words. Headings and captions should carry none. A single colon in a long manuscript is a stylistic choice; a colon every two or three paragraphs is a machine signature.
+
 ## 3. Symmetric parallelism and forced enumeration
 
 Vietnamese equivalent of §10, with a Vietnamese-specific form. Vietnamese rhetorical tradition favors balanced pairs and four-part constructions, which models overproduce.

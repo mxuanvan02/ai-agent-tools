@@ -185,3 +185,27 @@ Deliver the **DOCX** as the submission artifact when the venue asks for
 Word/OpenOffice/RTF; a PDF alongside is a reading convenience only, and should be
 labelled as such so the author does not submit it. Report the measured compliance
 table (limit vs measured, per requirement) rather than asserting compliance.
+
+## Exclude the label when counting an abstract
+
+A measure routine counted every paragraph matching `^(Tóm tắt|Abstract)` **including its own
+label**, so a 250-word abstract reported as 252 against a 250-word cap. Two words of
+front-matter furniture ("Tóm tắt.") decided a pass/fail verdict.
+
+Strip the label before counting:
+
+```python
+m = re.match(r"^(?:Tóm tắt\.|Abstract\.)\s*(.*)$", text, re.S)
+if m:
+    abstract_words.append(count(m.group(1)))
+```
+
+Same class of error, watch for it everywhere a counter and a renderer share a string: the
+keyword line counted with `Từ khóa:` included, the heading counted with its number prefix
+(`## 3.1.` adds tokens), table rows counted with their separator cells (`|---|` yields no
+words but a row header may be duplicated across a page break and counted twice).
+
+Corollary for reporting: when two counters disagree, resolve the discrepancy before
+publishing a verdict. The manuscript-side count (250) and the artifact-side count (252) were
+both "correct" by their own definitions; only one matched the venue's definition. Report the
+number that matches the rule being applied, and say which rule it is.

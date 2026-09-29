@@ -34,21 +34,24 @@ FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
     ("host-username", re.compile("hito" + "kiri")),
     ("old-skill-name", re.compile("anh-van-" + r"research-workflow")),
     # internal paths / storage
-    ("internal-path", re.compile(r"/media/" + "SAS|/home/van\b|/Users/van\b")),
+    # EVERY concatenated half must be a raw string. A plain "BS\b" is the backspace
+    # character 0x08, not a word boundary, so the pattern silently never matches --
+    # measured: five of these were dead and the gate printed PASS on real leaks.
+    ("internal-path", re.compile(r"/media/" + r"SAS|/home/van\b|/Users/van\b")),
     # UNPUBLISHED project/paper codenames (must stay genericized)
     ("codename-1", re.compile("CAW-" + "VoU")),
-    ("codename-2", re.compile(r"\bRA" + "BS\b")),
+    ("codename-2", re.compile(r"\bRA" + r"BS\b")),
     ("codename-3", re.compile("Probe" + "Transmit")),
     ("codename-4", re.compile("ECM-" + "TQAG")),
-    ("codename-5", re.compile(r"\bST" + "AIS\b")),
+    ("codename-5", re.compile(r"\bST" + r"AIS\b")),
     ("codename-6", re.compile("Mekong-" + "Trace")),
     ("codename-7", re.compile("HOEIT-" + "LegalQA|VDTM-" + "LegalQA")),
     # institution identifiers
     ("institution-1", re.compile(r"ĐH" + "SP|ĐHSP")),
     ("institution-2", re.compile("ĐH " + "Huế|Đại học " + "Huế")),
     ("institution-3", re.compile("Hue " + "University")),
-    ("institution-4", re.compile(r"\bDH" + "H\b|\bDHH\b")),
-    ("institution-5", re.compile(r"\bHO" + "EIT\b")),
+    ("institution-4", re.compile(r"\bDH" + r"H\b|\bDHH\b")),
+    ("institution-5", re.compile(r"\bHO" + r"EIT\b")),
     ("institution-6", re.compile("Thu " + "Dau Mot")),
     # secret shapes
     ("secret-token", re.compile(r"gh[oprsu]_[A-Za-z0-9]{10,}|sk-[A-Za-z0-9]{20,}|AKIA[A-Z0-9]{16}")),
