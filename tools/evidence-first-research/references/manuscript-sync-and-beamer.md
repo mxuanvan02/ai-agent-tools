@@ -26,7 +26,7 @@ Re-running a unified pipeline can REVERSE the headline. bài bandwidth-schedulin
 - Prose citing "Table X runtimes (a/b/c ms)" where the actual table has different numbers. Fix prose to match the table.
 
 ## 4. Manuscript → Beamer deck (Hue theme, math-focus)
-Reuse the deck preamble from `SAS/Research/bài bandwidth-scheduling_Slides/Slidebài bandwidth-scheduling_STAIS.tex`: `aspectratio=169,11pt`, fontspec DejaVu Sans, HueBlue `RGB 0,72,135` / HueOrange `235,120,25`, SoftBlue/SoftOrange block bodies, `\setbeamertemplate{footline}[frame number]`, `navigation symbols`{} cleared. Build with `xelatex` (fontspec needs it).
+Reuse the deck preamble from `SAS/Research/bài bandwidth-scheduling_Slides/Slidebài bandwidth-scheduling_<conf>.tex`: `aspectratio=169,11pt`, fontspec DejaVu Sans, HueBlue `RGB 0,72,135` / HueOrange `235,120,25`, SoftBlue/SoftOrange block bodies, `\setbeamertemplate{footline}[frame number]`, `navigation symbols`{} cleared. Build with `xelatex` (fontspec needs it).
 - Math-focus decks: one `block` per derivation step + an `alertblock{Diễn giải (mạch dẫn)}` per frame that links this formula to the next — người dùng explicitly wants the formula-to-formula linkage shown.
 - Mirror manuscript macros in preamble (`\Smin \Smax \Phibar \E \Pvio`).
 

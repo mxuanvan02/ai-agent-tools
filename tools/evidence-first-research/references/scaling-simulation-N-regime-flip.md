@@ -58,7 +58,7 @@ không đáng, chọn B thấp, thành tệ nhất (dấu hiệu chẩn đoán: 
 ra tệ nhất). Đây là MIS-SCALING hằng số, KHÔNG phải bug logic.
 - **Fix N-invariant có nguyên tắc:** nhân MỌI hệ số phạt-theo-B với
   `BW_SCALE = K/N` (=1 khi N=K, giữ nguyên calibration gốc; =K/N khi mở rộng). Áp
-  vào: từng nhánh rabs_l/rabs_pd, oracle, objective cuối — grep mọi `*B` có hệ số.
+  vào: từng nhánh <project>_l/<project>_pd, oracle, objective cuối — grep mọi `*B` có hệ số.
 - Tương tự AoI: chuẩn hóa `AOI_NORM = (B_target/N)/(B_target_old/K)` để cân bằng số
   hạng aoi khớp calibration cũ.
 - Sau khi rescale: smoke lại, regime phải hợp lý (Oracle tốt nhất). Nếu regime VẪN

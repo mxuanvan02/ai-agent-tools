@@ -59,7 +59,7 @@ Khi tràn 1–5 dòng sang trang cuối (thường là vài mục references cu�
 4. Sau mỗi lần sửa: build **3 pass** (pdflatex → bibtex → pdflatex ×2) rồi đếm `pdfinfo main.pdf | grep Pages`. Undefined refs cần đủ pass để `.aux` đồng bộ; nếu vẫn undefined sau 3 pass thì là label thật bị thiếu, không phải pass.
 
 ## Regenerate tables/figures from CSV (tái lập + đồng bộ)
-- Manuscript thường có bảng **format thủ công riêng** (tên/cột khác tên bảng script sinh ra) → KHÔNG có cầu tự động. Viết một `make_manuscript_tables.py` sinh thẳng đúng format manuscript từ CSV nguồn, số khớp tuyệt đối, tái lập được. Map tên: `sota_comparison.tex` ← `rabs_summary.csv`, v.v.
+- Manuscript thường có bảng **format thủ công riêng** (tên/cột khác tên bảng script sinh ra) → KHÔNG có cầu tự động. Viết một `make_manuscript_tables.py` sinh thẳng đúng format manuscript từ CSV nguồn, số khớp tuyệt đối, tái lập được. Map tên: `sota_comparison.tex` ← `<project>_summary.csv`, v.v.
 - Sau regen: đối chiếu từng ô bảng-PDF vs CSV nguồn (grep) để xác nhận đồng bộ; đừng tin mtime.
 - Hình: chỉ regen hình manuscript THỰC SỰ `\includegraphics`, bỏ hình cũ (AI overview) khỏi body. Vision-check hình sau regen: điểm đúng toạ độ, không nhãn đè, không tràn khung. Nhãn đè cluster → chỉ annotate điểm tách biệt, để cụm chồng cho legend lo.
 

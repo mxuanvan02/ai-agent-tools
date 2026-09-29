@@ -21,9 +21,9 @@ One script in an otherwise stdlib-only repo quietly `import pandas`s (or another
 ## Verify by actually running on a clean interpreter — not just fixing syntax
 On this host `python3` has no pip and PEP 668 blocks system installs; use `uv`:
 ```bash
-uv venv /tmp/rabs_venv
-uv pip install --python /tmp/rabs_venv/bin/python matplotlib   # note: `uv venv` ships NO pip; use `uv pip install`, not `venv/bin/pip`
-/tmp/rabs_venv/bin/python code/make_tradeoff_plot.py
+uv venv /tmp/<project>_venv
+uv pip install --python /tmp/<project>_venv/bin/python matplotlib   # note: `uv venv` ships NO pip; use `uv pip install`, not `venv/bin/pip`
+/tmp/<project>_venv/bin/python code/make_tradeoff_plot.py
 ```
 A green run that prints the plotted points (read from the CSV) and writes the PDF/PNG is the evidence the fix works — "removed the import and the syntax is clean" is NOT sufficient.
 

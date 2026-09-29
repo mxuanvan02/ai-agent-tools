@@ -9,18 +9,18 @@ build sạch + verify render. Quy trình đã chạy thật (deck 21 trang, buil
 - Template thường chỉ là 1 file `.tex`; **logo/asset (univ-logo.pdf, Khoa CNTT.pdf...) hay
   THIẾU trong zip**. Kiểm `find <dir> -iname '*logo*' -o -iname '*.pdf' -o -iname '*.png'`.
 - Đọc full template để học: theme (`\useinnertheme`), palette màu thương hiệu
-  (`\definecolor{HOEITBlue}...`), `headline`/`frametitle` tùy chỉnh, recurring TOC
+  (`\definecolor{<inst>Blue}...`), `headline`/`frametitle` tùy chỉnh, recurring TOC
   (`\AtBeginSection`), cấu trúc bìa + slide cảm ơn. GIỮ NGUYÊN các thứ này.
 
 ## 1. Logo-fallback pattern (build không vỡ khi thiếu asset)
 Đừng để `\includegraphics{univ-logo}` làm build chết khi thiếu file. Định nghĩa macro
 fallback hiện text khi không có file:
 ```latex
-\newcommand{\logoDHH}[1]{\IfFileExists{univ-logo.pdf}{\includegraphics[height=#1,keepaspectratio]{univ-logo}}%
+\newcommand{\logo<inst>}[1]{\IfFileExists{univ-logo.pdf}{\includegraphics[height=#1,keepaspectratio]{univ-logo}}%
   {\IfFileExists{univ-logo.png}{\includegraphics[height=#1,keepaspectratio]{univ-logo}}%
-  {\textcolor{HOEITBlue}{\textbf{\small ĐH HUẾ}}}}}
+  {\textcolor{<inst>Blue}{\textbf{\small <univ-name>}}}}}
 ```
-Dùng `\logoDHH{0.6cm}` ở headline + bìa + slide cảm ơn. Báo người dùng: "khi có file
+Dùng `\logo<inst>{0.6cm}` ở headline + bìa + slide cảm ơn. Báo người dùng: "khi có file
 logo, copy vào thư mục deck rồi build lại, logo tự hiện, không cần sửa code."
 
 ## 2. Thứ tự slide cho một BÁO CÁO MANUSCRIPT (khác đề cương/proposal)

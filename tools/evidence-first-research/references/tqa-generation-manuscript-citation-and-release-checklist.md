@@ -1,4 +1,4 @@
-# ECM–TQAG Manuscript, Citation, and Release Checklist
+# TQA-generation Manuscript, Citation, and Release Checklist
 
 ## Manuscript structure and scientific meaning
 - Contributions state **scientific methodological contributions**, not implementation tasks or evaluation activities. Map each contribution 1–1, in order, to a Methodology subsection that realizes it. Experimental sections only evaluate observable consequences of those methods.

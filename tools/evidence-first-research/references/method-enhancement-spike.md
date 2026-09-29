@@ -193,7 +193,7 @@ Người dùng asked to raise scientific depth on bài bandwidth-scheduling by r
 miss-rate constraint of bài bandwidth-scheduling-PD with a **CVaR (tail-risk)** constraint
 (Rockafellar–Uryasev), constant `1/(1-α)=10` derived not tuned, on a clone
 (`bài bandwidth-scheduling_branchB_clone`, code+data only, never the manuscript). Derivation written to
-`docs/rabs_cvar_derivation.md` BEFORE coding (người dùng's DERIVE-then-verify). Verdict:
+`docs/<project>_cvar_derivation.md` BEFORE coding (người dùng's DERIVE-then-verify). Verdict:
 **fold** — the tail constraint did not beat the mean constraint, confirmed by 640
 paired runs + Wilcoxon. Two new, reusable techniques emerged:
 

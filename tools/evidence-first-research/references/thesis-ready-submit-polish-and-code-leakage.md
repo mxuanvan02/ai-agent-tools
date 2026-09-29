@@ -79,7 +79,7 @@ Phân 3 NHÓM, xử lý KHÁC nhau (không cào bằng):
 - **Dual-PDF trap:** zip thường có 2 bản `main.pdf` (`build/main.pdf` mới +
   `main.pdf` root STALE từ `cp` cũ). Kiểm `md5sum` cả hai; nếu lệch, copy bản
   build mới đè root cho khớp 1 bản. `grep -c main.pdf` đếm cả file PDF khác tên
-  (vd `fig_publication/CAW_VoU_..._main.pdf` hợp lệ) — đọc đường dẫn đầy đủ, đừng
+  (vd `fig_publication/<project>_<variant>_..._main.pdf` hợp lệ) — đọc đường dẫn đầy đủ, đừng
   hoảng vì số đếm.
 - Zip exclude: `.venv*`, `__pycache__`, `_backups*`, `*.aux/.log/.fls/.fdb*/.bbl/
   .blg/.out/.toc/.lof/.lot`. Verify `unzip -l | grep -iE 'venv|pycache|backup'` = 0.

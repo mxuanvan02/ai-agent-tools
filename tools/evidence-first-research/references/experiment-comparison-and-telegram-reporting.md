@@ -3,7 +3,7 @@
 ## Give every table one role
 Before retaining or writing an experimental table, state its role in one sentence.
 
-- **Main comparative table:** compares ECM–TQAG against named, reproducible baselines under the same inputs, output format, evaluator/rubric, and aggregation rule. Its metrics must be defined for every compared method.
+- **Main comparative table:** compares TQA-generation against named, reproducible baselines under the same inputs, output format, evaluator/rubric, and aggregation rule. Its metrics must be defined for every compared method.
 - **Protocol audit table:** verifies that a protocol emitted required fields or provenance records. It may report protocol-specific fields, but it cannot rank methods whose output contracts differ. Place it in an audit subsection or appendix, not as the main evidence that one method is better.
 - **Ablation table:** varies one component while holding the rest fixed. Do not call prompt variants or different output schemas a component ablation unless the controlled design supports that interpretation.
 

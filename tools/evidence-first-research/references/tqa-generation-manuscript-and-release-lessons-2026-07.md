@@ -21,7 +21,7 @@ Use affirmative, evidence-led prose. State what the method, corpus, design, and 
 ## Back matter, final values
 Use real finalized text, never leave placeholders in a submission PDF:
 - Acknowledgment: thank the Institute of Open Education and Information Technology, the university, for research data and laboratory environment.
-- Funding: project code DHH2026.
+- Funding: project code <funder>2026.
 - Conflict of Interest: authors declare no competing interests.
 - Generative-AI disclosure: AI assisted grammar/language editing, software development, and illustrative-figure preparation; identify the experimental model separately; authors retain responsibility for final content.
 

@@ -1,9 +1,9 @@
 # Reviewer-driven revision loop (critique → new experiments → manuscript)
 
-Khi người dùng đưa một bản review (Claude-CLI feedback hoặc reviewer thật) và bảo "giải quyết toàn bộ", đây là quy trình đã chạy thành công cho bài bandwidth-scheduling_STAIS.
+Khi người dùng đưa một bản review (Claude-CLI feedback hoặc reviewer thật) và bảo "giải quyết toàn bộ", đây là quy trình đã chạy thành công cho bài bandwidth-scheduling_<conf>.
 
 ## 0. Định vị code + data TRƯỚC khi sửa chữ
-- Manuscript dir (`*_submission_ready`) thường CHỈ có `.tex` + `outputs/` đã render — KHÔNG có code sinh số. Code thật hay nằm trên GitHub (`gh api repos/<user>/<repo>/git/trees/HEAD?recursive=1`). Clone về workspace riêng (`rabs_repro_<ts>/`), KHÔNG sửa trong manuscript dir.
+- Manuscript dir (`*_submission_ready`) thường CHỈ có `.tex` + `outputs/` đã render — KHÔNG có code sinh số. Code thật hay nằm trên GitHub (`gh api repos/<user>/<repo>/git/trees/HEAD?recursive=1`). Clone về workspace riêng (`<project>_repro_<ts>/`), KHÔNG sửa trong manuscript dir.
 - Đọc script thực nghiệm chính để biết: N/tham số hardcode ở đâu, dataset đến từ đâu, bảng manuscript map sang script nào (tên file thường KHÁC nhau — manuscript có bảng format thủ công tiếng Anh, script sinh bảng tiếng Việt đầy đủ policy → cần 1 generator riêng sinh đúng format manuscript từ CSV).
 - Backup manuscript vào `_backups/<ts>/` trước khi đụng.
 

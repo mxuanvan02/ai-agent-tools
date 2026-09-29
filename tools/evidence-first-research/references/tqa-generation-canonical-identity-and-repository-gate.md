@@ -1,7 +1,7 @@
-# ECM–TQAG identity, manuscript, and public-repository gate
+# TQA-generation identity, manuscript, and public-repository gate
 
 ## Canonical study identity
-- Research problem: construct traceable multimodal TQA items from textbook evidence using the ECM–TQAG protocol.
+- Research problem: construct traceable multimodal TQA items from textbook evidence using the TQA-generation protocol.
 - Experimental corpus: a pre-existing multimodal input corpus, not this paper's dataset-release contribution.
 - Describe the source succinctly as Vietnamese law textbooks used in legal training at the Institute of Open Education and Information Technology, the university.
 - Current experimental input statement: 8 multimodal textbook chunks from 5 textbooks, associated with 10 source figures/tables; each has T (text), TL (text + document structure), and TLV (text + structure + original image pixels), for 24 paired input packages.
@@ -10,7 +10,7 @@
 ## Identity gate before any manuscript action
 1. Locate and inspect the actual manuscript supplied or explicitly designated by the user; do not infer canonical status from a similarly named local paper tree.
 2. State the paper identity in one sentence and wait only if it remains ambiguous. Do not rewrite the contribution framing from a prior project.
-3. Keep ECM–TQAG central as the evidence-first construction protocol: motif/document-graph instance -> restricted derivation -> answer atoms and provenance trace -> question realization and checks.
+3. Keep TQA-generation central as the evidence-first construction protocol: motif/document-graph instance -> restricted derivation -> answer atoms and provenance trace -> question realization and checks.
 4. Treat the multimodal corpus as experimental input. Do not import dataset-release counts, historical pipelines, or claims from another paper unless the user explicitly asks and artifacts substantiate them.
 5. Before sending a PDF, verify its source path/title and that its introduction, method, experiments, and conclusion all match this identity.
 

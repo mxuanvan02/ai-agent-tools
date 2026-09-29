@@ -100,7 +100,7 @@ Quy trình định vị (nhanh, tránh `find` quét cả `/mnt/external-data` �
 1. `gh repo view <user>/<repo> --json name,pushedAt` xác nhận repo tồn tại.
 2. `gh api repos/<user>/<repo>/git/trees/HEAD?recursive=1 --jq '.tree[].path'` để xem
    cây file remote mà không cần clone — thấy ngay `code/*.py`, `data/source/*.csv`.
-3. Clone vào workspace riêng có timestamp (`rabs_repro_<ts>`), KHÔNG đụng thư mục bản thảo.
+3. Clone vào workspace riêng có timestamp (`<project>_repro_<ts>`), KHÔNG đụng thư mục bản thảo.
 4. Đọc script chính trước khi chạy: xác định tham số bị hard-code (vd `N`, `range(3)`,
    `/3`, seed list) và nguồn dữ liệu thật (bao nhiêu sensor/loop/window thực sự có).
 
@@ -139,7 +139,7 @@ Reviewer chê "N=3 quá nhỏ, không generalize" là cờ đỏ hay gặp. Các
 
 Bảng `.tex` trong bản thảo thường **KHÔNG** phải file script sinh ra trực tiếp:
 - Tên khác nhau: manuscript `sota_comparison.tex` / `wilcoxon.tex` ↔ script sinh
-  `table_rabs_summary.tex` / `table_rabs_wilcoxon.tex`.
+  `table_<project>_summary.tex` / `table_<project>_wilcoxon.tex`.
 - Định dạng khác: manuscript = tiếng Anh, tập con policy, thêm cột (vd `p vs PD`),
   `\resizebox`, `\best{}`; script = tiếng Việt, đầy đủ policy, thô.
 - Nghĩa là có **bước reformat thủ công** ở giữa → KHÔNG có cầu tự động.
@@ -155,11 +155,11 @@ Quy trình an toàn:
 ## Đổi 1 cơ chế → truy vết mọi script phụ thuộc (import vs re-copy)
 
 Khi đổi một hàm lõi (vd urgency score), phải phân loại script phụ:
-- **Import module chính** (`import run_rabs_adaptive_bandwidth as base`; gọi
+- **Import module chính** (`import run_<project>_adaptive_bandwidth as base`; gọi
   `base.choose_sensors`/`base.run_fixed`) → **tự thừa hưởng** thay đổi, KHÔNG cần sửa.
 - **Tự chép lại logic** (định nghĩa riêng `0.55*p`...) → PHẢI sửa đồng bộ tay.
 Cách quét nhanh: `grep -l '0.55\*.*p' code/*.py` (tìm bản sao công thức) và
-`grep -l 'import run_rabs' code/*.py` (tìm bản kế thừa). Sửa đúng 1 chỗ trong module lõi,
+`grep -l 'import run_<project>' code/*.py` (tìm bản kế thừa). Sửa đúng 1 chỗ trong module lõi,
 giữ nguyên nhánh baseline (max_aoi, voi_b2...) để không nhiễm chéo.
 
 ## Thiếu script/dữ liệu để regen 1 bảng = BLOCKER, không phải cớ để bịa

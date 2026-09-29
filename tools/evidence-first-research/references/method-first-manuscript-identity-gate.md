@@ -46,4 +46,4 @@ Before sending a PDF or calling it a manuscript draft, verify title, abstract, i
 
 ## Session lesson
 
-In the ECM–TQAG work, an inherited dataset-release manuscript was mistakenly revised as dataset-centered and described ECM–TQAG as an auxiliary computational study, despite the user requiring a method-first paper. The prevention is to freeze the identity brief and apply the architecture gate before any worker is dispatched or PDF is sent.
+In the TQA-generation work, an inherited dataset-release manuscript was mistakenly revised as dataset-centered and described TQA-generation as an auxiliary computational study, despite the user requiring a method-first paper. The prevention is to freeze the identity brief and apply the architecture gate before any worker is dispatched or PDF is sent.

@@ -14,7 +14,7 @@ Use when preparing a bài probe-transmit/IoT/sensor-network manuscript for Senso
 ## Required/expected back matter
 Include these sections before the appendix/references when submitting to MDPI/Sensors:
 - Author Contributions.
-- Funding. For người dùng projects, check whether a grant code exists before leaving `no external funding`; in this session bài probe-transmit used the university grant `DHH2025-19-07`.
+- Funding. For người dùng projects, check whether a grant code exists before leaving `no external funding`; in this session bài probe-transmit used the university grant `<funder>2025-19-07`.
 - Institutional Review Board Statement (or `Not applicable.`).
 - Informed Consent Statement (or `Not applicable.`).
 - Data Availability Statement. If raw datasets are public but not redistributed, say the raw datasets are available from their original providers; if processed data/code/scripts are on GitHub for reproducibility, say that explicitly instead of implying the repository is the sole data source.

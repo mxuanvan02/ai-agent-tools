@@ -61,6 +61,6 @@ KHÔNG push khi chưa có phép. Sau khi được phép push: chỉ stage file c
 
 - `**bold**` kiểu markdown lọt vào LaTeX → in ra literal dấu sao. Grep dọn sạch.
 - Email/tên tác giả: KHÔNG bịa. Lấy từ các bài cũ của người dùng (bài probe-transmit/bài bandwidth-scheduling/ICCSIT).
-  Funding grant univ-logo lấy nguyên văn từ `\thanks{...DHHxxxx-xx-xx}` của bài trước.
+  Funding grant univ-logo lấy nguyên văn từ `\thanks{...<funder>xxxx-xx-xx}` của bài trước.
 - Co-first author: dùng dấu † + "These authors contributed equally to this work."
 - grep toàn `/mnt/external-data` (HDD) rất chậm → timeout; khoanh vùng thư mục cụ thể.

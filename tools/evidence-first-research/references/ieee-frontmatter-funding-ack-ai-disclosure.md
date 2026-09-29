@@ -24,8 +24,8 @@ rồi affiliations.
 TÙY CHỌN, dùng để cảm ơn người/đơn vị hỗ trợ KHÔNG đủ tiêu chí đồng tác giả (vd cấp
 môi trường làm việc, lab, reviewer ẩn danh) — KHÔNG nhắc lại funding ở đây.
 
-Pitfall trích xuất: `pdftotext` bỏ dấu gạch nối → grep "DHH2025-19-07" có thể ra
-"DHH202519-07"; kiểm bằng grep token rời ("supported by", "under Grant") thay vì cả
+Pitfall trích xuất: `pdftotext` bỏ dấu gạch nối → grep "<funder>2025-19-07" có thể ra
+"<funder>202519-07"; kiểm bằng grep token rời ("supported by", "under Grant") thay vì cả
 chuỗi, và tin bản render PDF chứ không tin pdftotext cho dấu câu.
 
 ## AI disclosure — CÓ, IEEE bắt buộc khai khi dùng AI sinh nội dung
@@ -116,7 +116,7 @@ Loại bài chọn lúc nộp để tòa soạn định tuyến bình duyệt. V
 - Special Issue Article (chỉ khi nộp vào CFP đặc biệt đang mở), Review/Survey,
   Comments/Corrections.
 
-→ Hỏi người dùng bản hội nghị (vd TMDHH) đã/sẽ công bố chưa: nếu rồi → "Expanded
+→ Hỏi người dùng bản hội nghị (vd TM<funder>) đã/sẽ công bố chưa: nếu rồi → "Expanded
 Conference Paper" + dòng khai DOI; nếu chưa → "Regular Article".
 
 ## ScholarOne submission-portal mechanics (IoT-J) — ngoài file LaTeX
@@ -170,7 +170,7 @@ cắt — chỉ kiểm tính ĐẦY ĐỦ & ĐÚNG.
 Quy tắc: kiểm theo MẢNH, không theo câu. Tách câu disclosure/affiliation thành 4–5
 cụm từ khóa, grep từng cụm `grep -qF "<fragment>"` trên text đã dehyphen
 (`tr '\n' ' ' | tr -s ' ' | sed 's/- //g'`); tất cả cụm có mặt = render đủ. Đừng kết
-luận "thiếu chữ" chỉ vì grep cả câu fail. Dấu gạch nối số (DHH2025-19-07) cũng bị tách
+luận "thiếu chữ" chỉ vì grep cả câu fail. Dấu gạch nối số (<funder>2025-19-07) cũng bị tách
 khi extract — tin bản render, không tin pdftotext cho dấu câu.
 
 ## Author Biography — chưa cần lúc submit lần đầu

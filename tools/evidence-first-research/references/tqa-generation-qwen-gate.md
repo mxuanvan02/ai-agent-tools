@@ -1,4 +1,4 @@
-# ECM–TQAG: Qwen TQA Generation and Release Gate
+# Qwen TQA Generation and Release Gate
 
 Use for any multimodal Qwen TQA generation run, audit, or publication decision.
 

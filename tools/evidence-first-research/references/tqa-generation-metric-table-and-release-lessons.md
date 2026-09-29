@@ -1,4 +1,4 @@
-# ECM–TQAG manuscript, metric-table, and release lessons
+# TQA-generation manuscript, metric-table, and release lessons
 
 Use this reference when revising an evidence-first TQA manuscript, interpreting a computational table, or preparing the associated public release.
 
