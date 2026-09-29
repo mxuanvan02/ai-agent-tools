@@ -254,13 +254,54 @@ compress by moving cases to an appendix), never as a formatting task to be absor
 Do the frame rebuild as a throwaway probe writing outside the project tree; the deliverable
 keeps the author's reading frame until the author chooses otherwise.
 
-When published samples cannot be downloaded (a galley behind a session cookie), say so
-plainly and mark the cap as unverified against practice. Do not reuse a page count measured
-earlier from different articles as if it settled the question.
+### A blocked galley is not a dead end: published length is in the page range
 
-## Two ways a verification probe reports a defect that is not in the file
+Publisher galleys often sit behind a session cookie that automated fetching cannot
+reproduce, so the article PDF is unreachable. Published LENGTH still is: every Crossref
+record carries the printed page range, and the span of that range is the article's length in
+the venue's own frame. Query `api.crossref.org/prefixes/<DOI-prefix>/works` with a cursor,
+group by `container-title`, and measure `last - first + 1` per record. This settles whether a
+written page cap binds without downloading a single PDF.
 
-Both were measured on the same delivery run, and both push toward "fixing" a correct file.
+Measured on one venue family, the written cap of 12 pages was contradicted by its own output
+across all three journals examined: target journal median 13 pages, max 22, with 58% of 67
+measured articles over the cap (72% of the 18 published since 2024); a sibling journal
+median 16, max 32, 80% over; a second sibling median 21, max 39, 96% over. A cap that the
+venue's own output violates in the majority of cases is stale wording, not a submission
+constraint -- but a manuscript longer than the LONGEST published article is still over,
+regardless of what the written rule says. Report both facts; they answer different questions.
+
+State the measurement's own limit: a published page range is the length AFTER editorial
+layout and possible cutting, so it measures output practice, not the acceptance threshold.
+
+### A 404 from Crossref means "no such journal", not "no data"
+
+Guessing an ISSN produces a 404, which reads like an empty result and invites the wrong
+conclusion that the venue publishes nothing. Recover the real ISSN instead of guessing it:
+the published article DOIs carry the prefix and a journal mnemonic, in the shape
+`<prefix>/<journal-mnemonic>.v<volume>i<issue>.<article-id>`, and querying by prefix
+returns every container-title under it together with its ISSNs. Do not paste a real DOI
+from the venue in hand as the example: the mnemonic identifies the journal, which makes
+the lesson read as that venue's convention and ties a public repository to one submission
+target. The shape carries the whole lesson. One journal appeared under TWO container-title spellings,
+one of which had no page ranges at all, so selecting by title-match picked the empty group;
+query by ISSN and merge the spellings. Also expect partial coverage -- 67 of 149 records
+carried a parseable page range -- and report the denominator with the statistic.
+
+## Four ways a verification check reports a defect that is not in the file
+
+All four were measured on the same delivery run, and all four push toward "fixing" a
+correct file. The common shape: the probe encodes an assumption about the artifact's
+encoding rather than about its content. Write probes against a dump of the rendered text,
+never against the source you just edited.
+
+**A markdown emphasis marker does not survive rendering.** A probe written as
+`8 / **13** / **22**` -- copied from the source table cell -- can never match, because
+pandoc turns `**13**` into a bold run and the literal asterisks are gone. Measured on the
+rendered PDF: the entire document contained **zero** occurrences of `**`, while the figure
+`8 / 13 / 22` was present. Probes must use the rendered form. The same applies to any
+markup the pipeline consumes: `_em_`, `` `code` `` backticks, `[link](url)` brackets,
+heading hashes, table pipes.
 
 **PDF text extraction drops spaces after certain diacritic-bearing glyphs.** Five long
 headings failed an exact-substring probe while every individual word of each heading was
@@ -268,9 +309,13 @@ found. The raw extraction showed the cause: `THỂ LỆ THẬT` extracts as `TH�
 CẤU TRÚC` as `VẤN ĐỀCẤU TRÚC`. A visual read of the rendered page confirmed the headings are
 correct on screen. The font renders fine; only the text layer loses the space. Fix the probe,
 not the document: match on whitespace-squashed text as a fallback, keep the exact match as the
-primary signal, and print which mode matched so a squash-only hit stays visible. A probe that
-fails on a correct file trains you to ignore the probe, which is how a real failure later gets
-waved through.
+primary signal, and print which mode matched so a squash-only hit stays visible.
+
+**A probe left pointing at a superseded phrase fails on the update.** A delivery checklist
+that asserted the presence of a caveat paragraph ("not yet verified") kept failing after the
+work it described was completed and the paragraph replaced by the measurement. When a report
+records state, its probes must be updated in the same edit that changes the state; otherwise
+the checklist measures the previous draft and trains you to ignore red.
 
 **A vision read of a render can misread diacritics.** The same visual pass that correctly
 cleared the headings also reported a repeated word, `vé vé`, where the source markdown reads
@@ -279,3 +324,8 @@ render must be confirmed against the source text before an edit is made, otherwi
 reviewer's own misreading becomes a defect injected into a correct file. This is the same
 discipline as §15 of the caption-fix reference: a vision report is a claim, so measure the
 file before believing it.
+
+A check that fails on a correct file is worse than no check at all, because the next real
+failure gets waved through as another false alarm. When a probe goes red, establish first
+which of the two is broken -- the artifact or the probe -- and say so explicitly before
+touching either.
