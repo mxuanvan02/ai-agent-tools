@@ -387,6 +387,136 @@ class TestDomainPatternsAreCaught(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
+    """Two properties that pull in opposite directions, both measured on real content.
+
+    A token whose canonical form carries a hyphen also ships with an en dash, an
+    underscore or no separator at all -- 15 of 69 identifier occurrences in one tool
+    used U+2013 and were invisible to every hyphen-built pattern. So separator
+    flexibility is required.
+
+    But it cannot be applied uniformly. One project's codename and its APPROVED
+    descriptor differ only by case and separator, so a separator-flexible pattern for
+    that token flagged 37 occurrences of legitimate prose. The other three projects
+    have codenames and descriptors that are entirely different strings, so they are
+    safe. This suite pins both halves: the variants must be caught, and the
+    descriptors must not be.
+    """
+
+    # Concatenated for the reason given in the module docstring.
+    CODENAME_A = "CAW" + "-" + "VoU"
+    CODENAME_B = "RA" + "BS"
+    CODENAME_C_GLUED = "Probe" + "Transmit"
+    CODENAME_C_DESCRIPTOR = "probe" + "-transmit"
+    CODENAME_D = "ECM" + "-" + "TQAG"
+    CODENAME_E = "ST" + "AIS"
+    ABBREV_FUNDER = "DH" + "H"
+    ABBREV_INSTITUTE = "HO" + "EIT"
+
+    EN_DASH = "\u2013"
+    EM_DASH = "\u2014"
+
+    def test_every_separator_variant_of_a_hyphenated_codename_is_caught(self) -> None:
+        left, right = self.CODENAME_D.split("-")
+        for sep_name, sep in [("hyphen", "-"), ("en dash", self.EN_DASH),
+                              ("em dash", self.EM_DASH), ("underscore", "_"),
+                              ("space", " "), ("none", "")]:
+            with self.subTest(separator=sep_name):
+                tmp = build_tool({"notes.md": f"the {left}{sep}{right} protocol\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, f"{sep_name} variant not caught: {out}")
+                    self.assertIn("codename-4", out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_underscore_joined_path_forms_are_caught(self) -> None:
+        """`\\b` does not bound an underscore, which is why these used to pass."""
+        cases = {
+            "codename-2": [f"{self.CODENAME_B}_summary.csv",
+                           f"run_{self.CODENAME_B}_adaptive_bandwidth.py",
+                           f"/tmp/{self.CODENAME_B.lower()}_venv"],
+            "codename-5": [f"bài bandwidth-scheduling_{self.CODENAME_E}_clean/"],
+            "codename-1": [f"{self.CODENAME_A.replace('-', '_')}_main.pdf"],
+        }
+        for label, texts in cases.items():
+            for t in texts:
+                with self.subTest(label=label, text=t):
+                    tmp = build_tool({"notes.md": f"path {t}\n"})
+                    try:
+                        rc, out = run_gate(Path(tmp))
+                        self.assertEqual(rc, 1, out)
+                        self.assertIn(label, out)
+                    finally:
+                        shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_lowercase_and_compound_forms_of_an_abbreviation_are_caught(self) -> None:
+        """A boundary assertion cannot see these, which is why they are substrings."""
+        for text in (f"project code {self.ABBREV_FUNDER}2026",
+                     f"TM{self.ABBREV_FUNDER}",
+                     f"\\logo{self.ABBREV_FUNDER}" + "{0.6cm}",
+                     f"\\definecolor{{{self.ABBREV_INSTITUTE}Blue}}"):
+            with self.subTest(text=text):
+                tmp = build_tool({"notes.md": text + "\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_ordinary_words_containing_a_codename_are_not_caught(self) -> None:
+        """A plain substring pattern would flag all of these forever."""
+        clean = ["He grabs the cable", "the crabs were boiled", "drabs of paint",
+                 "arabs and arabic text", "The subrabs module",
+                 "the dhh gene in zebrafish", "cdhh protocol variant"]
+        tmp = build_tool({f"n{i}.md": s + "\n" for i, s in enumerate(clean)})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_the_colliding_descriptor_is_not_caught_but_its_codename_is(self) -> None:
+        """The one token where descriptor and codename differ only by case+separator.
+
+        Strengthening codename-3 to be separator-flexible makes this test fail on the
+        descriptor line, which is the intended signal: the fix is to rename the
+        project's descriptor, not to accept 37 false positives in approved prose.
+        """
+        # the approved descriptor, used 33 times in that tool, must stay legal
+        tmp = build_tool({"notes.md": f"dùng lại venv của bài {self.CODENAME_C_DESCRIPTOR}\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        # the glued codename must still be caught
+        tmp = build_tool({"notes.md": f"pipeline {self.CODENAME_C_GLUED}\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("codename-3", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_the_three_non_colliding_descriptors_are_not_caught(self) -> None:
+        """These projects' descriptors are different strings from their codenames,
+        so separator flexibility is safe for them and must not regress."""
+        clean = ["bài bandwidth-scheduling", "bài AoI-greenhouse", "bài TQA-generation",
+                 "<project>_summary.csv", "https://<conf>.vn",
+                 "\\logo<inst>{0.6cm}", "<funder>2025-19-07", "<inst>Blue"]
+        tmp = build_tool({f"d{i}.md": s + "\n" for i, s in enumerate(clean)})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 def load_gate_module():
     """Import the gate in-process to inspect FORBIDDEN itself, not just its verdict."""
     spec = importlib.util.spec_from_file_location("phc_under_test", GATE)
