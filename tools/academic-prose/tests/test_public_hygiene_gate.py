@@ -596,5 +596,97 @@ class TestEveryPatternIsAlive(unittest.TestCase):
                 )
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestInternalPointersResolve(unittest.TestCase):
+    """Every path a SKILL.md uses to point at its own files must exist.
+
+    WHY THIS LIVES HERE RATHER THAN IN A GATE-SIDE CHECK: the gate reads file CONTENT
+    for identity leaks; a broken pointer is a structural defect, a different concern.
+    And it must run for tools CI does not otherwise test -- measured, CI runs
+    ``unittest discover`` only for this tool and for ppt-master-officecli, while five
+    tools get a gate run and a py_compile and nothing else. This suite is the only
+    permanent check those five get, so a cross-tool assertion placed here is enforced
+    and the same assertion placed in an untested tool would not be.
+
+    WHY THE DISTINCTION BETWEEN POINTER AND QUOTED PATH MATTERS: a SKILL.md names its
+    own references (``references/x.md``) AND quotes paths from the user's project as
+    illustration (``Libs/settings.tex``, a glob like ``sections/*.tex``,
+    ``docs/negative_result_*.md``). The second kind was never expected to resolve here.
+    A first version of this check resolved every path-like token against the tool
+    directory and reported six missing paths -- all six were quotes or globs, i.e.
+    false positives. The mechanical separator is the first path segment: a pointer to a
+    file this skill ships necessarily starts with a directory the skill has.
+
+    The trigger was real, not hypothetical: 17 reference files were renamed by ``git
+    mv`` in evidence-first-research, and five cross-references in its SKILL.md were
+    updated in the same commit. A stale pointer there fails silently at read time, and
+    nothing in that tool's CI path would have noticed.
+    """
+
+    MD_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+    CODE_PATH = re.compile(r"`([^`\n]+)`")
+    SUFFIXES = (".md", ".py", ".json", ".yaml", ".yml", ".csv", ".txt", ".sh",
+                ".tex", ".docx", ".pdf", ".toml", ".ipynb")
+    # '#' is an in-page anchor, never a file. '*' is a glob: no single entry can
+    # satisfy it, so treating it as missing is a defect in the checker.
+    NOT_A_PATH = ("http://", "https://", "mailto:", "git@", "<", ">", "$(", "${",
+                  "|", "&&", " ", "->", "..", "#", "*")
+
+    def _is_internal(self, tool: Path, token: str) -> bool:
+        head = token.split("/", 1)[0]
+        return bool(head) and (tool / head).exists()
+
+    def _internal_pointers(self, tool: Path, text: str) -> set[str]:
+        tokens = [m.group(1) for m in self.MD_LINK.finditer(text)]
+        tokens += [m.group(1).strip() for m in self.CODE_PATH.finditer(text)]
+        out = set()
+        for tok in tokens:
+            if tok.startswith(("/", "~")):
+                continue
+            if any(s in tok for s in self.NOT_A_PATH):
+                continue
+            if "/" not in tok or not tok.endswith(self.SUFFIXES):
+                continue
+            if self._is_internal(tool, tok):
+                out.add(tok)
+        return out
+
+    def test_every_internal_pointer_in_every_skill_resolves(self) -> None:
+        skills = sorted(TOOLS_DIR.glob("*/SKILL.md"))
+        self.assertGreaterEqual(len(skills), 2, "expected several tools to check")
+        checked = 0
+        for sk in skills:
+            tool = sk.parent
+            text = sk.read_text(encoding="utf-8")
+            pointers = self._internal_pointers(tool, text)
+            checked += len(pointers)
+            missing = sorted(t for t in pointers if not (tool / t).exists())
+            with self.subTest(tool=tool.name):
+                self.assertEqual(
+                    missing, [],
+                    f"{tool.name}/SKILL.md points at files that do not exist; a stale "
+                    "pointer fails silently at read time and CI does not otherwise "
+                    "check this tool",
+                )
+        self.assertGreater(checked, 100,
+                           f"only {checked} pointers examined -- the extractor is not "
+                           "finding the references, so this test would pass vacuously")
+
+    def test_the_extractor_would_notice_a_broken_pointer(self) -> None:
+        """Prove the check above is not vacuous: break one pointer and see it reported."""
+        sk = sorted(TOOLS_DIR.glob("*/SKILL.md"))[0]
+        tool = sk.parent
+        pointers = sorted(self._internal_pointers(tool, sk.read_text(encoding="utf-8")))
+        self.assertTrue(pointers, f"no pointers found in {tool.name}/SKILL.md to mutate")
+        victim = pointers[0]
+        broken = victim.replace(".md", "-DOES-NOT-EXIST.md")
+        text = sk.read_text(encoding="utf-8").replace(victim, broken, 1)
+        found = self._internal_pointers(tool, text)
+        self.assertIn(broken, found,
+                      "the extractor did not even see the mutated pointer, so the "
+                      "resolve test above could not have caught it")
+        self.assertFalse((tool / broken).exists(), "fixture assumption violated")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
