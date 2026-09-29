@@ -209,3 +209,73 @@ Corollary for reporting: when two counters disagree, resolve the discrepancy bef
 publishing a verdict. The manuscript-side count (250) and the artifact-side count (252) were
 both "correct" by their own definitions; only one matched the venue's definition. Report the
 number that matches the rule being applied, and say which rule it is.
+
+## Read the venue's written rules before acting on an inferred house style
+
+A house style measured from two published articles produced two recommendations: compress the
+abstract to 150 words and cut the keywords to three. The venue's written Author Guidelines,
+read directly from the submissions page, said something different -- abstracts up to 250
+words, and **three to five** keyword phrases that **must appear in the abstract**. Both
+recommendations were therefore void, and acting on the first would have deleted content for
+no requirement while acting on the second would have **violated the written rule**: the
+higher-frequency replacement phrase did not occur in the abstract, so the keyword line would
+have failed the presence requirement.
+
+Three rules follow, in the order that saves the most work:
+
+1. **Fetch the written guideline before measuring published samples.** A sample of two is a
+   hypothesis about the venue, not its rule. The guideline is usually one page and settles
+   word caps, keyword counts, reference style, page frame and front-matter order at once.
+2. **A written rule and published practice can disagree; do not restructure on the written
+   rule alone.** Guidelines for one venue family place the English front matter at the END of
+   the paper while its own published articles carry a bilingual front matter at the start.
+   Report the divergence and ask the editor; moving a whole block is not a reversible edit.
+3. **Measured frequency is evidence for a decision, never a licence to make it.** Choosing
+   keywords by body frequency is sound method, but the swap belongs to the author, and the
+   venue's presence-in-abstract rule outranks frequency anyway.
+
+If a guideline page resists automated fetching (403 from the extraction backend), open it in a
+real browser session rather than falling back to inference -- that is what produced the
+numbers above.
+
+## Measure the page budget in the venue's frame, not in the reading frame
+
+A page-count comparison across different frames is not a measurement. The manuscript built
+for the author's reading frame (A4, 13 pt, 1.5 line spacing, 2.5 cm margins) ran 37 pages
+against a written cap of 12, but that gap mixes content with layout. Rebuild the SAME content
+in the venue's frame -- page size, font family, point size, line spacing and all four margins
+taken from the guideline -- then count pages of the rendered output. Measured this way the
+same manuscript ran 29 pages against the 12-page cap, i.e. 2.4x, with 616 words per page, so
+a compliant article holds roughly 7.400 words against the 17.875 present.
+
+Report that as a **scope decision for the author**, with options ranked by how much of the
+contribution they preserve (ask whether the cap applies to review articles; split the paper;
+compress by moving cases to an appendix), never as a formatting task to be absorbed silently.
+Do the frame rebuild as a throwaway probe writing outside the project tree; the deliverable
+keeps the author's reading frame until the author chooses otherwise.
+
+When published samples cannot be downloaded (a galley behind a session cookie), say so
+plainly and mark the cap as unverified against practice. Do not reuse a page count measured
+earlier from different articles as if it settled the question.
+
+## Two ways a verification probe reports a defect that is not in the file
+
+Both were measured on the same delivery run, and both push toward "fixing" a correct file.
+
+**PDF text extraction drops spaces after certain diacritic-bearing glyphs.** Five long
+headings failed an exact-substring probe while every individual word of each heading was
+found. The raw extraction showed the cause: `THỂ LỆ THẬT` extracts as `THỂLỆTHẬT`, `VẤN ĐỀ
+CẤU TRÚC` as `VẤN ĐỀCẤU TRÚC`. A visual read of the rendered page confirmed the headings are
+correct on screen. The font renders fine; only the text layer loses the space. Fix the probe,
+not the document: match on whitespace-squashed text as a fallback, keep the exact match as the
+primary signal, and print which mode matched so a squash-only hit stays visible. A probe that
+fails on a correct file trains you to ignore the probe, which is how a real failure later gets
+waved through.
+
+**A vision read of a render can misread diacritics.** The same visual pass that correctly
+cleared the headings also reported a repeated word, `vé vé`, where the source markdown reads
+`vế về` -- zero occurrences of the reported form. Any finding that comes from looking at a
+render must be confirmed against the source text before an edit is made, otherwise the
+reviewer's own misreading becomes a defect injected into a correct file. This is the same
+discipline as §15 of the caption-fix reference: a vision report is a claim, so measure the
+file before believing it.
