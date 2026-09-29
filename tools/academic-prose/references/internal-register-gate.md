@@ -213,7 +213,7 @@ the fixtures. A detector tuned only on its own examples measures nothing.
    package options tripped the artifact patterns. Scan only between
    `\begin{document}` and `\end{document}` when the marker is present.
 3. **A repository filename is not a machine-local path.** `scripts/foo.py` in a
-   reproducibility statement is a legitimate public identifier; `/Users/van/…`
+   reproducibility statement is a legitimate public identifier; `/Users/alice/…`
    never is. Splitting these into two classes moved one manuscript from a false
    `block` to a correct revision-level finding, and left the genuine blocker (a
    bare commit hash in body prose) intact.

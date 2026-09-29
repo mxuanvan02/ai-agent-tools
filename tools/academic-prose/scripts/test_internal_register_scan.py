@@ -190,7 +190,7 @@ class TestFalsePositives(unittest.TestCase):
     def test_local_path_is_not_licensed_by_public_repository_context(self) -> None:
         r = scan(
             "# Khả năng tái lập\n\n"
-            "Kho https://github.com/example/legalqa được sao chép từ /home/van/legalqa."
+            "Kho https://github.com/example/legalqa được sao chép từ /home/alice/legalqa."
         )
         self.assertIn("internal_artifact_reference", actionable_classes(r))
         self.assertEqual(r["exit_code"], 1)
@@ -279,7 +279,7 @@ class TestArtifactSeverity(unittest.TestCase):
     """Criterion 9: a machine-local path blocks; a repo script name is revision-level."""
 
     def test_local_path_is_blocking(self) -> None:
-        r = scan("Kết quả trong tệp /Users/van/ket_qua.csv cho thấy X.")
+        r = scan("Kết quả trong tệp /Users/alice/ket_qua.csv cho thấy X.")
         self.assertIn("internal_artifact_reference", r["blocking"])
         self.assertEqual(r["exit_code"], 1)
 
@@ -343,7 +343,7 @@ class TestProtectedZones(unittest.TestCase):
     def test_verbatim_block_is_exempt(self) -> None:
         text = (
             "\\documentclass{article}\n"
-            "\\begin{verbatim}\nTODO: chạy lại /Users/van/main.tex\n\\end{verbatim}\n"
+            "\\begin{verbatim}\nTODO: chạy lại /Users/alice/main.tex\n\\end{verbatim}\n"
             "Dữ liệu gồm 500 bản ghi.\n"
         )
         self.assertEqual(scan(text)["findings"], [])
