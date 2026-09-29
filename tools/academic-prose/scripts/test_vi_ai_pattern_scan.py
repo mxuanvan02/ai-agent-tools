@@ -390,5 +390,100 @@ class TestPatternInventoryIsPinned(unittest.TestCase):
                 with self.subTest(list=name, pattern=pattern):
                     re.compile(pattern)
 
+class TestExplanatoryColon(unittest.TestCase):
+    """Registry §2b: explanatory colons are a Vietnamese prose defect."""
+
+    def _hits(self, text: str, genre: str = "manuscript") -> list[dict]:
+        res = module.scan(text, genre)
+        return [f for f in res["findings"] if f["class"] == "explanatory_colon"]
+
+    def test_flags_explanatory_colon_in_vietnamese_prose(self) -> None:
+        text = (
+            "## 1. Đặt vấn đề\n\n"
+            "Cơ chế thứ nhất là hiệu ứng quy mô: máy rút tiền làm giảm số giao dịch "
+            "viên cần cho một chi nhánh nên các ngân hàng mở thêm chi nhánh.\n"
+        )
+        hits = self._hits(text)
+        self.assertEqual(len(hits), 1)
+        self.assertEqual(hits[0]["verdict"], "recast")
+
+    def test_flags_colon_in_heading(self) -> None:
+        text = "## 3. Khung phân tích: vòng đời bốn pha của một công cụ lao động\n\nNội dung tiếng Việt ở đây.\n"
+        self.assertEqual(len(self._hits(text)), 1)
+
+    def test_licenses_venue_labels(self) -> None:
+        text = (
+            "**Từ khóa:** trí tuệ nhân tạo, công cụ lao động\n\n"
+            "**Tóm tắt.** Bài viết khảo sát câu hỏi bằng tiếng Việt có dấu.\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_licenses_bibliography_section(self) -> None:
+        text = (
+            "## Tài liệu tham khảo\n\n"
+            "1. Allen R. C. Engels' pause. Explorations in Economic History, 46(4), "
+            "418–435, 2009. DOI: 10.1016/j.eeh.2009.04.004\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_licenses_url_and_doi_in_body(self) -> None:
+        text = (
+            "## 2. Phương pháp\n\n"
+            "Nguồn được truy xuất tại https://example.org/a và có mã DOI: 10.1000/x "
+            "trong bài viết tiếng Việt này.\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_licenses_ratio_and_time(self) -> None:
+        text = "## 2. Kết quả\n\nTỷ lệ pha loãng là 10:1 và ca đo lúc 08:30 trong báo cáo tiếng Việt.\n"
+        self.assertEqual(self._hits(text), [])
+
+    def test_licenses_english_only_sentence(self) -> None:
+        text = (
+            "## Abstract\n\n"
+            "A FRAMEWORK FOR ANALYSIS: COMPARISON AND IMPLICATIONS.\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_ignores_english_manuscript_entirely(self) -> None:
+        text = (
+            "## 1. Introduction\n\n"
+            "The mechanism is a scale effect: the machine reduced the number of tellers "
+            "required per branch, so banks opened more branches.\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_acknowledgement_genre_is_licensed(self) -> None:
+        text = (
+            "## Lời cảm ơn\n\n"
+            "Nhóm tác giả xin gửi lời cảm ơn đến đơn vị đã hỗ trợ: phòng thí nghiệm "
+            "và quỹ tài trợ đề tài tiếng Việt.\n"
+        )
+        self.assertEqual(self._hits(text, genre="acknowledgement"), [])
+
+    def test_counts_every_colon_not_one_per_sentence(self) -> None:
+        text = (
+            "## 1. Đặt vấn đề\n\n"
+            "Nghịch lý thứ nhất: máy thay người. Nghịch lý thứ hai: người mất kỹ năng.\n"
+        )
+        self.assertEqual(len(self._hits(text)), 2)
+
+    def test_licenses_author_block_labels(self) -> None:
+        """`Tác giả liên hệ:` / `Email tác giả chính:` are venue front-matter labels."""
+        # Fixture uses invented names and a generic affiliation: the point is the
+        # LABELS (`Tác giả liên hệ:`, `Email tác giả chính:`), not any real identity.
+        text = (
+            "Trần Thị A\u00b9, Lê Văn B\u00b2 \u00b3 *\n\n"
+            "\u00b9 Khoa Mẫu, Trường Đại học Mẫu\n"
+            "* Tác giả liên hệ: Lê Văn B. Email: a@b.edu.vn\n"
+            "Email tác giả chính: c@d.edu.vn\n"
+        )
+        self.assertEqual(self._hits(text), [])
+
+    def test_threshold_key_registered(self) -> None:
+        self.assertIn("explanatory_colon", module.THRESHOLDS)
+        self.assertEqual(module.THRESHOLDS["explanatory_colon"], 0)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)
