@@ -5,7 +5,7 @@ bản trong `/tmp` (giải nén từ zip) hay tin rằng nó là bản mới nh�
 một **bản canonical** trong `SAS/Research/<project>/` mới hơn. Sửa nhầm bản cũ = mất công +
 ghi đè công người dùng đã làm.
 
-## Gate (đã chặn được lỗi thật trên bài probe-transmit IoTJ)
+## Gate (đã chặn được lỗi thật trên bài IoT-scheduling IoTJ)
 
 1. **Tìm bản canonical** bằng search_files theo tên section đặc trưng (vd
    `04_evaluation.tex`), không chỉ tìm trong /tmp.

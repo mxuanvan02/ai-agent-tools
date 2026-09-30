@@ -28,7 +28,7 @@ DATA_PATH = ROOT / "data" / "raw" / "intel_berkeley" / "intel_panel_30motes.npy"
 RANGE, SAFE_MIN, SAFE_MAX = 14.0, 18.0, 32.0
 TRAIN_N, TEST_LO, TEST_HI, H = 2000, 2000, 4000, 4   # forecast horizon
 # AR1Model must expose .fit(train) -> obj with .alpha, .beta
-from probe_transmit.forecast import AR1Model  # noqa: E402
+from iot_scheduling.forecast import AR1Model  # noqa: E402
 # ----------------------------------------------------------------------------
 
 

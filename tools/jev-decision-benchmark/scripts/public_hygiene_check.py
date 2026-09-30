@@ -72,16 +72,26 @@ FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
     # UNPUBLISHED project/paper codenames (must stay genericized)
     ("codename-1", joined("CAW", "VoU")),
     ("codename-2", re.compile(LETTER_BOUNDARY.format(re.escape("RA" + "BS")), re.I)),
-    # codename-3 stays GLUED and CASE-SENSITIVE, and that is not an oversight.
-    # For every other project here the codename and the approved descriptor are
-    # different strings, so a separator-flexible pattern is safe. For this one they
-    # differ ONLY by case and separator: the codename is the CamelCase glued form and
-    # the descriptor the tool uses 33 times is the hyphenated lowercase form. Making
-    # this pattern separator-flexible therefore flagged 37 occurrences of approved
-    # prose, measured. No boundary or case rule can separate the two, so the pattern
-    # must match the glued form exactly. Do not "strengthen" it without first giving
-    # this project a descriptor that does not collide.
-    ("codename-3", re.compile("Probe" + "Transmit")),
+    # codename-3 WAS exempt from separator flexibility, and the reason it no longer is
+    # matters more than the pattern. Its approved descriptor used to be the same string
+    # as the codename modulo case and separator, so a separator-flexible pattern flagged
+    # 36 occurrences of legitimate prose -- measured. No boundary or case rule can
+    # separate two strings that differ only by case and separator, so the descriptor was
+    # renamed (to the wording the project's own reference file already used for it) and
+    # only then was this pattern strengthened. Order is the lesson: renaming a descriptor
+    # is a one-time cost, accepting false positives is permanent, and weakening a pattern
+    # to dodge them teaches the next person that the gate negotiates.
+    #
+    # It is the ONE joined token that needs a letter boundary, for the opposite reason
+    # from the others: `Probe` and `Transmit` are both common English words and this
+    # project's domain is IoT sensing, so a bare SEP-joined form (correct for
+    # codename-1/-4/-6, whose tokens are not English words) flagged "probe transmitter",
+    # "probe transmits", "probe transmitted", "probe transmitting" and "subprobe" -- 5
+    # false positives, measured. The boundary at the end rejects the inflected and
+    # compound forms; at the start it rejects "subprobe".
+    ("codename-3", re.compile(
+        LETTER_BOUNDARY.format(SEP.join([re.escape("Probe"), re.escape("Transmit")])),
+        re.I)),
     ("codename-4", joined("ECM", "TQAG")),
     ("codename-5", re.compile(LETTER_BOUNDARY.format(re.escape("ST" + "AIS")), re.I)),
     ("codename-6", joined("Mekong", "Trace")),

@@ -44,7 +44,7 @@ Người dùng may believe "IoTJ giới hạn 8 trang" — this is WRONG and cha
 - Follow with IoTJ fit, theory, evaluation, format/build, and prioritized revision roadmap.
 - End with submit readiness: submit now / major revision first / reject-risk, plus smallest next steps.
 
-## IoTJ revision pattern learned from bài probe-transmit
+## IoTJ revision pattern learned from bài IoT-scheduling
 
 - If the title/abstract says "provable fairness," verify the deployed algorithm is exactly the variant covered by the theorem; otherwise rename to a safer deployment-oriented title.
 - For probe-then-transmit papers, explicitly define metadata probing vs payload pull so reviewers do not read "probe" as channel/CSI probing.

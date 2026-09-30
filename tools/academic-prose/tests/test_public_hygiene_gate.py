@@ -396,19 +396,24 @@ class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
     used U+2013 and were invisible to every hyphen-built pattern. So separator
     flexibility is required.
 
-    But it cannot be applied uniformly. One project's codename and its APPROVED
-    descriptor differ only by case and separator, so a separator-flexible pattern for
-    that token flagged 37 occurrences of legitimate prose. The other three projects
-    have codenames and descriptors that are entirely different strings, so they are
-    safe. This suite pins both halves: the variants must be caught, and the
-    descriptors must not be.
+    It also cannot be applied blindly. One project's codename and its APPROVED
+    descriptor used to be the same string modulo case and separator, so a
+    separator-flexible pattern for that token flagged 36 occurrences of legitimate
+    prose -- measured. The resolution was NOT a cleverer pattern, because none exists:
+    two strings differing only by case and separator cannot be told apart by a boundary
+    or a case rule. The descriptor was renamed, and only then was the pattern
+    strengthened. This suite pins both halves of that outcome: every variant of the
+    codename must now be caught, and every approved descriptor must stay legal.
     """
 
     # Concatenated for the reason given in the module docstring.
     CODENAME_A = "CAW" + "-" + "VoU"
     CODENAME_B = "RA" + "BS"
     CODENAME_C_GLUED = "Probe" + "Transmit"
-    CODENAME_C_DESCRIPTOR = "probe" + "-transmit"
+    CODENAME_C_LEFT = "Probe"                           # halves, for separator variants
+    CODENAME_C_RIGHT = "Transmit"
+    CODENAME_C_OLD_DESCRIPTOR = "probe" + "-transmit"   # renamed away; must now be caught
+    CODENAME_C_DESCRIPTOR = "IoT" + "-scheduling"       # the approved descriptor today
     CODENAME_D = "ECM" + "-" + "TQAG"
     CODENAME_E = "ST" + "AIS"
     ABBREV_FUNDER = "DH" + "H"
@@ -478,14 +483,37 @@ class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
-    def test_the_colliding_descriptor_is_not_caught_but_its_codename_is(self) -> None:
-        """The one token where descriptor and codename differ only by case+separator.
+    def test_the_old_colliding_descriptor_is_now_caught_and_the_new_one_is_legal(self) -> None:
+        """The collision was resolved by RENAMING, then the pattern was strengthened.
 
-        Strengthening codename-3 to be separator-flexible makes this test fail on the
-        descriptor line, which is the intended signal: the fix is to rename the
-        project's descriptor, not to accept 37 false positives in approved prose.
+        Pinned so neither half can silently regress. This project's descriptor used to
+        be the codename modulo case+separator, so codename-3 had to stay glued and
+        case-sensitive and 36 prose occurrences went unguarded. The descriptor was
+        renamed to the wording the project's own reference file already used, and only
+        then was the pattern made separator-flexible. So: the OLD descriptor is now just
+        another surface form of the codename and must be caught; the NEW descriptor must
+        stay legal; and every separator variant of the codename must be caught.
         """
-        # the approved descriptor, used 33 times in that tool, must stay legal
+        # the OLD descriptor must now be caught -- it is the codename in hyphen form
+        tmp = build_tool({"notes.md": f"dùng lại venv của bài {self.CODENAME_C_OLD_DESCRIPTOR}\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, f"old descriptor must now be caught: {out}")
+            self.assertIn("codename-3", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        # every separator variant of the codename, both the glued form and split forms
+        for sep in ("-", "_", " ", "", self.EN_DASH, self.EM_DASH):
+            with self.subTest(separator=sep or "none"):
+                tmp = build_tool({"notes.md":
+                                  f"pipeline {self.CODENAME_C_LEFT}{sep}{self.CODENAME_C_RIGHT}\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, f"{sep!r} variant not caught: {out}")
+                    self.assertIn("codename-3", out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+        # the NEW approved descriptor must stay legal
         tmp = build_tool({"notes.md": f"dùng lại venv của bài {self.CODENAME_C_DESCRIPTOR}\n"})
         try:
             rc, out = run_gate(Path(tmp))
@@ -493,12 +521,29 @@ class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
             self.assertIn("PASS", out)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
-        # the glued codename must still be caught
-        tmp = build_tool({"notes.md": f"pipeline {self.CODENAME_C_GLUED}\n"})
+
+    def test_ordinary_iot_prose_with_probe_and_transmit_is_not_caught(self) -> None:
+        """Why codename-3 is the ONE joined token that needs a letter boundary.
+
+        `Probe` and `Transmit` are both common English words, and this project's domain
+        is IoT sensing, so "probe transmitter", "probe transmits", "probe transmitted",
+        "probe transmitting" and "subprobe" are ordinary technical prose. A bare
+        SEP-joined pattern -- the form used for codename-1/-4/-6, whose tokens are not
+        English words -- flagged 5 of these, measured. The boundary at the end rejects
+        the inflected and compound forms; at the start it rejects "subprobe". The other
+        codenames need no boundary because no ordinary English word contains them.
+        """
+        clean = ["the probe transmitter was recalibrated",
+                 "each probe transmits once per second",
+                 "the probe transmitted a burst",
+                 "a probe transmitting at 30 Hz",
+                 "subprobe transmit path",
+                 "we probe transmission losses"]
+        tmp = build_tool({f"iot{i}.md": s + "\n" for i, s in enumerate(clean)})
         try:
             rc, out = run_gate(Path(tmp))
-            self.assertEqual(rc, 1, out)
-            self.assertIn("codename-3", out)
+            self.assertEqual(rc, 0, f"ordinary IoT prose flagged: {out}")
+            self.assertIn("PASS", out)
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
