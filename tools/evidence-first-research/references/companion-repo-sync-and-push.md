@@ -7,7 +7,7 @@ working code → GitHub, chứng minh tái lập, push sạch.
 
 ## Bối cảnh thư mục (quan trọng — dễ nhầm)
 
-- Thư mục manuscript (`bài probe-transmit_IoTJ_clean/`, `bài bandwidth-scheduling_STAIS_clean/manuscript/`)
+- Thư mục manuscript (`bài probe-transmit_IoTJ_clean/`, `bài bandwidth-scheduling_<conf>_clean/manuscript/`)
   thường **KHÔNG phải git repo** — chỉ chứa `.tex`.
 - Code working THẬT sinh ra số trong bài nằm ở `SAS/Research/_repos/<repo>/`, và
   thư mục NÀY **chính là** git repo nối GitHub (`git remote -v` → origin GitHub).
@@ -137,7 +137,7 @@ khỏi GitHub (vẫn còn local). Verify `git ls-files` cuối chỉ còn code +
 Trước khi commit, quét code (không chỉ repo đã push) cho 2 thứ:
 
 1. **Hardcoded absolute path nội bộ** — lỗi thật phiên này: `make_tradeoff_plot.py`
-   có `MAN_FIG = Path("/home/<user>/SAS/Research/bài bandwidth-scheduling_STAIS_clean/...")`. Push lên
+   có `MAN_FIG = Path("/home/<user>/SAS/Research/bài bandwidth-scheduling_<conf>_clean/...")`. Push lên
    public là lộ cây thư mục máy người dùng + script chạy hỏng trên máy người khác.
    `grep -rniE "/home/|/Users/|openclaw|/opt/hermes|NINEROUTER" <code dirs>`.
    Fix: đổi sang đường dẫn repo-relative + cho override qua env var:

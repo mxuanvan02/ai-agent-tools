@@ -55,7 +55,7 @@ hàm tổng hợp, hard-code)** — mọi con số trong bài phải tái lập 
 
 Khi điền affiliation/tác giả/funding "theo mấy bài trước": grep author block + `\thanks`/
 `\affil` trong các manuscript cũ của người dùng (ACM iccsit, IEEEAccess, bài probe-transmit, bài bandwidth-scheduling).
-- Lấy ĐÚNG: tên đơn vị, ORCID, email, **Grant No.** (vd `DHH2025-19-07`), ai là corresponding,
+- Lấy ĐÚNG: tên đơn vị, ORCID, email, **Grant No.** (vd `<funder>2025-19-07`), ai là corresponding,
   ai co-first (`\thanks{... contributed equally}`).
 - KHÔNG bịa email/ORCID nếu bài cũ không có — để trống và flag cho người dùng điền.
 - "co-first author" → đánh dấu `$^{\dagger}$` + footnote "These authors contributed equally".

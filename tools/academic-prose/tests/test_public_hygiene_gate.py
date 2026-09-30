@@ -387,6 +387,136 @@ class TestDomainPatternsAreCaught(unittest.TestCase):
             shutil.rmtree(tmp, ignore_errors=True)
 
 
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
+    """Two properties that pull in opposite directions, both measured on real content.
+
+    A token whose canonical form carries a hyphen also ships with an en dash, an
+    underscore or no separator at all -- 15 of 69 identifier occurrences in one tool
+    used U+2013 and were invisible to every hyphen-built pattern. So separator
+    flexibility is required.
+
+    But it cannot be applied uniformly. One project's codename and its APPROVED
+    descriptor differ only by case and separator, so a separator-flexible pattern for
+    that token flagged 37 occurrences of legitimate prose. The other three projects
+    have codenames and descriptors that are entirely different strings, so they are
+    safe. This suite pins both halves: the variants must be caught, and the
+    descriptors must not be.
+    """
+
+    # Concatenated for the reason given in the module docstring.
+    CODENAME_A = "CAW" + "-" + "VoU"
+    CODENAME_B = "RA" + "BS"
+    CODENAME_C_GLUED = "Probe" + "Transmit"
+    CODENAME_C_DESCRIPTOR = "probe" + "-transmit"
+    CODENAME_D = "ECM" + "-" + "TQAG"
+    CODENAME_E = "ST" + "AIS"
+    ABBREV_FUNDER = "DH" + "H"
+    ABBREV_INSTITUTE = "HO" + "EIT"
+
+    EN_DASH = "\u2013"
+    EM_DASH = "\u2014"
+
+    def test_every_separator_variant_of_a_hyphenated_codename_is_caught(self) -> None:
+        left, right = self.CODENAME_D.split("-")
+        for sep_name, sep in [("hyphen", "-"), ("en dash", self.EN_DASH),
+                              ("em dash", self.EM_DASH), ("underscore", "_"),
+                              ("space", " "), ("none", "")]:
+            with self.subTest(separator=sep_name):
+                tmp = build_tool({"notes.md": f"the {left}{sep}{right} protocol\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, f"{sep_name} variant not caught: {out}")
+                    self.assertIn("codename-4", out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_underscore_joined_path_forms_are_caught(self) -> None:
+        """`\\b` does not bound an underscore, which is why these used to pass."""
+        cases = {
+            "codename-2": [f"{self.CODENAME_B}_summary.csv",
+                           f"run_{self.CODENAME_B}_adaptive_bandwidth.py",
+                           f"/tmp/{self.CODENAME_B.lower()}_venv"],
+            "codename-5": [f"bài bandwidth-scheduling_{self.CODENAME_E}_clean/"],
+            "codename-1": [f"{self.CODENAME_A.replace('-', '_')}_main.pdf"],
+        }
+        for label, texts in cases.items():
+            for t in texts:
+                with self.subTest(label=label, text=t):
+                    tmp = build_tool({"notes.md": f"path {t}\n"})
+                    try:
+                        rc, out = run_gate(Path(tmp))
+                        self.assertEqual(rc, 1, out)
+                        self.assertIn(label, out)
+                    finally:
+                        shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_lowercase_and_compound_forms_of_an_abbreviation_are_caught(self) -> None:
+        """A boundary assertion cannot see these, which is why they are substrings."""
+        for text in (f"project code {self.ABBREV_FUNDER}2026",
+                     f"TM{self.ABBREV_FUNDER}",
+                     f"\\logo{self.ABBREV_FUNDER}" + "{0.6cm}",
+                     f"\\definecolor{{{self.ABBREV_INSTITUTE}Blue}}"):
+            with self.subTest(text=text):
+                tmp = build_tool({"notes.md": text + "\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_ordinary_words_containing_a_codename_are_not_caught(self) -> None:
+        """A plain substring pattern would flag all of these forever."""
+        clean = ["He grabs the cable", "the crabs were boiled", "drabs of paint",
+                 "arabs and arabic text", "The subrabs module",
+                 "the dhh gene in zebrafish", "cdhh protocol variant"]
+        tmp = build_tool({f"n{i}.md": s + "\n" for i, s in enumerate(clean)})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_the_colliding_descriptor_is_not_caught_but_its_codename_is(self) -> None:
+        """The one token where descriptor and codename differ only by case+separator.
+
+        Strengthening codename-3 to be separator-flexible makes this test fail on the
+        descriptor line, which is the intended signal: the fix is to rename the
+        project's descriptor, not to accept 37 false positives in approved prose.
+        """
+        # the approved descriptor, used 33 times in that tool, must stay legal
+        tmp = build_tool({"notes.md": f"dùng lại venv của bài {self.CODENAME_C_DESCRIPTOR}\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+        # the glued codename must still be caught
+        tmp = build_tool({"notes.md": f"pipeline {self.CODENAME_C_GLUED}\n"})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 1, out)
+            self.assertIn("codename-3", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+    def test_the_three_non_colliding_descriptors_are_not_caught(self) -> None:
+        """These projects' descriptors are different strings from their codenames,
+        so separator flexibility is safe for them and must not regress."""
+        clean = ["bài bandwidth-scheduling", "bài AoI-greenhouse", "bài TQA-generation",
+                 "<project>_summary.csv", "https://<conf>.vn",
+                 "\\logo<inst>{0.6cm}", "<funder>2025-19-07", "<inst>Blue"]
+        tmp = build_tool({f"d{i}.md": s + "\n" for i, s in enumerate(clean)})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+
 def load_gate_module():
     """Import the gate in-process to inspect FORBIDDEN itself, not just its verdict."""
     spec = importlib.util.spec_from_file_location("phc_under_test", GATE)
@@ -464,6 +594,98 @@ class TestEveryPatternIsAlive(unittest.TestCase):
                     f"{label} does not match its canonical probe -- the pattern is "
                     "dead and the gate would print PASS over this leak",
                 )
+
+
+@unittest.skipUnless(HAS_REPO_GATE, SKIP_REASON)
+class TestInternalPointersResolve(unittest.TestCase):
+    """Every path a SKILL.md uses to point at its own files must exist.
+
+    WHY THIS LIVES HERE RATHER THAN IN A GATE-SIDE CHECK: the gate reads file CONTENT
+    for identity leaks; a broken pointer is a structural defect, a different concern.
+    And it must run for tools CI does not otherwise test -- measured, CI runs
+    ``unittest discover`` only for this tool and for ppt-master-officecli, while five
+    tools get a gate run and a py_compile and nothing else. This suite is the only
+    permanent check those five get, so a cross-tool assertion placed here is enforced
+    and the same assertion placed in an untested tool would not be.
+
+    WHY THE DISTINCTION BETWEEN POINTER AND QUOTED PATH MATTERS: a SKILL.md names its
+    own references (``references/x.md``) AND quotes paths from the user's project as
+    illustration (``Libs/settings.tex``, a glob like ``sections/*.tex``,
+    ``docs/negative_result_*.md``). The second kind was never expected to resolve here.
+    A first version of this check resolved every path-like token against the tool
+    directory and reported six missing paths -- all six were quotes or globs, i.e.
+    false positives. The mechanical separator is the first path segment: a pointer to a
+    file this skill ships necessarily starts with a directory the skill has.
+
+    The trigger was real, not hypothetical: 17 reference files were renamed by ``git
+    mv`` in evidence-first-research, and five cross-references in its SKILL.md were
+    updated in the same commit. A stale pointer there fails silently at read time, and
+    nothing in that tool's CI path would have noticed.
+    """
+
+    MD_LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
+    CODE_PATH = re.compile(r"`([^`\n]+)`")
+    SUFFIXES = (".md", ".py", ".json", ".yaml", ".yml", ".csv", ".txt", ".sh",
+                ".tex", ".docx", ".pdf", ".toml", ".ipynb")
+    # '#' is an in-page anchor, never a file. '*' is a glob: no single entry can
+    # satisfy it, so treating it as missing is a defect in the checker.
+    NOT_A_PATH = ("http://", "https://", "mailto:", "git@", "<", ">", "$(", "${",
+                  "|", "&&", " ", "->", "..", "#", "*")
+
+    def _is_internal(self, tool: Path, token: str) -> bool:
+        head = token.split("/", 1)[0]
+        return bool(head) and (tool / head).exists()
+
+    def _internal_pointers(self, tool: Path, text: str) -> set[str]:
+        tokens = [m.group(1) for m in self.MD_LINK.finditer(text)]
+        tokens += [m.group(1).strip() for m in self.CODE_PATH.finditer(text)]
+        out = set()
+        for tok in tokens:
+            if tok.startswith(("/", "~")):
+                continue
+            if any(s in tok for s in self.NOT_A_PATH):
+                continue
+            if "/" not in tok or not tok.endswith(self.SUFFIXES):
+                continue
+            if self._is_internal(tool, tok):
+                out.add(tok)
+        return out
+
+    def test_every_internal_pointer_in_every_skill_resolves(self) -> None:
+        skills = sorted(TOOLS_DIR.glob("*/SKILL.md"))
+        self.assertGreaterEqual(len(skills), 2, "expected several tools to check")
+        checked = 0
+        for sk in skills:
+            tool = sk.parent
+            text = sk.read_text(encoding="utf-8")
+            pointers = self._internal_pointers(tool, text)
+            checked += len(pointers)
+            missing = sorted(t for t in pointers if not (tool / t).exists())
+            with self.subTest(tool=tool.name):
+                self.assertEqual(
+                    missing, [],
+                    f"{tool.name}/SKILL.md points at files that do not exist; a stale "
+                    "pointer fails silently at read time and CI does not otherwise "
+                    "check this tool",
+                )
+        self.assertGreater(checked, 100,
+                           f"only {checked} pointers examined -- the extractor is not "
+                           "finding the references, so this test would pass vacuously")
+
+    def test_the_extractor_would_notice_a_broken_pointer(self) -> None:
+        """Prove the check above is not vacuous: break one pointer and see it reported."""
+        sk = sorted(TOOLS_DIR.glob("*/SKILL.md"))[0]
+        tool = sk.parent
+        pointers = sorted(self._internal_pointers(tool, sk.read_text(encoding="utf-8")))
+        self.assertTrue(pointers, f"no pointers found in {tool.name}/SKILL.md to mutate")
+        victim = pointers[0]
+        broken = victim.replace(".md", "-DOES-NOT-EXIST.md")
+        text = sk.read_text(encoding="utf-8").replace(victim, broken, 1)
+        found = self._internal_pointers(tool, text)
+        self.assertIn(broken, found,
+                      "the extractor did not even see the mutated pointer, so the "
+                      "resolve test above could not have caught it")
+        self.assertFalse((tool / broken).exists(), "fixture assumption violated")
 
 
 if __name__ == "__main__":

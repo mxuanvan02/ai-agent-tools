@@ -32,4 +32,4 @@
 - Package from an explicit allowlist into a fresh staging directory. Add an inventory/README and per-file SHA-256 manifest; verify every staged hash, test ZIP integrity, and scan member names and text for credentials and machine-local absolute paths before delivery.
 - Keep raw paid-run archives private unless redistribution is explicitly authorized. Do not push restricted run records or textbook-derived material to a public repository.
 
-This reference captures the verified ECM–TQAG reconciliation lessons; adapt names and paths to future projects.
+This reference captures the verified TQA-generation reconciliation lessons; adapt names and paths to future projects.

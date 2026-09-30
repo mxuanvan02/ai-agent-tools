@@ -130,7 +130,7 @@ Pandoc resolve `\input` theo CWD lúc chạy. Phải `cd` vào staging tree trư
 khi gọi pandoc, KHÔNG truyền absolute path đến main.tex từ thư mục khác.
 
 ```bash
-cd /tmp/rabs_docx_build && pandoc main.tex -o /tmp/bài bandwidth-scheduling_STAIS.docx \
+cd /tmp/<project>_docx_build && pandoc main.tex -o /tmp/bài bandwidth-scheduling_<conf>.docx \
   --reference-doc="<path_to_template.docx>" \
   --resource-path=.:figures:outputs/figures
 ```

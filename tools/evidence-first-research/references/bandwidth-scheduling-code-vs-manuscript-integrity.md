@@ -17,8 +17,8 @@ The fix was not to make the code fit stale prose. The user explicitly asked to k
 
 When auditing bài bandwidth-scheduling Algorithm 1 against code:
 
-1. Read `run_rabs_adaptive_bandwidth.py`, especially:
-   - `choose_B_rabs_family`
+1. Read `run_<project>_adaptive_bandwidth.py`, especially:
+   - `choose_B_<project>_family`
    - `predict_candidate`
    - `run_fixed` dual updates
    - `SAFE_MIN, SAFE_MAX`, `NETWORKS`, `SEEDS`, window length.

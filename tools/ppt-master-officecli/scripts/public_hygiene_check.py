@@ -28,6 +28,37 @@ from pathlib import Path
 TOOL_DIR = Path(__file__).resolve().parents[1]
 SELF = Path(__file__).resolve()
 
+# Any separator, or none. A token whose canonical form carries a hyphen also appears
+# with an en dash, an em dash, an underscore, or nothing between the halves: measured,
+# 15 of the 69 identifier occurrences in one tool used U+2013 EN DASH and were invisible
+# to a pattern built from the hyphen. Whitespace is in the class because normalise()
+# turns a line break between the halves into a single space. Written with \uXXXX escapes
+# so this file stays ASCII in the pattern definitions.
+SEP = r"[-\u2010-\u2015_\s]*"
+
+
+def joined(*parts: str, flags: int = re.I) -> "re.Pattern[str]":
+    """Compile the parts with SEP allowed between each pair."""
+    return re.compile(SEP.join(re.escape(p) for p in parts), flags)
+
+
+# Per-token boundary policy. One global rule is measurably wrong in both directions:
+#
+#   \b alone            misses `_STAIS_clean`, `rabs_summary.csv`, `logoDHH`, `HOEITBlue`
+#                       because '_' and adjacent letters are word characters
+#   letter-boundary     catches those, but MISSES `logoDHH`, `TMDHH`, `DHH2026`,
+#                       `HOEITBlue` -- a letter is adjacent
+#   plain substring     catches everything, but `grabs`, `crabs`, `drabs`, `arabs` and
+#                       `subrabs` all CONTAIN a codename, so an ordinary English word
+#                       would fail the gate forever
+#
+# So each token takes the form its own collision risk allows:
+#   joined(...)                 hyphenated/multi-word identifiers no ordinary word contains
+#   LETTER_BOUNDARY             short ASCII tokens that occur inside ordinary words
+#   case-SENSITIVE substring    short UPPERCASE abbreviations whose real leaks are glued
+#                               to other letters; case-insensitive here would flag prose
+LETTER_BOUNDARY = r"(?<![A-Za-z]){}(?![A-Za-z])"
+
 FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
     # personal identifiers
     ("personal-name", re.compile(r"anh\s+văn|người dùng Van\b|\bVan's\b", re.I)),
@@ -39,20 +70,38 @@ FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
     # measured: five of these were dead and the gate printed PASS on real leaks.
     ("internal-path", re.compile(r"/media/" + r"SAS|/home/van\b|/Users/van\b")),
     # UNPUBLISHED project/paper codenames (must stay genericized)
-    ("codename-1", re.compile("CAW-" + "VoU")),
-    ("codename-2", re.compile(r"\bRA" + r"BS\b")),
+    ("codename-1", joined("CAW", "VoU")),
+    ("codename-2", re.compile(LETTER_BOUNDARY.format(re.escape("RA" + "BS")), re.I)),
+    # codename-3 stays GLUED and CASE-SENSITIVE, and that is not an oversight.
+    # For every other project here the codename and the approved descriptor are
+    # different strings, so a separator-flexible pattern is safe. For this one they
+    # differ ONLY by case and separator: the codename is the CamelCase glued form and
+    # the descriptor the tool uses 33 times is the hyphenated lowercase form. Making
+    # this pattern separator-flexible therefore flagged 37 occurrences of approved
+    # prose, measured. No boundary or case rule can separate the two, so the pattern
+    # must match the glued form exactly. Do not "strengthen" it without first giving
+    # this project a descriptor that does not collide.
     ("codename-3", re.compile("Probe" + "Transmit")),
-    ("codename-4", re.compile("ECM-" + "TQAG")),
-    ("codename-5", re.compile(r"\bST" + r"AIS\b")),
-    ("codename-6", re.compile("Mekong-" + "Trace")),
-    ("codename-7", re.compile("HOEIT-" + "LegalQA|VDTM-" + "LegalQA")),
-    # institution identifiers
-    ("institution-1", re.compile(r"ĐH" + "SP|ĐHSP")),
-    ("institution-2", re.compile("ĐH " + "Huế|Đại học " + "Huế")),
-    ("institution-3", re.compile("Hue " + "University")),
-    ("institution-4", re.compile(r"\bDH" + r"H\b|\bDHH\b")),
-    ("institution-5", re.compile(r"\bHO" + r"EIT\b")),
-    ("institution-6", re.compile("Thu " + "Dau Mot")),
+    ("codename-4", joined("ECM", "TQAG")),
+    ("codename-5", re.compile(LETTER_BOUNDARY.format(re.escape("ST" + "AIS")), re.I)),
+    ("codename-6", joined("Mekong", "Trace")),
+    ("codename-7", re.compile(
+        SEP.join([re.escape("HOEIT"), re.escape("LegalQA")]) + "|" +
+        SEP.join([re.escape("VDTM"), re.escape("LegalQA")]), re.I)),
+    # institution identifiers. The two short uppercase abbreviations below are
+    # deliberately case-SENSITIVE substrings: their real leaks are glued to other
+    # letters (a LaTeX logo macro, a grant-code prefix, a colour macro name), so any
+    # boundary assertion misses them, while case-insensitive matching would flag
+    # ordinary prose containing those three letters. The narrow allowlist below is the
+    # escape hatch if a legitimate uppercase form ever needs to ship.
+    ("institution-1", re.compile(r"ĐH" + r"SP|ĐHSP", re.I)),
+    ("institution-2", re.compile(
+        SEP.join([re.escape("ĐH"), re.escape("Huế")]) + "|" +
+        SEP.join([re.escape("Đại học"), re.escape("Huế")]), re.I)),
+    ("institution-3", joined("Hue", "University")),
+    ("institution-4", re.compile("DH" + "H")),
+    ("institution-5", re.compile("HO" + "EIT")),
+    ("institution-6", joined("Thu", "Dau", "Mot")),
     # institution and venue DOMAINS. A hostname identifies an employer or a
     # submission target as precisely as its name does, and it survives every
     # rewrite of the prose around it, so a name-only pattern list leaves the

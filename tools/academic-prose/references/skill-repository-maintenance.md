@@ -273,6 +273,39 @@ again. Bump in both trees at once and compare them byte for byte afterwards; edi
 only one recreates the drift this section exists to prevent, and the next sync
 silently reverts whichever side was missed.
 
+### The gate scans files, so it cannot see the two channels that go public with them
+
+A commit message and a pull-request description are published on the repository's web
+UI, are searchable, and are indexed -- yet neither is a file inside a tool directory,
+so the hygiene gate never reads them. Scanning "the staged diff" before committing does
+not cover them either, because a diff contains content, not the message that describes
+it. Measured twice in one session: a commit message spelled out two codenames while
+explaining that they had been removed from the content, and a pull-request body pasted
+a real DOI as an illustrative example after the same identifier had just been
+genericized out of the files it described. Both would have shipped with a green gate.
+
+Scan all three channels before pushing, with the gate's own pattern table plus the
+identifier classes the gate has no pattern for:
+
+```
+git rev-list <base>..HEAD | while read s; do git log -1 --format=%B $s; done
+```
+
+Refer to identifiers **by their gate label** in prose that goes public (`codename-4`,
+not the token). The label carries the whole lesson; the token only carries the leak.
+
+Two consequences worth knowing before you need them:
+
+- **An unpushed commit message can still be fixed.** `git reset --hard HEAD~1`, then
+  `git commit --amend -F <file>`, then `git cherry-pick` the commits that sat above it.
+  Prove the rewrite changed nothing but the message by comparing tree hashes
+  (`git rev-parse <backup>^{tree}` against `git rev-parse HEAD^{tree}`) -- create a
+  backup branch first, since `reset --hard` discards the working state.
+- **A pushed one cannot, cleanly.** Amending after a push rewrites public history and
+  leaves the old text in every fork, in CI logs and in any notification that quoted it.
+  Treat a leaked message as published the moment the push returns, and decide whether
+  the identifier was sensitive enough to warrant a force-push conversation.
+
 This rule was written and then not followed: three consecutive content commits
 carried `3.13.0` unchanged, the last real bump having been `3.11.0 -> 3.13.0`. A
 version that never moves cannot do the one job it exists for -- telling an installed

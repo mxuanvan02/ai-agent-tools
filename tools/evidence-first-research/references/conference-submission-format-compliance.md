@@ -10,13 +10,13 @@ draft placeholder, not a venue template — flag it and verify before packaging.
 
 1. EasyChair management links (`easychair.org/my/conference?conf=X`) need login and
    carry NO format info. The public **CFP** does: try `easychair.org/cfp/<CONF>`
-   (the conf code is often lowercase, e.g. `stais2026`). The CFP page lists the
+   (the conf code is often lowercase, e.g. `<conf>2026`). The CFP page lists the
    conference web page, submission link, deadline, and frequently a **"Link
    Template"** anchor.
 2. Web search engines are frequently blocked in-browser (Google `/sorry`,
    DuckDuckGo HTML returns an empty form, Bing throws a Cloudflare challenge). Do
    not burn turns retrying them — go straight to the EasyChair CFP or the
-   conference web page (`https://stais.vn` type).
+   conference web page (`https://<conf>.vn` type).
 3. If the template is a **Google Doc**, the in-browser view is an iframe you cannot
    scroll/scrape reliably. Grab the doc id from `window.location.href`
    (`docs.google.com/document/d/<ID>/edit`) and download the real file:
