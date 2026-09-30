@@ -137,6 +137,48 @@ check establishes and, separately, the property it does not.
   copy to the decision rules plus a pointer. Move anything unique to its owning
   reference *before* cutting it.
 
+- **Measure the compressible ratio before promising one.** The advice above reads as though
+  most of a section can be compressed. It cannot, and the gap is large enough to change the
+  decision. A pilot on the most narration-dense section in `SKILL.md` -- 76% of its 3,685
+  characters classified as narration by a keyword classifier -- recovered **391 characters,
+  15% of that narration**. The other 85% could not be touched, for a reason the classifier
+  cannot see: the rule inventory probes a normalised window around each obligation keyword,
+  so an obligation survives only if the words around its keyword are unchanged. Rewrapping
+  lines is free; **rewording a rule is not**. Most "narration" in this file is the tail of a
+  sentence whose head carries an obligation, so it is frozen by association.
+
+  Three consequences worth having before starting:
+
+  * Extrapolating 15% across the file gives roughly **4,700-7,300 characters**, not the
+    14,000-29,000 that a 30-60% rewrite assumption predicts. And that is an upper bound: the
+    pilot section was chosen for *high* narration density, while the file average is 49%.
+  * The lever that actually scales is **relocating** evidence and illustration into
+    `references/`, which has no ceiling -- measured at 63,000-69,000 characters, about 8x the
+    rewrite lever. But relocation moves content out of the always-loaded body, so a rule that
+    must fire unprompted cannot be relocated at any saving. That is a behaviour decision, not
+    a formatting one.
+  * Verify ownership *before* deleting an illustration. Every change in the pilot was a
+    rewrite except one parenthetical example, and deletion is the only loss a rewrite can
+    hide: no structural check notices it, because the obligation sentence survives without
+    its example. A multi-needle probe against the reference is required, since a single
+    narrow needle produced four false negatives in one pass of this same investigation.
+
+- **Keyword classifiers need word boundaries, and the failure is doubly misleading.** An
+  unbounded alternation matches `never` inside `when**ever**` and `block` inside
+  `**block**s`, which classified 21 of 227 lines as obligations when they were ordinary prose.
+  Each false obligation freezes a line that could legitimately be rewritten, and the harness
+  then reports a *higher* count of protected rules while protecting things that were never
+  rules -- so the defect reads as extra rigour rather than as an error. Bound every
+  alternative; multi-syllable Vietnamese phrases need no boundary.
+
+- **Never pipe a verification harness through `head`, `sed` or `tail`.** Doing so closed the
+  pipe early, the harness died on SIGPIPE with rc=141, and the script proceeded to report a
+  pass for a rewrite that had been written to the repository but never verified. A related
+  defect in the same run printed `PILOT PASSED: saved 0 characters` after the rewrite had
+  *aborted* -- the checks then ran against the original file and reported green about work
+  that did not exist. Capture to a file and grep the file, and assert that the file's size
+  actually changed before trusting any downstream check.
+
 - **Do not normalise frontmatter to match one existing tool.** Publishing two new
   skills, the obvious move was to rewrite their frontmatter to the shape
   `system-one-work-loop` uses (`metadata:` carrying `version`/`license`/`status`).

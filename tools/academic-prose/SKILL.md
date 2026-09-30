@@ -3,7 +3,7 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.19.0"
+  version: "3.20.0"
 ---
 
 # Academic Prose
@@ -1256,54 +1256,49 @@ These three gates are registered in
 ## Briefing a Collaborator Before Drafting
 
 A manuscript and a **briefing to the collaborator who must approve it** are
-different genres with opposite registers, and producing the first when the second
-was asked for is a routing error, not a style preference. Publication register
-compresses, hedges, and assumes the field's background. A briefing has to *build*
-that background, because its reader is deciding whether the idea is worth writing
-up at all.
+different genres with opposite registers: publication register compresses, hedges,
+and assumes the field's background, while a briefing has to *build* it, because its
+reader is deciding whether the idea is worth writing up at all. Producing the first
+when the second was asked for is a routing error, not a style preference.
 
-Trigger: the user asks what the proposal is, why it is worth doing, whether it is
-novel enough, or asks for a plan, framework, or outline. Also trigger it whenever
-you are about to start drafting a manuscript the user has not yet seen an argument
-for. **Do not begin writing `.tex` until the idea has been briefed and approved.**
+Trigger: the user asks what the proposal is, why it is worth doing, or whether it is
+novel enough; asks for a plan, framework, or outline; or you are about to start
+drafting a manuscript they have not yet seen an argument for.
+**Do not begin writing `.tex` until the idea has been briefed and approved.**
 Announcing the sections you will write is not a briefing.
 
 Required progression. Each item is a separate obligation and a briefing that skips
 any one of them gets sent back:
 
-1. **What the related work actually did**, stated concretely enough that its
-   limitation is visible. Naming the papers and citing them is not enough — the
+1. **What the related work actually did**, concretely enough that its limitation is
+   visible. Naming the papers and citing them is not enough — the
    reader must be able to see the hole. Show the mechanism by which the prior
    result is achieved, then the case it does not cover.
-2. **Why the prior work's guarantee is insufficient**, ideally by making the prior
-   framework produce an absurd-but-compliant outcome. A guarantee that holds
-   vacuously (a selection rule that satisfies its error bound by selecting nothing)
-   is the strongest possible motivation, and it is invisible until demonstrated.
-3. **The proposal, in one sentence**, phrased as the question being changed rather
-   than the artifact being built.
-4. **Why it carries scientific weight**, ranked by what a reviewer checks first:
-   is it a theorem or an empirical observation; does it hold against all methods or
-   only beat a baseline; can it be defeated by swapping in a better model;
-   can a reader re-run it without special hardware or credentials.
-5. **Role assignment per step**, naming which system or person does what — and
+2. **Why the prior work's guarantee is insufficient** — ideally by making it produce
+   an absurd-but-compliant outcome. A vacuous guarantee is the strongest possible
+   motivation and is invisible until demonstrated.
+3. **The proposal, in one sentence**, as the question being changed rather than the
+   artifact being built.
+4. **Why it carries scientific weight**, ranked as a reviewer checks it: theorem or
+   empirical observation; holds against all methods or only beats a baseline;
+   defeated by swapping in a better model; re-runnable without special hardware or
+   credentials.
+5. **Role assignment per step**, naming which system or person does what, and
    stating plainly where a component has done *nothing yet*. Never assign a
    flattering role to a tool that has not been used; say it has not been used.
 6. **The weakest point, volunteered.** If the central proof is one line, say a
    reviewer may call it trivial, and say what the work stands on instead.
 
-Two register rules, both of which came from explicit user correction:
+Two register rules, both from explicit user correction:
 
-- **Explain on basic knowledge, with one sustained concrete analogy.** Not a
-  notation glossary and not a symbol-by-symbol walkthrough. Choose a single
-  physical scenario that maps onto every quantity in the model (a factory with a
-  quality-control station; ore assay and refining; a weighing scale with limited
-  graduations) and hold it for the whole briefing, with an explicit mapping table
-  from the analogy's parts to the formal quantities. Switching analogies mid-way
-  costs the reader more than having none.
+- **Explain on basic knowledge, with one sustained concrete analogy** — not a
+  notation glossary, not a symbol-by-symbol walkthrough. Hold one physical scenario
+  across the whole briefing with an explicit mapping table from its parts to the
+  formal quantities; switching analogies mid-way costs the reader more than having
+  none.
 - **Put the intuition before the formalism, and the numbers before the prose
-  claim.** A briefing paragraph whose first sentence is a definition has already
-  lost. Lead with the phenomenon, give the measured number, then name the
-  mechanism.
+  claim.** A paragraph whose first sentence is a definition has already lost: lead
+  with the phenomenon, give the measured number, then name the mechanism.
 
 Worked briefings score best when each theoretical quantity is paired with a
 number produced by the project's own regenerating script, and when a table is
@@ -1311,7 +1306,7 @@ shown for the range the user must choose across, rather than a single
 configuration. See
 [Collaborator briefing genre](references/collaborator-briefing-genre.md) for the
 worked structure, the analogy-mapping requirement, the vacuous-guarantee
-demonstration pattern, and the honest-role-assignment rule.
+demonstration pattern, the honest-role-assignment rule, and worked analogy examples.
 
 ## Evidence-Bound Author-Directed Review
 
