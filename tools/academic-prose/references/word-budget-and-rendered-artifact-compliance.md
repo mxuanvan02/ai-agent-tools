@@ -254,6 +254,38 @@ compress by moving cases to an appendix), never as a formatting task to be absor
 Do the frame rebuild as a throwaway probe writing outside the project tree; the deliverable
 keeps the author's reading frame until the author chooses otherwise.
 
+### Back up a deliverable before overwriting it, and never let a page count be the acceptance test
+
+The rule above was written and then broken in the same session, at real cost. A rebuild of a
+delivered report ran `rm -f <pdf>` with no copy taken first, built through the wrong recipe,
+and the previously delivered artifact was gone with no way to reproduce it byte-for-byte: four
+recipes were tried afterwards -- plain pandoc→docx→LibreOffice, the manuscript's own builder,
+pandoc→xelatex, and pandoc→xelatex with A4 margins -- producing 17, 22, 19 and 0 pages against
+the original 16. Exact recovery was impossible; only re-derivation was.
+
+Two rules follow, and the second is the one that actually caused the damage:
+
+* **Copy the artifact to a timestamped backup before any command that writes its path.** A
+  rebuild is a destructive operation on a delivered file. `rm -f` immediately before a
+  conversion is the most dangerous form, because a failed conversion then leaves *nothing*
+  rather than the previous good output.
+* **A page count is not an acceptance test.** The first replacement was rejected for running 23
+  pages instead of the remembered 16, and a second build was made that produced 17 -- closer to
+  the number and worse by every measure that mattered: Letter paper instead of A4, 6 of 13
+  content probes absent from the rendered PDF, and the project's own delivery checker reporting
+  broken layout on 7 pages plus one lost sentence. The rejected build passed that checker
+  outright and matched every probe. Acceptance is the project's own checker plus a
+  rendered-text parity probe across source, DOCX and PDF; a page count is an observation to
+  explain, not a target to hit.
+
+When a rebuild's page count differs from the remembered one, treat it as a question about the
+**recipe** -- which input file, which engine, which frame -- and answer it by finding the
+command that produced the original rather than by iterating builds until a number matches. Build
+intermediates are the evidence: a reflowed Markdown left in `/tmp` with an mtime two seconds
+before the artifact identified the real pipeline, which consumed that intermediate and not the
+source file. Guessing recipes cannot find that, because the wrong input and the wrong engine
+both look plausible.
+
 ### A blocked galley is not a dead end: published length is in the page range
 
 Publisher galleys often sit behind a session cookie that automated fetching cannot
