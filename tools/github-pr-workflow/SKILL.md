@@ -157,6 +157,77 @@ and works for any `-f` field. Always verify the PR afterwards with `gh pr list -
 or `git ls-remote --heads origin` — a failed create leaves the branch pushed and **zero** PRs,
 which reads like success if you only look at the push output.
 
+**The same snap `/tmp` trap hits `gh pr merge --body-file` too, not only `create`.**
+Verified: the host shell's `ls -la` shows the file (3621 bytes) while `gh` reports
+`open /tmp/...: no such file or directory`. Write the body under `$HOME` (non-hidden)
+or pipe it, exactly as above.
+
+**Never trust a shell exit code after a pipe.** `gh pr merge ... 2>&1 | tail -8; echo "EXIT=$?"`
+reports the exit code of **`tail`**, always 0 — so a failed merge prints `EXIT=0` and a
+succeeded one can print confusing warnings (`fatal: cannot exec 'ssh': Permission denied`
+from the local `--delete-branch` cleanup, *after* the server-side merge already landed).
+When output is ambiguous, read the truth from the API instead of re-running the merge:
+
+```bash
+gh api repos/$OWNER/$REPO/commits/main --jq '.sha[0:12], (.commit.message|split("\n")[0])'
+gh api repos/$OWNER/$REPO/branches/$BRANCH --jq '.name'   # 404 = delete-branch worked
+gh api repos/$OWNER/$REPO/contents/<path>?ref=main --jq '.content' | base64 -d | md5sum
+```
+
+Confirm the merge by the **squash subject on `main`** and by an **md5 of the changed file
+fetched from `main`** matching the byte you tested locally — a commit title is not evidence
+that the content you reviewed is what landed. Blindly retrying a merge whose output looked
+broken can leave a duplicate or a half-merged state.
+
+**`gh pr view --json` and the REST API do not share field names.** REST returns `merged`
+(boolean); `gh pr view --json merged` fails with `Unknown JSON field: "merged"` and prints
+the full allow-list. Use `state` (`MERGED`), `mergedAt`, `mergeCommit`, `mergedBy`. Check
+the allow-list in that error before guessing a second time.
+
+**Never copy a `--json` field list out of your own transcript -- it may be abbreviated.**
+Cost four consecutive failed read-backs: long tool output gets truncated for display as
+`--json s...n`, and pasting that back sends the literal string `s...n` to `gh`, which
+rejects it with `Unknown JSON field: "s...n"` and dumps the allow-list. The failure is
+maximally misleading because the rest of the command can still succeed -- the CI checks
+and the commit list printed fine, so a run that produced no PR state at all reads like a
+verified PR. Retrying the same pasted string repeats it indefinitely.
+
+Two rules: type the field names out in full every time, and treat `Unknown JSON field`
+as "this read-back produced NOTHING", never as a partial success. When a read-back is
+the evidence that a merge or a create landed, a field-name error means the claim is
+still unproven.
+
+### Stage AFTER every edit, and verify the COMMIT rather than the disk
+
+Cost real work: `git add -A` was run BEFORE a later edit to
+`.github/workflows/ci.yml`, so the index held the older version and `git commit` —
+which commits the INDEX — shipped a workflow missing its new step. Three lessons:
+
+1. **Stage after the last edit, not before the first one.** If more edits follow,
+   re-stage. `git commit` never looks at the working tree.
+2. **A post-commit check must show modified-unstaged, not only untracked.**
+   `git status --porcelain | grep '^??'` missed it entirely; the file was ` M`
+   (modified, unstaged). Use plain `git status --porcelain`, or `git diff HEAD --stat`.
+3. **Verify content IN the commit:** `git show HEAD:<path> | grep -c <marker>`.
+   On disk is not in the commit. Compare `HEAD~1` vs `HEAD` counts to prove the
+   delta actually landed.
+
+The symptom is maximally misleading: **CI stays green while the step you added
+never runs.** A missing step is not a failing step. So after pushing, confirm the
+new step by NAME in the job log:
+
+```bash
+gh run view --job <JOB_ID> --log | sed 's/\t/|/g' | cut -d'|' -f2 | sort -u   # step names
+gh run view --job <JOB_ID> --log | grep "<Step Name>" | grep -E "PASS|FAIL"
+```
+
+Log lines carry `timestamp<TAB>job<TAB>step<TAB>text`, so a grep that ignores that
+prefix can return nothing even when the step ran fine — read the step-name list
+first, then grep the text.
+
+Fix by adding a follow-up commit, not by amending: force-push needs separate
+authorization, and the follow-up preserves the evidence that a step was once omitted.
+
 ```bash
 # 3. or pipe the JSON payload on stdin, so the HOST shell does the file read
 #    (verified: PR created, head sha matched the pushed commit)
