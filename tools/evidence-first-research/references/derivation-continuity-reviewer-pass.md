@@ -6,7 +6,7 @@ người đọc". Đây là vòng review RIÊNG về *derivation continuity* (m�
 KHÁC với review consistency/correctness (xem `reviewer-deep-read-theory-code-consistency.md`)
 và khác với audit số liệu (xem `manuscript-experiment-sync-audit.md`).
 
-## Quy trình (đã chạy thành công trên bài AoI-greenhouse / bài probe-transmit IoTJ)
+## Quy trình (đã chạy thành công trên bài AoI-greenhouse / bài IoT-scheduling IoTJ)
 
 1. **Chạy song hai luồng fresh-eyes.** Dispatch một reviewer subagent (background) soi
    "bước nhảy" trong từng chuỗi derivation; ĐỒNG THỜI tự đọc lại các file toán nặng nhất.

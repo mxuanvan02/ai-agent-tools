@@ -1,6 +1,6 @@
 # Thesis integration of derivative papers + simulation rerun
 
-Use this when người dùng says derivative papers (e.g. bài bandwidth-scheduling, bài AoI-greenhouse/bài probe-transmit) are part of a thesis and asks to adjust the thesis, especially to rerun the thesis simulation.
+Use this when người dùng says derivative papers (e.g. bài bandwidth-scheduling, bài AoI-greenhouse/bài IoT-scheduling) are part of a thesis and asks to adjust the thesis, especially to rerun the thesis simulation.
 
 ## Core workflow
 
@@ -13,7 +13,7 @@ Use this when người dùng says derivative papers (e.g. bài bandwidth-schedul
 7. **Programmatically derive headline numbers from fresh CSV.** Compute means/percent changes directly from the rerun output (e.g. `q1_benchmark_summary.csv`), then patch tables/prose/conclusion. Avoid retyping from terminal logs.
 8. **Copy fresh generated artifacts into the thesis tree.** Put PDFs/CSVs under the figures or appendix paths used by LaTeX, then update `\includegraphics`/tables accordingly.
 9. **Position derivative papers neutrally and hierarchically.** Phrase them as specialized branches of the same Plant--Network--Control--Evaluation / control--communication co-design problem, not as unrelated papers and not as the thesis objective:
-   - **bài AoI-greenhouse / bài probe-transmit:** if it is the direct simulation continuation, say it extends the simulation from “when to transmit” to “which sensor update has the highest control value under channel/budget constraints.”
+   - **bài AoI-greenhouse / bài IoT-scheduling:** if it is the direct simulation continuation, say it extends the simulation from “when to transmit” to “which sensor update has the highest control value under channel/budget constraints.”
    - **bài bandwidth-scheduling:** if not the simulation backbone, keep it as a related/broader product branch on risk-aware bandwidth/resource allocation for greenhouse NCS.
 10. **Add papers where the built thesis actually includes them.** A `publication.tex` file may exist but not be included by `main.tex`; if so, add the PDFs to an included appendix (e.g. `phuluc.tex`) or update `main.tex` deliberately.
 11. **Build with the project's intended engine.** If `fontspec` is used, `pdflatex`/`latexmk -pdf` will fail; use the project `build.sh`/`xelatex` path. If stale `.toc/.aux` causes `\xpg@aux` errors after switching engines, clean generated build files and rebuild.

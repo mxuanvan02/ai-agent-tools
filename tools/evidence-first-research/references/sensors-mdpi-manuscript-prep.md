@@ -1,6 +1,6 @@
 # Sensors/MDPI Manuscript Preparation Notes
 
-Use when preparing a bài probe-transmit/IoT/sensor-network manuscript for Sensors (MDPI) or another MDPI journal.
+Use when preparing a bài IoT-scheduling/IoT/sensor-network manuscript for Sensors (MDPI) or another MDPI journal.
 
 ## Required/expected front matter
 - Article type (usually `Article`).
@@ -14,14 +14,14 @@ Use when preparing a bài probe-transmit/IoT/sensor-network manuscript for Senso
 ## Required/expected back matter
 Include these sections before the appendix/references when submitting to MDPI/Sensors:
 - Author Contributions.
-- Funding. For người dùng projects, check whether a grant code exists before leaving `no external funding`; in this session bài probe-transmit used the university grant `<funder>2025-19-07`.
+- Funding. For người dùng projects, check whether a grant code exists before leaving `no external funding`; in this session bài IoT-scheduling used the university grant `<funder>2025-19-07`.
 - Institutional Review Board Statement (or `Not applicable.`).
 - Informed Consent Statement (or `Not applicable.`).
 - Data Availability Statement. If raw datasets are public but not redistributed, say the raw datasets are available from their original providers; if processed data/code/scripts are on GitHub for reproducibility, say that explicitly instead of implying the repository is the sole data source.
 - Acknowledgments (optional, but include if datasets/software are acknowledged).
 - Conflicts of Interest.
 
-## Section mapping from IEEE-style bài probe-transmit to Sensors/MDPI
+## Section mapping from IEEE-style bài IoT-scheduling to Sensors/MDPI
 - `Introduction` remains `Introduction`; for Sensors drafts, add recent task-oriented/semantic-AoI/remote-inference citations where they clarify why application-level risk matters. Verify DOI/metadata through Crossref/Semantic Scholar before adding. Examples used successfully: `10.1109/GLOBECOM54140.2023.10437950`, `10.1109/TNET.2024.3408673`, `10.1109/TWC.2025.3600511`.
 - `Related Work` can remain separate if the article benefits from positioning, but keep it connected to the sensor-system framing.
 - `System Model` + `Methodology` + `Algorithm` should be grouped under `Materials and Methods` for MDPI readability.

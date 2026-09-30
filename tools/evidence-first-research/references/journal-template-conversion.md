@@ -20,7 +20,7 @@ Use this when người dùng asks to move a manuscript into a target journal tem
 7. If venue requires a separate graphical abstract, create and build a separate upload artifact.
 8. Package a zip and verify by unzipping into `/tmp` and rebuilding from the packaged source.
 
-## IEEE Sensors Journal notes from bài probe-transmit session
+## IEEE Sensors Journal notes from bài IoT-scheduling session
 
 - IEEE Sensors Journal author guide says submitted manuscripts should use IEEE double-column style template; `IEEEtran` journal mode is the practical LaTeX template route.
 - It states manuscripts normally should not exceed 8 pages; if the converted draft remains longer, report the page count and warn about overlength handling/charges instead of silently calling it fully compliant.

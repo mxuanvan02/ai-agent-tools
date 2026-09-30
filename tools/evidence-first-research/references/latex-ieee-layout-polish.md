@@ -38,4 +38,4 @@ In IEEEtran, `\paragraph{Title.}` renders as a run-in **labeled list item** that
 
 ## Session precedent
 
-In the bài probe-transmit IoTJ polish pass, the remaining overfulls were removed by resizing two TikZ figures, splitting a long payload-index equation into `align`, resizing several IEEE tables, splitting the service-debt equation, rebuilding, confirming 14 pages, and refreshing `bài probe-transmit_IoTJ_clean_submission.zip`.
+In the bài IoT-scheduling IoTJ polish pass, the remaining overfulls were removed by resizing two TikZ figures, splitting a long payload-index equation into `align`, resizing several IEEE tables, splitting the service-debt equation, rebuilding, confirming 14 pages, and refreshing `bài IoT-scheduling_IoTJ_clean_submission.zip`.

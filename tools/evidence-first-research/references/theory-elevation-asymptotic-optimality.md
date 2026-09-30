@@ -1,6 +1,6 @@
 # Theory-elevation route: proving a deployed scheduling rule is asymptotically optimal
 
-Precedent: bài probe-transmit / bài AoI-greenhouse, session 2026-06-19 (continuation). After the
+Precedent: bài IoT-scheduling / bài AoI-greenhouse, session 2026-06-19 (continuation). After the
 empirical spike closed the probe-enhancement lever (see
 `method-enhancement-spike.md`), the remaining Q1 lever was THEORY: prove the
 *already-deployed* rule `Index_i = p_succ·VoU_i + w_debt·D_i; top-B` is

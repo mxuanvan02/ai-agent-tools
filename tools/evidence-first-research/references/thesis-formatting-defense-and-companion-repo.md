@@ -46,7 +46,7 @@ Người dùng coi repo công khai là MỘT phần bộ nộp; chỉ đẩy COD
 
 ## 7. Dựng slide bảo vệ Beamer từ nội dung luận văn
 Khác với slide báo cáo manuscript (xem `manuscript-to-beamer-slides.md`) ở chỗ map theo CHƯƠNG luận văn, nhưng nguyên tắc chung giống.
-- Lấy template Beamer từ deck cũ của người dùng (bài probe-transmit_Slides/bài bandwidth-scheduling_Slides — đều Beamer 16:9, theme viện/trường, inner theme circles, palette xanh-cam, logo fallback `\IfFileExists`). Đổi đơn vị/đề tài cho khớp luận văn (Khoa CNTT → trường ĐH nếu cần).
+- Lấy template Beamer từ deck cũ của người dùng (bài IoT-scheduling_Slides/bài bandwidth-scheduling_Slides — đều Beamer 16:9, theme viện/trường, inner theme circles, palette xanh-cam, logo fallback `\IfFileExists`). Đổi đơn vị/đề tài cho khớp luận văn (Khoa CNTT → trường ĐH nếu cần).
 - **Bố cục defense (mạch kể chuyện, KHÔNG bê mục lục luận văn):** Bìa → Mục lục → (bảng ký hiệu sớm nếu nhiều toán) → **1. Đặt vấn đề** (bối cảnh + mục tiêu/câu hỏi NC) → **2. Phương pháp** (PRISMA/PNCE + minh bạch/repo) → **3. Cơ sở lý thuyết** (kiến trúc + mô hình/điều khiển) → **4. Kết quả tổng quan** (bức tranh corpus + đánh đổi/khoảng trống) → **5. Kiểm chứng mô phỏng** (thiết kế benchmark + kết quả định lượng + độ bền + độ nhạy) → **6. Kết luận** (đóng góp + hướng phát triển) → Cảm ơn/Q&A.
 - Mỗi slide một thông điệp; số liệu RÚT GỌN (không bê cả bảng 14 dòng — chỉ 2 method tương phản để làm bật trade-off). Số trên slide PHẢI lấy từ CSV gốc (`execute_code`/đọc thật), không retype từ trí nhớ.
 - Hình minh họa LẤY THẬT từ `figures/` luận văn (copy sang thư mục slide), không bịa hình — NHƯNG xem §8 (provenance + TikZ-overlay trap) trước khi copy.

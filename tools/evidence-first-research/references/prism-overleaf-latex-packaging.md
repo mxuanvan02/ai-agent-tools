@@ -85,5 +85,5 @@ final zip contents with `unzip -l submission.zip`.
 
 ## Session precedents
 
-- bài probe-transmit Sensors/MDPI: Prism reported a `$` issue, but the root cause was a corrupted `\frac` that appeared as a form-feed `^^L` plus `rac{...}` inside Appendix math. Rewriting the derivation as simple `equation` blocks fixed the clean zip build.
+- bài IoT-scheduling Sensors/MDPI: Prism reported a `$` issue, but the root cause was a corrupted `\frac` that appeared as a form-feed `^^L` plus `rac{...}` inside Appendix math. Rewriting the derivation as simple `equation` blocks fixed the clean zip build.
 - bài bandwidth-scheduling/STAI(S): the local warm build passed, but a clean upload-like build exposed path fragility when `sections/04_method_and_eval.tex` used `../outputs/...`. Copying outputs under `manuscript/outputs/` and changing references to `outputs/...` made the zip self-contained for Prism/Overleaf.

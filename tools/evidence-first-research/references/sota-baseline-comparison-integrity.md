@@ -1,7 +1,7 @@
 # SoTA baseline comparison integrity (Q1 review-proofing)
 
 When người dùng asks "đã so sánh với SoTA mới nhất/tốt nhất chưa?" or you add recent
-baselines to a comparison table. Lesson distilled from bài probe-transmit/bài AoI-greenhouse.
+baselines to a comparison table. Lesson distilled from bài IoT-scheduling/bài AoI-greenhouse.
 
 ## 1. Audit what the current baselines actually ARE before answering
 

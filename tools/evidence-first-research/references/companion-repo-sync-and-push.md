@@ -7,7 +7,7 @@ working code → GitHub, chứng minh tái lập, push sạch.
 
 ## Bối cảnh thư mục (quan trọng — dễ nhầm)
 
-- Thư mục manuscript (`bài probe-transmit_IoTJ_clean/`, `bài bandwidth-scheduling_<conf>_clean/manuscript/`)
+- Thư mục manuscript (`bài IoT-scheduling_IoTJ_clean/`, `bài bandwidth-scheduling_<conf>_clean/manuscript/`)
   thường **KHÔNG phải git repo** — chỉ chứa `.tex`.
 - Code working THẬT sinh ra số trong bài nằm ở `SAS/Research/_repos/<repo>/`, và
   thư mục NÀY **chính là** git repo nối GitHub (`git remote -v` → origin GitHub).

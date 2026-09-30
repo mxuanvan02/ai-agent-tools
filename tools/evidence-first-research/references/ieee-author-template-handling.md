@@ -4,7 +4,7 @@ Use this note when the user asks to change author blocks, affiliations, or journ
 
 ## Author Block Pattern From June 2026 Session
 
-Preferred author list for bài bandwidth-scheduling/bài probe-transmit-style papers:
+Preferred author list for bài bandwidth-scheduling/bài IoT-scheduling-style papers:
 
 - Xuan Van Mai\n- Duc Minh Phuong Le\n- Tri Nguyen Dang\n- Khanh Duy Truong\n- Hoang Son Nguyen\n- Tuong Tri Nguyen
 

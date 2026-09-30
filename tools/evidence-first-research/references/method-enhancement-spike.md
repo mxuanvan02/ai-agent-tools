@@ -1,6 +1,6 @@
 # Method-enhancement spike: validate a method change BEFORE touching the manuscript
 
-Precedent: bài probe-transmit / bài AoI-greenhouse, session 2026-06-19. Người dùng asked whether the
+Precedent: bài IoT-scheduling / bài AoI-greenhouse, session 2026-06-19. Người dùng asked whether the
 proposed algorithm had enough scientific depth for Q1, and proposed enhancing the
 probe stage. The right move was a throwaway spike, not editing the paper.
 
@@ -237,14 +237,14 @@ in the tracker step.
 
 ## Environment note (AE/forecaster specifics)
 
-No `torch` in the bài probe-transmit venv — use `sklearn.neural_network.MLPRegressor`
+No `torch` in the bài IoT-scheduling venv — use `sklearn.neural_network.MLPRegressor`
 for autoencoders/forecasters (bottleneck hidden layer for an AE; denoising = fit on
 noise-added inputs to clean targets). `ConvergenceWarning` at max_iter is benign for
 a spike. Pyright flags numpy/sklearn imports as unresolved in this venv — false
 positive, ignore.
 
 
-bài probe-transmit repo needs its own venv (the active python lacked numpy):
+bài IoT-scheduling repo needs its own venv (the active python lacked numpy):
 `uv venv .venv --python 3.11 && .venv/bin/python -m ensurepip && .venv/bin/python -m pip install -q numpy scipy pandas matplotlib`.
 Data panels: `data/raw/intel_berkeley/*.npy`, `data/raw/_candidates/{beijing_prsa,keti_smartbuilding}/*.npy`.
 Beijing/KETI use a data-driven [2.5,97.5] percentile safe band; Intel uses fixed [18,32].

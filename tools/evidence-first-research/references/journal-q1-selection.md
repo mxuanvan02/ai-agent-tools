@@ -14,9 +14,9 @@ Use this reference when người dùng asks for journal targeting, especially wh
 8. Do not invent official `topics`, `sections`, or `special issues` from manuscript keywords. First check the journal submission/site taxonomy; if a journal only has broad scope plus keywords/classifications, say so explicitly and label suggested terms as `keywords/positioning`, not official topics.
 9. When giving section/topic links, verify the exact URL slug. For MDPI Sensors, the Sensor Networks section slug observed in June 2026 was `sensornetworks`, not `Sensor_Networks`.
 
-## bài probe-transmit / IoT Scheduling Precedent
+## bài IoT-scheduling / IoT Scheduling Precedent
 
-For a manuscript like bài probe-transmit / bài AoI-greenhouse (pull-based IoT sensing, threshold-aware scheduling, safety-critical sensor monitoring):
+For a manuscript like bài IoT-scheduling / bài AoI-greenhouse (pull-based IoT sensing, threshold-aware scheduling, safety-critical sensor monitoring):
 
 - `Internet of Things (Elsevier / Netherlands)`: strongest Q1 category fit in Scopus-style sources. Relevant Q1 categories include Artificial Intelligence, Computer Science Applications, Computer Science (miscellaneous), Engineering (miscellaneous), Hardware and Architecture, Information Systems, Management of Technology and Innovation, and Software. Good first choice when the goal is Q1 + topic fit.
 - `IEEE Sensors Journal`: Q1 in Electrical and Electronic Engineering and Instrumentation. Good IEEE/sensor route, but frame the paper as wireless sensor-network scheduling, pull-based sensing, and safety-critical sensor monitoring rather than generic IoT algorithms.
@@ -26,7 +26,7 @@ For a manuscript like bài probe-transmit / bài AoI-greenhouse (pull-based IoT 
 
 ## NAFOSTED / QTUT 2025 Approved-List Precedent
 
-When người dùng asks for journals "thuộc danh mục" and provides `Danh muc tap chi QTUT trong KHTNKT 2025.docx`, verify against that document before recommending. In the June 2026 bài probe-transmit session, the following entries were found in the list and fit IoT/sensor-network scheduling:
+When người dùng asks for journals "thuộc danh mục" and provides `Danh muc tap chi QTUT trong KHTNKT 2025.docx`, verify against that document before recommending. In the June 2026 bài IoT-scheduling session, the following entries were found in the list and fit IoT/sensor-network scheduling:
 
 - `IEEE Sensors Journal` — TT 3159, ISSN `1530-437X`, E-ISSN `1558-1748`. Best practical replacement for MDPI Sensors when the paper is framed as sensor-network scheduling and safety-critical sensing.
 - `IEEE Internet of Things Journal` — TT 3132, ISSN `2327-4662`. Highest-prestige IoT fit, but harder/slower.
@@ -38,7 +38,7 @@ When người dùng asks for journals "thuộc danh mục" and provides `Danh mu
 
 Topic/section pitfalls from the same session:
 - `Internet of Things` (Elsevier) has a journal scope page and author keywords/classifications, but no official topic/section choice comparable to MDPI sections. Do not present inferred terms such as resource allocation, IoT communications, or sensor scheduling as official Elsevier topics; call them keywords/cover-letter positioning.
-- `IEEE Access` has a verified Sections page at `https://ieeeaccess.ieee.org/sections/` and Society Sections at `https://ieeeaccess.ieee.org/sections/ieee-society-sections/`. Do not use the old `/about-ieee-access/scope/` path; it 404ed in June 2026. For bài probe-transmit, there is no exact IoT/Sensor Networks IEEE Access section among the 11 Society Sections. If forced to choose, `IEEE Systems, Man and Cybernetics Society Section` (`https://ieeeaccess.ieee.org/society-sections/ieee-systems-man-and-cybernetics-society-section/`) is the closest system/control/safety-monitoring fit; otherwise choose regular/non-section submission. `IEEE Vehicular Technology Society Section` is only a secondary option for mobile/wireless-radio framing. The Special Sections page (`https://ieeeaccess.ieee.org/sections/special-sections/`) said no Special Sections were open for submissions in June 2026.
+- `IEEE Access` has a verified Sections page at `https://ieeeaccess.ieee.org/sections/` and Society Sections at `https://ieeeaccess.ieee.org/sections/ieee-society-sections/`. Do not use the old `/about-ieee-access/scope/` path; it 404ed in June 2026. For bài IoT-scheduling, there is no exact IoT/Sensor Networks IEEE Access section among the 11 Society Sections. If forced to choose, `IEEE Systems, Man and Cybernetics Society Section` (`https://ieeeaccess.ieee.org/society-sections/ieee-systems-man-and-cybernetics-society-section/`) is the closest system/control/safety-monitoring fit; otherwise choose regular/non-section submission. `IEEE Vehicular Technology Society Section` is only a secondary option for mobile/wireless-radio framing. The Special Sections page (`https://ieeeaccess.ieee.org/sections/special-sections/`) said no Special Sections were open for submissions in June 2026.
 - `Sensors` (MDPI, ISSN `1424-8220`) may be Q-indexed elsewhere, but it was not found in this approved-list extraction. Do not recommend it when the hard constraint is "must be in this list" unless re-verification finds the exact journal entry. If discussing MDPI Sensors anyway, the correct Sensor Networks section URL pattern is `https://www.mdpi.com/journal/sensors/sections/sensornetworks`.
 
 ## Getting journal data when search engines / Scimago block headless browsers

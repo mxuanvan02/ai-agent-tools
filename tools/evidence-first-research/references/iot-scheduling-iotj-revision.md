@@ -1,4 +1,4 @@
-# bài probe-transmit IoTJ revision notes (session 2026-06-17)
+# bài IoT-scheduling IoTJ revision notes (session 2026-06-17)
 
 Use this as a compact precedent when revising người dùng's LaTeX manuscripts for IEEE IoTJ or similar venues.
 
@@ -8,7 +8,7 @@ Use this as a compact precedent when revising người dùng's LaTeX manuscripts
 - Repo/code used for verification can live under `SAS/Research/_repos/<repo>/`.
 - Keep review/diff artifacts inside project-private folders such as `_review_artifacts/` or `_review_artifacts_final/`; only copy final PDFs to the project root.
 
-## bài probe-transmit-specific correction pattern
+## bài IoT-scheduling-specific correction pattern
 
 Problem discovered: manuscript narrative mixed a weak/optional correlation branch with the real contribution.
 
@@ -26,8 +26,8 @@ When a manuscript has public code/results:
 3. Compute means/CIs from the correct branch/variant, not from the best-looking table.
 4. Update Data and Code Availability with the canonical repo link.
 
-For bài probe-transmit, canonical repo was:
-`https://github.com/OWNER/bài probe-transmit`
+For bài IoT-scheduling, canonical repo was:
+`https://github.com/OWNER/bài IoT-scheduling`
 
 Relevant result source:
 - `docs/ablation_results_30windows.csv`, variant `+debt -corr`, for the final no-correlation claim.
