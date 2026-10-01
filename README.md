@@ -13,6 +13,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`system-one-work-loop`](tools/system-one-work-loop/) | Autonomous multi-step work loop (plan/build/check/gate) where a System-One model (Jev, laya offline fallback) gates each step: continue silently vs ask/report/stop; role-lens criteria templates by domain | `tools/system-one-work-loop/SKILL.md` |
 | [`evidence-verified-auditing`](tools/evidence-verified-auditing/) | Bulk code/data scan discipline: a scan produces candidates, not findings; confirm against an independent oracle, classify before counting, and prove a verifier can fail before trusting a green result |
 | [`github-pr-workflow`](tools/github-pr-workflow/) | GitHub PR lifecycle with evidence gates: branch from the real base, conventional commits, open and verify a PR from the remote, monitor CI, and leave merging to the human |
+| [`jev-routing-relay-ops`](tools/jev-routing-relay-ops/) | Jev model/effort routing behind a local relay (one endpoint fronting many upstream accounts): verify the wire instead of the config, price pools from measured per-request cost, and gate the guards that catalog-unknown refs silently disable | `tools/jev-routing-relay-ops/SKILL.md` |
 
 ## Validation
 
@@ -33,6 +34,10 @@ python3 -m py_compile tools/evidence-verified-auditing/scripts/*.py
 python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
 python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
 python3 -m py_compile tools/github-pr-workflow/scripts/*.py
+python3 tools/jev-routing-relay-ops/scripts/public_hygiene_check.py
+python3 -m py_compile tools/jev-routing-relay-ops/scripts/*.py
+# offline gate: reads the live routing config, makes no network call, needs no key
+python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>
 ```
 
 The PowerPoint integration does not vendor the upstream engines. Its installer fetches pinned upstream versions, applies a narrowly scoped MIT-compatible patch, installs only the pinned core generation dependencies, and excludes optional AGPL `PyMuPDF` by default.
