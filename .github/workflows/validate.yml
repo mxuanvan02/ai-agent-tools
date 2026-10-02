@@ -67,3 +67,8 @@ jobs:
       - name: Validate jev-decision-benchmark
         run: |
           python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
+
+      - name: Validate explainer-ladder
+        run: |
+          python3 tools/explainer-ladder/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/explainer-ladder/scripts/*.py
