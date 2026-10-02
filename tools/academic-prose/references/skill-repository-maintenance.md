@@ -152,11 +152,30 @@ check establishes and, separately, the property it does not.
   * Extrapolating 15% across the file gives roughly **4,700-7,300 characters**, not the
     14,000-29,000 that a 30-60% rewrite assumption predicts. And that is an upper bound: the
     pilot section was chosen for *high* narration density, while the file average is 49%.
-  * The lever that actually scales is **relocating** evidence and illustration into
-    `references/`, which has no ceiling -- measured at 63,000-69,000 characters, about 8x the
-    rewrite lever. But relocation moves content out of the always-loaded body, so a rule that
-    must fire unprompted cannot be relocated at any saving. That is a behaviour decision, not
-    a formatting one.
+  * **Relocating** evidence and illustration into `references/` looks like a far bigger lever,
+    because that directory has no ceiling and narration plus evidence totals 64,155 characters
+    (64% of the file). **That total is a raw character count, not an achievable saving.** An
+    earlier version of this lesson quoted it as "measured at 63,000-69,000 characters, about 8x
+    the rewrite lever", which overstated it by implying a measurement of what could move.
+    Relocation is free only where the reference already owns the text, and it almost never does:
+    across all 203 obligations, 0 are duplicated at an 80-character prefix, 7 at a 40-character
+    prefix, and 28 (14%) match on any six-word slice; exactly 1 of 29 sections has half or more
+    of its obligations already present in the reference it points at, and that section is 903
+    characters. So nearly every move requires authoring new reference content first and then
+    verifying nothing was lost. It is a writing project, not a reformatting one.
+  * Relocation also moves content out of the always-loaded body, so a rule that must fire
+    unprompted cannot be relocated at any saving. That is a behaviour decision, not a formatting
+    one. Do not try to bound it with a keyword classifier for "is this a trigger section":
+    treating any mention of a `references/` path as a routing trigger fired on **21 of 29**
+    sections, which discriminates nothing; requiring a routing verb next to the path still fired
+    on 14. A column built on either is weak evidence, and the honest statement is that the
+    always-fire classification has to be read, not detected.
+  * **When a containment probe returns zero, widen it before believing it.** The same question
+    -- "is this obligation already in a reference?" -- returned 0, 7 and 28 depending only on
+    probe width (80-character prefix, 40-character prefix, any six-word slice). Reporting the
+    narrowest as a fact produced a confident zero, and that zero was then used to argue the
+    lever did not exist. Four probes at different widths cost nothing; a single narrow one is
+    how this session produced four false negatives in a single pass of a different check.
   * Verify ownership *before* deleting an illustration. Every change in the pilot was a
     rewrite except one parenthetical example, and deletion is the only loss a rewrite can
     hide: no structural check notices it, because the obligation sentence survives without
