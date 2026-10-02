@@ -14,6 +14,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`evidence-verified-auditing`](tools/evidence-verified-auditing/) | Bulk code/data scan discipline: a scan produces candidates, not findings; confirm against an independent oracle, classify before counting, and prove a verifier can fail before trusting a green result |
 | [`github-pr-workflow`](tools/github-pr-workflow/) | GitHub PR lifecycle with evidence gates: branch from the real base, conventional commits, open and verify a PR from the remote, monitor CI, and leave merging to the human |
 | [`jev-routing-relay-ops`](tools/jev-routing-relay-ops/) | Jev model/effort routing behind a local relay (one endpoint fronting many upstream accounts): verify the wire instead of the config, price pools from measured per-request cost, and gate the guards that catalog-unknown refs silently disable | `tools/jev-routing-relay-ops/SKILL.md` |
+| [`explainer-ladder`](tools/explainer-ladder/) | Four-rung explainer ladder for learners: controlled text (ASD-STE100 spirit), diagram, interactive HTML page, video; each rung adds to the one below, every deliverable keeps a verifiable text layer | `tools/explainer-ladder/SKILL.md` |
 
 ## Validation
 
@@ -35,6 +36,7 @@ python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
 python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
 python3 -m py_compile tools/github-pr-workflow/scripts/*.py
 python3 tools/jev-routing-relay-ops/scripts/public_hygiene_check.py
+python3 tools/explainer-ladder/scripts/public_hygiene_check.py
 python3 -m py_compile tools/jev-routing-relay-ops/scripts/*.py
 # offline gate: reads the live routing config, makes no network call, needs no key
 python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>
