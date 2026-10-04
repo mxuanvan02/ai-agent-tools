@@ -29,6 +29,9 @@ Activate only on an explicit request, for example:
 - "Explain X for my students / for undergraduates / for a study group."
 - "Build an explainer about X."
 - "I need to teach X to non-specialists."
+- "Teach me X about my own paper / code / dataset." → teach-back mode below;
+  the rung-1 rules apply, but the lesson is a live conversation, not a
+  deliverable bundle. Skip rungs 2-4 unless asked.
 
 Do NOT activate for ordinary chat questions. The ladder is expensive; a direct
 answer is the right default for everything else.
@@ -90,6 +93,42 @@ scope before rendering.
 - The script IS the rung-1 text. Write the script first, get it approved, then
   render. Never render first and fix the script after.
 
+## Teach-back mode (explaining the user's own research back to them)
+
+Teaching the user their own paper, method, or dataset is a QA pass as much as
+a communication task: the learner trusts every number spoken, and one
+unverified figure taught confidently becomes a defect shipped to reviewers.
+
+1. **Teach from artifacts, never from memory or checkpoints.** Read the source
+   files (theory notes, manuscript `.tex`, code, raw CSVs) in the same turn
+   before explaining. Session summaries and status files drift from disk.
+2. **Verify every number before teaching it.** Recompute it from the raw data
+   or re-run the code that produced it. Measured case: a teaching pass over a
+   manuscript caught (a) a unit mismatch — the same horizon `H` written as
+   "6 hours" in one section and "6 days" in another — and (b) a claim
+   ("micro-doses 0.33 mm sixteen times a day; measured, not speculated") that
+   reproduced under no current configuration; the number was an artifact of an
+   older candidate set. Both would have shipped to reviewers.
+3. **Layered order, never a wall.** Three-sentence overview → system blocks as
+   a small table → formulas one at a time → metrics and what each proves →
+   experimental design and sample sizes → limitations. Stop between layers when
+   the learner asks questions.
+4. **One formula, one reading.** Each formula gets: what it says in plain
+   language, which symbol dominates the behavior, and one concrete measured
+   number that instantiates it.
+5. **Define jargon at first use with a real-world anchor**, not a dictionary
+   gloss.
+6. **Label epistemic status explicitly**: measured / derived / scenario model /
+   unproven. If a bound is not proven yet, say so — a reviewer will ask, and
+   the learner must not be surprised.
+7. **A defect found mid-lesson blocks the lesson.** Patch it, rebuild,
+   re-verify in the same session, then continue and report the fix. Never
+   finish a lesson on top of a known-wrong artifact.
+8. **Calibrate to audience.** For the author/researcher: derivations, known
+   traps, what reviewers will attack. For students: analogy first, one worked
+   example per concept, no symbol before its plain-language name, end with one
+   check question.
+
 ## Hard rules
 
 1. Higher rungs add to rung 1; they never replace it. Every deliverable
@@ -111,3 +150,6 @@ scope before rendering.
 - [ ] Diagrams were visually checked: no font tofu, no overlaps, labels legible.
 - [ ] Video: script was approved before rendering began.
 - [ ] The actual files were delivered, not just described.
+- [ ] Teach-back mode: every number spoken was recomputed from artifacts in
+      this session; any defect found mid-lesson was fixed and re-verified
+      before the lesson continued.
