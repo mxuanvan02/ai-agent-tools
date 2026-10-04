@@ -32,3 +32,7 @@ python3 scripts/slide_pipeline.py finalize /absolute/path/draft.pptx /absolute/p
 ```
 
 A successful finalization writes a byte-identical delivered PPTX plus `manifest.json`, component reports, and `preview.png`. A machine pass does not replace human review of glyphs, spacing, hierarchy, visual correctness, and factual accuracy.
+
+## Hands-on practice slides
+
+Any deck teaching a hands-on operation must show the REAL operation on EVERY practice slide of EVERY lesson: a real screenshot, numbered annotations pointing at exact on-screen locations, and matching numbered steps. Text-only descriptions do not count, and one pictured lesson does not cover the rest. Body text floor ≥ 18px on a 1280×720 canvas; no dead white band larger than ~1/3 of a slide. Full capture → annotate → crop → vision-review workflow and the renderer-artifact proof: [`references/hands-on-screenshot-slides.md`](references/hands-on-screenshot-slides.md).
