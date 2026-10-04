@@ -317,6 +317,14 @@ line-oriented checks (labels at line start). A self-inflicted false FAIL here
 is worse than a missed defect: it sends the author back to "fix" wording that
 was already right.
 
+Whitespace *normalization* is still not enough for **URLs and long unbreakable
+tokens**: LaTeX may wrap a URL at `/` or `.`, and the line break survives as a
+newline that normalization turns into a space *inside* the token
+(`…/mxuanvan02/ TwinGate`). For URL/token counts, assert against
+`re.sub(r"\s+", "", text)` (all whitespace stripped). Measured: a 3-URL gate
+reported 2/3 after normalization and 3/3 after full stripping — the missing
+URL was present and correct in the PDF all along.
+
 Gate recipe: build, then assert on the whitespace-normalized PDF text — zero
 `^(Bảng|Hình|Thuật toán|Table|Figure|Algorithm)\s*\d*\s*:`, zero em dashes
 outside the reference list, zero `PLACEHOLDER`, funding string present, both
