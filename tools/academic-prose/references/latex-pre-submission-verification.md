@@ -282,13 +282,27 @@ some of what grep hits is not prose at all.
    verification remark is an internal operations note, and BibTeX prints it in
    the reference list. Audit note fields for provenance/verification language
    before submission.
-5. **False positive to expect from `-layout` extraction.** `pdftotext -layout`
-   wraps body prose at the column width, so a sentence like `… nêu ở Bảng 2.
-   Tín hiệu xác nhận ACK …` renders as a line starting with `Bảng 2.` and looks
-   exactly like a duplicate float label. Confirm against `main.aux`
-   (`\contentsline {table}\numberline {…}`) or against the unwrapped text
-   before reporting a numbering collision, and check for repeated numbers rather
-   than for suspicious-looking lines.
+5. **Three false-positive classes when locating headings by regex.** Page-mapping
+   a section by matching its title against extracted text is where self-inflicted
+   alarms concentrate. Measured cases, all from one manuscript pass:
+   - *Prose wrap.* `-layout` breaks a sentence at the column width, so `… nêu ở
+     Bảng 2.` followed by `Tín hiệu xác nhận ACK …` renders as a line starting
+     with `Bảng 2.` and looks exactly like a duplicate float label.
+   - *Subsection prefix.* Searching for `Kết luận` also matches
+     `6.6 Kết luận có điều kiện từ hai năm khí hậu` and reports the conclusion
+     four pages early.
+   - *Pseudocode line numbers.* `algorithm2e` with `linesnumbered` prints
+     `1`, `2`, … `8` down the listing margin; the pattern `^\d\s+(.+)$` then
+     "finds" `8 Kết luận` on the algorithm's own page.
+
+   Build the matcher from the real headings instead of guessing them: extract
+   titles from the `.tex` (`\section*?{…}`, stripping `\ref`, math and markup),
+   then require a **whole-line anchored** match, and normalize quotation glyphs
+   (``` ``…'' ``` in source vs `“…”` in text). Confirm every page number against
+   the document's own section order before quoting a page count to a third
+   party — a page count written into a letter to an editor is a hard assertion.
+   Also check float numbers for duplicates per `main.aux`, and normalize
+   whitespace before substring assertions.
 6. **Protected zones still apply inside generated output.** Em dashes that
    survive in the reference list are often part of registered titles
    (`Crop Evapotranspiration — Guidelines…`, `Crop salt tolerance—current
