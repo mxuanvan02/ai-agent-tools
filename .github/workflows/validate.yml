@@ -77,3 +77,9 @@ jobs:
         run: |
           python3 tools/google-sheets-formatting/scripts/public_hygiene_check.py
           python3 -m py_compile tools/google-sheets-formatting/scripts/*.py
+
+      - name: Validate ui-ux-pro-max
+        run: |
+          python3 tools/ui-ux-pro-max/scripts/validate_data.py
+          python3 tools/ui-ux-pro-max/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/ui-ux-pro-max/scripts/*.py

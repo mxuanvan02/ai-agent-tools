@@ -16,6 +16,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`jev-routing-relay-ops`](tools/jev-routing-relay-ops/) | Jev model/effort routing behind a local relay (one endpoint fronting many upstream accounts): verify the wire instead of the config, price pools from measured per-request cost, and gate the guards that catalog-unknown refs silently disable | `tools/jev-routing-relay-ops/SKILL.md` |
 | [`explainer-ladder`](tools/explainer-ladder/) | Four-rung explainer ladder for learners: controlled text (ASD-STE100 spirit), diagram, interactive HTML page, video; each rung adds to the one below, every deliverable keeps a verifiable text layer | `tools/explainer-ladder/SKILL.md` |
 | [`google-sheets-formatting`](tools/google-sheets-formatting/) | Google Sheets via API, professional from the first write: born-formatted workbooks, real data types and formulas, dropdown validation, status colors, and two-layer read-back (API properties plus rendered screenshots); includes the batchUpdate schema traps that cause HTTP 400 | `tools/google-sheets-formatting/SKILL.md` |
+| [`ui-ux-pro-max`](tools/ui-ux-pro-max/) | UI/UX design intelligence with cognitive psychology, calm 60-30-10 color strategy, extreme minimalism, and multi-stack best practices | `tools/ui-ux-pro-max/SKILL.md` |
 
 ## Validation
 
@@ -38,6 +39,8 @@ python3 tools/jev-decision-benchmark/scripts/public_hygiene_check.py
 python3 -m py_compile tools/github-pr-workflow/scripts/*.py
 python3 tools/jev-routing-relay-ops/scripts/public_hygiene_check.py
 python3 tools/explainer-ladder/scripts/public_hygiene_check.py
+python3 tools/ui-ux-pro-max/scripts/validate_data.py
+python3 tools/ui-ux-pro-max/scripts/public_hygiene_check.py
 python3 tools/google-sheets-formatting/scripts/public_hygiene_check.py
 python3 -m py_compile tools/google-sheets-formatting/scripts/*.py
 python3 -m py_compile tools/jev-routing-relay-ops/scripts/*.py
