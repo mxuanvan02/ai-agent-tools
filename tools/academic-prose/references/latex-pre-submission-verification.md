@@ -295,7 +295,16 @@ some of what grep hits is not prose at all.
    assessment`). Resolve each residual against Crossref `container-title` /
    `title` and leave the citation intact.
 
-Gate recipe: build, then assert on the PDF text — zero `^(Bảng|Hình|Thuật
-toán|Table|Figure|Algorithm)\s*\d*\s*:`, zero em dashes outside the reference
-list, zero `PLACEHOLDER`, funding string present, and float numbers free of
-duplicates per `main.aux`.
+**Normalize whitespace before every substring assertion.** `-layout` output
+breaks a long title or heading across lines, so an exact `in text` check on a
+multi-word string reports FAIL on a correct document. Assert against
+`" ".join(text.split())` for phrase checks and keep the raw text only for
+line-oriented checks (labels at line start). A self-inflicted false FAIL here
+is worse than a missed defect: it sends the author back to "fix" wording that
+was already right.
+
+Gate recipe: build, then assert on the whitespace-normalized PDF text — zero
+`^(Bảng|Hình|Thuật toán|Table|Figure|Algorithm)\s*\d*\s*:`, zero em dashes
+outside the reference list, zero `PLACEHOLDER`, funding string present, both
+language versions of the title/abstract matching in claim, and float numbers
+free of duplicates per `main.aux`.
