@@ -80,6 +80,63 @@ break agreement between a table and the figure on the same page, so the point is
 correct in that template. A related trap: TikZ coordinates such as `(5.1,0)` and
 `(4.2,2.55)` are notation, not data. Rewriting them destroys the drawing.
 
+## Punctuation: no em dash in Vietnamese academic prose
+
+Vietnamese scholarly prose does not use the em dash (`—`) as a parenthetical or
+appositive marker the way English does; it is an anglicism and reads as machine
+writing. Measured case: a HUJOS manuscript carried 16 em dashes across two source
+files, all introduced during rewrite rounds, and the author flagged them as a
+defect. Repair by construction type, never by a blind global replace:
+
+| Construction | Repair |
+| --- | --- |
+| `A — B — C` (parenthetical pair) | `A (B) C`, or `A, tức B, C` when B is a restatement |
+| `A — B` introducing a list or an explanation | `A: B` |
+| `A — B` where B is an independent clause | `A; B`, adding the subject B needs (`; việc xác nhận cần…`) |
+| `A — B` where B is a loose appositive | `A, B` or `A, một B…` |
+
+En dashes in ranges (`mục 3.2–3.3`, `tr. 145–162`, `2018–2023`) are notation and
+must survive; see [ai-pattern-taxonomy.md](ai-pattern-taxonomy.md) §14. Count the
+em dashes before and after, and confirm zero remain — the count is the check, not
+a re-read.
+
+**The zero-count check has one legitimate exception: registered proper names.** An
+em dash inside a journal or publisher name is part of the title, not prose. A
+sweep that reported "1 em dash remaining" after the prose was already clean turned
+out to be `CBE—Life Sciences Education` in the reference list; Crossref
+`container-title` returned the identical string with the em dash. So scope the
+final count to the prose files, and when a residual dash appears in the built
+PDF, locate it and resolve it against the registry before reporting it as a
+defect — "fixing" it would corrupt a citation.
+
+Also unify borrowed technical nouns that already have a standard Vietnamese term
+(`gate` → `cổng kiểm soát`) in the same pass; a mixed register inside one
+paragraph is what makes reviewers suspect machine authorship.
+
+## No "Title: Subtitle" colon in Vietnamese headings and titles
+
+The colon-separated title/subtitle pattern is an English academic convention.
+Vietnamese journal titles and section headings read as noun phrases or as a
+heading linked by a preposition; a colon in a heading is an anglicism. Measured
+case: a manuscript title audit found the title itself clean but one newly added
+appendix heading carrying `Tình huống minh họa thứ hai: quy định chuyển tiếp và
+tiêu chí 5` — introduced by the reviser, not the author.
+
+Repair: replace the colon with `về`, `đối với`, or fold the two parts into one
+noun phrase. Scope the sweep to headings and captions, not the whole file:
+
+```python
+import re
+for m in re.finditer(r'(?m)^(#{1,4})\s+(.*)$', src):
+    if ':' in m.group(2): print(m.group(2))   # must be empty at the end
+```
+
+**Do not extend this rule to journal-mandated label lines.** `**Tóm tắt:**`,
+`**Từ khóa:**`, `**Abstract:**`, `**Keywords:**`, and the corresponding-author
+line are format fields, not headings; their colons are required by the venue and
+removing them fails the format audit. Verify both directions after the sweep:
+zero headings with a colon, and each mandated label still present exactly once.
+
 ## Protected Elements
 
 Whether a required foreign term is translated, kept, or glossed is decided by
