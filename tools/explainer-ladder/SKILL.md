@@ -129,6 +129,32 @@ unverified figure taught confidently becomes a defect shipped to reviewers.
    example per concept, no symbol before its plain-language name, end with one
    check question.
 
+### Layout for lay/student explainers
+
+Learned from a well-received Gemini answer on carbon-credit issuance (measured
+against the same topic the user was studying). Five techniques, in order of
+impact:
+
+1. **Anchor analogy in the first sentence**, then map its parts onto the real
+   system explicitly ("đúc tiền xu vàng" → hành động môi trường = vàng, quy
+   trình cấp = đúc, mã tín chỉ = số seri). An unmapped analogy decorates;
+   a mapped one carries structure.
+2. **Section headings are the reader's questions**, not topic labels: "1 tín
+   chỉ là gì?", "Quy trình cấp diễn ra thế nào?", "Tiền chảy về đâu?".
+3. **One-line arrow flow before any step-by-step prose**:
+   `[Dữ liệu] ➔ [Thẩm định] ➔ [Phê duyệt] ➔ [Phát hành]`. The flow is the
+   skeleton; the steps hang on it.
+4. **One concrete numeric example runs through the whole explainer** (10.000
+   tấn CO₂e, giá $5–$30/tín chỉ). Never explain a mechanism in the abstract
+   when a single instance can carry it.
+5. **Real named entities** (Verra, Gold Standard, SGS, Bureau Veritas) instead
+   of "một tổ chức quốc tế". Names are checkable; generics are not.
+
+Do NOT copy the chatbot closing ("Bạn muốn tìm hiểu nội dung nào?") into
+handouts or documents — it is a conversation artifact (humanizer pattern 20),
+fine in chat, noise in a deliverable. In a document, close with the check
+question or the next concrete step instead.
+
 ## Hard rules
 
 1. Higher rungs add to rung 1; they never replace it. Every deliverable
