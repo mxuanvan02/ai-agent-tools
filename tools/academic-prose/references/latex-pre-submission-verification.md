@@ -303,6 +303,28 @@ some of what grep hits is not prose at all.
    party — a page count written into a letter to an editor is a hard assertion.
    Also check float numbers for duplicates per `main.aux`, and normalize
    whitespace before substring assertions.
+4. **Match the extraction mode to the document's layout.** Two-column IEEE
+   output must be measured with `pdftotext -raw`; `-layout` interleaves the two
+   columns on one output line, so line-anchored heading detection finds zero
+   sections even though all ten are present. Whichever mode was used to measure
+   the reference paper must be the mode used to measure the new one, otherwise
+   the comparison table is meaningless in both directions.
+5. **Class-specific renderers break naive counters.** Measured on IEEEtran:
+   - Tables are numbered with **Roman numerals** (`TABLE I`), so `TABLE\s+(\d+)`
+     reports zero tables out of eight.
+   - `enumerate` renders as `1)`, `2)`, … not `(i)`, `(ii)`; a gate written
+     against the manuscript's intended `(i)` style reports the contributions
+     list as missing.
+   - `\IEEEauthorrefmark{*}` is a compile error (`Missing number`): the macro
+     takes an integer, so a corresponding-author marker must be a number.
+   Enumerate the float and list styles the class actually produces before
+   writing counters for them.
+6. **Vietnamese reference titles require XeLaTeX.** `pdflatex` aborts with
+   `Unicode character ậ (U+1EAD)` when a `.bib` entry carries the verbatim title
+   of a Vietnamese legal instrument. Do not hand-escape the diacritics (it
+   corrupts the citation); switch the engine and pick a font that actually has
+   the block — verify with `fc-list <font> :lang=vi`, because TeX Gyre Termes
+   reports `NO` for Vietnamese (no U+1E00 range) while Charis SIL reports `YES`.
 6. **Protected zones still apply inside generated output.** Em dashes that
    survive in the reference list are often part of registered titles
    (`Crop Evapotranspiration — Guidelines…`, `Crop salt tolerance—current
