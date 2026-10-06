@@ -156,3 +156,11 @@ Do not flag any of the following. Each is correct Vietnamese academic prose that
 One ceremonial word proves nothing. Vietnamese academic prose written by a careful human still contains `quan trọng`, `có thể`, and balanced pairs. Treat a passage as machine-marked only when several independent signals co-occur: ceremonial vocabulary plus empty framing plus symmetric padding plus evaluation without measurement. Absence of citations is not evidence, and polish is not evidence.
 
 When the author supplied a writing sample, the sample governs. Match its rhythm, its Sino-Vietnamese density, and its punctuation habits rather than these defaults.
+
+## 9. Title colon split
+
+The colon-split title (`Chủ đề lớn: Phụ đề thu hẹp`) is a high-signal machine tell in Vietnamese academic deliverables and is rejected outright by the author. It fails three ways at once: it substitutes punctuation for syntax, it repeats the head noun across both halves, and the subtitle is usually narrower than what the document actually argues.
+
+Repair by recasting into a single nominal phrase. A course-essay title built as `PHẦN MỀM NGUỒN MỞ TRONG KỶ NGUYÊN CHUỖI CUNG ỨNG PHẦN MỀM: GIẤY PHÉP, MÔ HÌNH PHÁT TRIỂN VÀ AN TOÀN CHUỖI CUNG ỨNG` becomes `GIẤY PHÉP, MÔ HÌNH PHÁT TRIỂN VÀ AN TOÀN CHUỖI CUNG ỨNG CỦA PHẦN MỀM MÃ NGUỒN MỞ` — same scope, one phrase, no repeated token, no colon.
+
+The rule extends to section headings. Table and figure captions are the licensed exception: `Bảng 1: Tên bảng` is the established Vietnamese house convention and appears in the author's own approved theses; `vi_ai_pattern_scan` flags caption colons as candidates — adjudicate them as licensed, do not rewrite. Apply it before delivery rather than after the author points it out, and re-run `vi_ai_pattern_scan` with URLs and DOIs stripped so citation strings do not hide the real colon density in prose.

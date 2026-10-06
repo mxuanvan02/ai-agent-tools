@@ -348,42 +348,24 @@ Two consequences that arrive with every such closure:
 ### A dataset release swap invalidates every number in the manuscript
 
 When a superseding release replaces the dataset the manuscript reports — an
-audited subset, a cleaned re-issue, an author decision to "use the better
-copy and drop the version label" — treat every reported quantity as stale
-until recomputed:
+audited subset, a cleaned re-issue, an author decision to "use the better copy
+and drop the version label" — treat every reported quantity as stale until
+recomputed. The six obligations, in order: classify the release relation by
+subset check on item ID plus field-level identity; find the per-item prediction
+ledgers before any `requires_new_study` call; validate the recomputation
+pipeline against the published old numbers to rounding; propagate to both
+abstracts, every table, in-text count, caption, limitation and conclusion, and
+regenerate data-derived figures in the same round; ship the recompute script as
+a citable artifact and report the dataset's own verification pass count rather
+than self-attesting integrity; on consolidation, drop version labels from
+user-facing artifacts and keep the superseded build reproducible from scripts.
 
-1. Establish the relation between releases first: subset check by item ID
-   plus field-level identity on question, options, and gold. A "new version"
-   that is a strict subset of the old one is a filtering event, not new data,
-   so the old per-item model outputs remain valid evidence for the new set.
-2. Locate the per-item prediction ledgers before classifying anything as
-   `requires_new_study`. They usually live in a project directory on a data
-   disk, not in the prose repo; grep by benchmark model name or headline
-   count. A harness that wrote a `details` array per run settles
-   recomputability immediately.
-3. Validate the recomputation pipeline against the published old numbers:
-   accuracy, 2×2 transition cells, test p-values, and cluster intervals must
-   reproduce to rounding. Agreement on the old release is what licenses the
-   new numbers; a mismatch means wrong ledger or wrong protocol, not a paper
-   error.
-4. Recompute, then propagate everywhere: both abstracts, all tables, in-text
-   counts, figure captions, limitations, conclusion — and regenerate every
-   data-derived figure in the same round. Descriptive claims that become
-   false under the new release ("label distribution is approximately
-   balanced") must be rewritten, never carried over.
-5. Ship the recompute script as a citable artifact beside the release, and
-   run the dataset's own verification script on the staged files, reporting
-   its pass count as evidence rather than self-attesting integrity.
-6. When consolidating to one final release, remove version labels from
-   user-facing artifacts (dataset card, README, citation) and keep the
-   superseded build reproducible from scripts and provenance notes instead of
-   as a competing default configuration.
-
-Worked recipe (subset-check code, ledger search order, figure regeneration,
-card consolidation, making the repo public with anonymous verification, GitHub
-shallow-clone branch-consolidation traps, code-only LICENSE scoping, the
-data-availability statement, and OCR fallback for reading figures without vision
-tools): [Dataset release swap](references/dataset-release-swap.md).
+Worked recipe (subset-check code, ledger search order, claims that flip
+polarity, figure regeneration, card consolidation, making the repo public with
+anonymous verification, GitHub shallow-clone branch-consolidation traps,
+code-only LICENSE scoping, the data-availability statement, and OCR fallback for
+reading figures without vision tools):
+[Dataset release swap](references/dataset-release-swap.md).
 
 For legal scholarship, read [Legal research genres](references/legal-research-genres.md)
 before selecting a structure. Legal work has several distinct reasoning logics;
@@ -463,6 +445,7 @@ Read these references as needed:
 - [Academic English standard](references/academic-english-standard.md)
 - [Terminology localization policy](references/terminology-localization.md)
 - [Composition workflow](references/composition-workflow.md)
+- [Figure-driven prose revision](references/figure-driven-prose-revision.md)
 - [Capability matrix](references/capability-matrix.md)
 - [Argument and evidence](references/argument-and-evidence.md)
 - [Genre playbooks](references/genre-playbooks.md)
@@ -529,10 +512,11 @@ These constraints hold in both languages. Language-specific realization lives in
 - Use passive constructions only when the affected object or procedure is the discourse focus.
 - Keep one stable rendering per concept unless context changes the concept.
 - Make logical relations explicit only when licensed by the evidence or stated reasoning.
-- Preserve calibrated hedging; academic tone is not synonymous with stronger claims or heavier formal vocabulary.
-- Frame the gap by its IMPLICATION about the reader: no strawman, no defensive negation; make the deficit a property of process, artifacts or scale, not the person. See references/framing-gap-motivation.md.
+- Preserve calibrated hedging; academic tone is not stronger claims or heavier formal vocabulary.
+- Frame the gap as a property of process, artifacts or scale, not the person; no strawman, no defensive negation. See references/framing-gap-motivation.md.
 - Numbered footnote/table edits: a new criterion needs its own citation; renumber captions, mentions and count headings; verify in the DOCX. See references/numbered-footnote-table-manuscript.md.
 - Avoid journalistic emphasis, promotional claims, bureaucratic padding, conversational fillers, ceremonial vocabulary, and ornamental synonyms.
+- Never build a Vietnamese title or heading as `Chủ đề: Phụ đề`; recast into one nominal phrase that repeats no word it already contains. See references/ai-pattern-vietnamese.md §9.
 
 ## Audit Output
 
@@ -1365,3 +1349,16 @@ Important caveats:
   the implementation/pipeline source before editing either artifact.
 - This fallback is for **auditing existing figures**, not generating new ones.
   Figure generation follows the pipeline scripts in the project repository.
+- **An empty vision reply is a tool failure, not a clean result.** One figure
+  returned `(0 chars)`; re-running with a concrete checklist prompt produced
+  650 characters of real defects. Require a literal token (`SẠCH` / `ỔN`) when
+  nothing is wrong, so "no defects" is distinguishable from "no output".
+
+## Figure-Driven Revision: more graphics, less prose
+
+Adding figures to a tables-only manuscript, or cutting the prose that funds
+them, is covered in
+[Figure-driven prose revision](references/figure-driven-prose-revision.md):
+whose style is really the model, figures generated from the measurement bundle,
+glyph and vision gates, caption placement, built-artifact verification, and
+prose cuts that never touch a verifier's pinned string.
