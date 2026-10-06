@@ -32,5 +32,17 @@ Rules:
 2. Fix for `article`: `\renewcommand{\refname}{Tài liệu tham khảo}` immediately before `\begin{thebibliography}`. (`\bibname` applies to `book`/`report` classes.)
 3. Rebuild twice, then re-verify heading text **and** full citation range `[1..N]` in the rendered text before calling the build final.
 
+## Prose gates cannot catch a reversed finding — audit claims, not register
+Measured on a Vietnamese master's essay: all four prose gates returned clean or licensed-only, yet the draft reversed an empirical result, mischaracterized a legal instrument, and cited a statutory number that had never been verified.
+
+Rules, in the order that catches the most:
+1. **Direction of a comparison must come from the paper's own table, never from memory.** Mockus/Fielding/Herbsleb (TOSEM 2002, Table III) reports Apache post-release defect density of 2.64 per KLOCA against 0.1–0.7 for four commercial projects — *worse*, not better — while the pre-system-test figure is 2.64 against 5.7–6.9, i.e. *better*. A result that cuts both ways is the signal you have a real finding; a one-directional paraphrase of a two-directional study is the classic reversal. Fetch the PDF and read the table before writing the sentence.
+2. **Name the subject of a legal obligation from the article text, not from the headline.** Regulation (EU) 2024/2847 Art. 3(14) defines the `open-source software steward` as a *legal person* (foundations such as ASF, LF), Art. 2(2) excludes individuals contributing source code outside commercial activity, and Art. 64(10)(b) exempts stewards from administrative fines. "The burden falls on unpaid individuals" is the opposite of what the text says.
+3. **Never write a statutory instrument number from memory.** Verify the circular/regulation on an official gazette (Vietnam: `congbao.chinhphu.vn`) and record signer, promulgation date, effective date, gazette issue. Mirror the same rule for CVE IDs (query the NVD API) and DOIs (query Crossref) — a DOI that 404s at Crossref is a fabricated venue or volume.
+4. **Delete unsourced superlatives and round quantities.** `hàng triệu ứng dụng`, `phần lớn máy chủ Internet`, `được sử dụng rộng rãi nhất thế giới` read as evidence but carry none. Either attach a citable measurement or recast to the verifiable component list.
+5. **Check the bibliography in both directions after every edit round.** Replacing a citation key in prose orphans the bib entry and breaks the other way too; diff `\cite{}` keys against `@type{key}` entries and require both `CITED-NOT-DEFINED` and `DEFINED-NOT-CITED` to be empty.
+6. **A lexical gate hit can be a collision — adjudicate, don't blindly rewrite.** `đã biên dịch sẵn` (a prebuilt object file) trips `verification_log_prose`, whose pattern targets first-person process narration. Apply the three tests (admissible semantic subject, work-continues, re-typesetting); if the subject is a world entity and the reader can verify it from the cited source, the verdict is `license` — recast only when an equally exact wording removes the collision without distorting the technical meaning.
+7. **Table captions are a licensed exception to the no-colon rule.** `Bảng 1: Tên bảng` is the Vietnamese house convention and appears in the author's own approved theses; `vi_ai_pattern_scan` flags caption colons as candidates by design. Adjudicate them as licensed rather than rewriting.
+
 ## Pointer in SKILL.md
 Section "Evidence-Bound Revision" item 6 now references this file.
