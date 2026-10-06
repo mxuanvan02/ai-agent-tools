@@ -325,6 +325,23 @@ some of what grep hits is not prose at all.
    corrupts the citation); switch the engine and pick a font that actually has
    the block — verify with `fc-list <font> :lang=vi`, because TeX Gyre Termes
    reports `NO` for Vietnamese (no U+1E00 range) while Charis SIL reports `YES`.
+7. **Section-number matchers must cover the whole Roman range.** A pattern
+   listing `I|II|III|IV|V|VI|VII|VIII|IX|X` silently drops XI–XIV, so a
+   fourteen-section paper reports ten and looks structurally deficient. List the
+   numerals longest-first, or count `\section` occurrences in the source and use
+   the PDF only as a cross-check.
+8. **Enumerated-item matchers must tolerate inline emphasis.** An item opening
+   with `\emph{…}` renders italic, so `^\s*(\d)\)\s+[A-Z][a-z]` matches nothing
+   and a complete contributions list reads as absent. Anchor on the numeral alone
+   (`^\s*(\d)\)\s+\S`) and assert the count, not the casing.
+9. **A citation that fails to resolve is a fabrication risk, not a formatting
+   problem.** Guessing a DOI and letting it into the bibliography is the failure
+   mode to prevent: a plausible-looking DOI can resolve to an unrelated paper in
+   the same journal. Query Crossref for the entry, read back title/container/
+   year, and only then write the `.bib` record. Equally, check that a cited
+   source is *on topic*: a meta-analysis of yield and water use does not support
+   a claim about methane reduction, and the mismatch survives compilation
+   silently.
 6. **Protected zones still apply inside generated output.** Em dashes that
    survive in the reference list are often part of registered titles
    (`Crop Evapotranspiration — Guidelines…`, `Crop salt tolerance—current

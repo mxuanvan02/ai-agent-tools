@@ -463,6 +463,7 @@ Read these references as needed:
 - [Academic English standard](references/academic-english-standard.md)
 - [Terminology localization policy](references/terminology-localization.md)
 - [Composition workflow](references/composition-workflow.md)
+- [Figure-driven prose revision](references/figure-driven-prose-revision.md)
 - [Capability matrix](references/capability-matrix.md)
 - [Argument and evidence](references/argument-and-evidence.md)
 - [Genre playbooks](references/genre-playbooks.md)
@@ -529,10 +530,11 @@ These constraints hold in both languages. Language-specific realization lives in
 - Use passive constructions only when the affected object or procedure is the discourse focus.
 - Keep one stable rendering per concept unless context changes the concept.
 - Make logical relations explicit only when licensed by the evidence or stated reasoning.
-- Preserve calibrated hedging; academic tone is not synonymous with stronger claims or heavier formal vocabulary.
-- Frame the gap by its IMPLICATION about the reader: no strawman, no defensive negation; make the deficit a property of process, artifacts or scale, not the person. See references/framing-gap-motivation.md.
+- Preserve calibrated hedging; academic tone is not stronger claims or heavier formal vocabulary.
+- Frame the gap as a property of process, artifacts or scale, not the person; no strawman, no defensive negation. See references/framing-gap-motivation.md.
 - Numbered footnote/table edits: a new criterion needs its own citation; renumber captions, mentions and count headings; verify in the DOCX. See references/numbered-footnote-table-manuscript.md.
 - Avoid journalistic emphasis, promotional claims, bureaucratic padding, conversational fillers, ceremonial vocabulary, and ornamental synonyms.
+- Never build a Vietnamese title or heading as `Chủ đề: Phụ đề`; recast into one nominal phrase that repeats no word it already contains. See references/ai-pattern-vietnamese.md §9.
 
 ## Audit Output
 
@@ -1365,3 +1367,28 @@ Important caveats:
   the implementation/pipeline source before editing either artifact.
 - This fallback is for **auditing existing figures**, not generating new ones.
   Figure generation follows the pipeline scripts in the project repository.
+- **An empty vision reply is a tool failure, not a clean result.** One figure
+  returned `=== OK ... (0 chars) ===`; re-running with a concrete checklist
+  prompt produced 650 characters of real defects. Require the model to answer
+  with a literal token (`SẠCH` / `ỔN`) when it finds nothing, so "no defects" is
+  distinguishable from "no output".
+
+## Figure-Driven Revision: more graphics, less prose
+
+When the author asks for figures on a tables-only manuscript, read
+[Figure-driven prose revision](references/figure-driven-prose-revision.md). It
+covers: whose writing style is actually the model (a named person vs. a file the
+project already recorded — and letting a **published article of the target
+venue** arbitrate which of the mentor's habits belong to the genre rather than
+the person); generating every figure from the measurement bundle with
+`assert subset == n` so no count is typed in; checking Vietnamese glyph coverage
+with `fontTools` instead of eyeballing a render; vision-gating each PNG before
+it enters the build; teaching a markdown→DOCX builder to embed images and
+enforce the venue's caption side (table titles above, figure titles below);
+verifying placement on the built DOCX/PDF — where
+`page.get_images(full=True)` lies (resource list, "4 images on all 31 pages")
+and `page.get_image_info()` tells the truth (4 pages, one bbox each); and paying
+for the figures by deleting the prose that restates tables, while never cutting
+a string a verifier pins. Plus the abstract rewrite that trades a dense list of
+percentages for the five-beat context→gap→idea→results-in-words→limits shape
+while keeping the sample size **and its denominator**.
