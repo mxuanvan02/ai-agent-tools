@@ -348,42 +348,24 @@ Two consequences that arrive with every such closure:
 ### A dataset release swap invalidates every number in the manuscript
 
 When a superseding release replaces the dataset the manuscript reports — an
-audited subset, a cleaned re-issue, an author decision to "use the better
-copy and drop the version label" — treat every reported quantity as stale
-until recomputed:
+audited subset, a cleaned re-issue, an author decision to "use the better copy
+and drop the version label" — treat every reported quantity as stale until
+recomputed. The six obligations, in order: classify the release relation by
+subset check on item ID plus field-level identity; find the per-item prediction
+ledgers before any `requires_new_study` call; validate the recomputation
+pipeline against the published old numbers to rounding; propagate to both
+abstracts, every table, in-text count, caption, limitation and conclusion, and
+regenerate data-derived figures in the same round; ship the recompute script as
+a citable artifact and report the dataset's own verification pass count rather
+than self-attesting integrity; on consolidation, drop version labels from
+user-facing artifacts and keep the superseded build reproducible from scripts.
 
-1. Establish the relation between releases first: subset check by item ID
-   plus field-level identity on question, options, and gold. A "new version"
-   that is a strict subset of the old one is a filtering event, not new data,
-   so the old per-item model outputs remain valid evidence for the new set.
-2. Locate the per-item prediction ledgers before classifying anything as
-   `requires_new_study`. They usually live in a project directory on a data
-   disk, not in the prose repo; grep by benchmark model name or headline
-   count. A harness that wrote a `details` array per run settles
-   recomputability immediately.
-3. Validate the recomputation pipeline against the published old numbers:
-   accuracy, 2×2 transition cells, test p-values, and cluster intervals must
-   reproduce to rounding. Agreement on the old release is what licenses the
-   new numbers; a mismatch means wrong ledger or wrong protocol, not a paper
-   error.
-4. Recompute, then propagate everywhere: both abstracts, all tables, in-text
-   counts, figure captions, limitations, conclusion — and regenerate every
-   data-derived figure in the same round. Descriptive claims that become
-   false under the new release ("label distribution is approximately
-   balanced") must be rewritten, never carried over.
-5. Ship the recompute script as a citable artifact beside the release, and
-   run the dataset's own verification script on the staged files, reporting
-   its pass count as evidence rather than self-attesting integrity.
-6. When consolidating to one final release, remove version labels from
-   user-facing artifacts (dataset card, README, citation) and keep the
-   superseded build reproducible from scripts and provenance notes instead of
-   as a competing default configuration.
-
-Worked recipe (subset-check code, ledger search order, figure regeneration,
-card consolidation, making the repo public with anonymous verification, GitHub
-shallow-clone branch-consolidation traps, code-only LICENSE scoping, the
-data-availability statement, and OCR fallback for reading figures without vision
-tools): [Dataset release swap](references/dataset-release-swap.md).
+Worked recipe (subset-check code, ledger search order, claims that flip
+polarity, figure regeneration, card consolidation, making the repo public with
+anonymous verification, GitHub shallow-clone branch-consolidation traps,
+code-only LICENSE scoping, the data-availability statement, and OCR fallback for
+reading figures without vision tools):
+[Dataset release swap](references/dataset-release-swap.md).
 
 For legal scholarship, read [Legal research genres](references/legal-research-genres.md)
 before selecting a structure. Legal work has several distinct reasoning logics;
@@ -1368,27 +1350,15 @@ Important caveats:
 - This fallback is for **auditing existing figures**, not generating new ones.
   Figure generation follows the pipeline scripts in the project repository.
 - **An empty vision reply is a tool failure, not a clean result.** One figure
-  returned `=== OK ... (0 chars) ===`; re-running with a concrete checklist
-  prompt produced 650 characters of real defects. Require the model to answer
-  with a literal token (`SẠCH` / `ỔN`) when it finds nothing, so "no defects" is
-  distinguishable from "no output".
+  returned `(0 chars)`; re-running with a concrete checklist prompt produced
+  650 characters of real defects. Require a literal token (`SẠCH` / `ỔN`) when
+  nothing is wrong, so "no defects" is distinguishable from "no output".
 
 ## Figure-Driven Revision: more graphics, less prose
 
-When the author asks for figures on a tables-only manuscript, read
-[Figure-driven prose revision](references/figure-driven-prose-revision.md). It
-covers: whose writing style is actually the model (a named person vs. a file the
-project already recorded — and letting a **published article of the target
-venue** arbitrate which of the mentor's habits belong to the genre rather than
-the person); generating every figure from the measurement bundle with
-`assert subset == n` so no count is typed in; checking Vietnamese glyph coverage
-with `fontTools` instead of eyeballing a render; vision-gating each PNG before
-it enters the build; teaching a markdown→DOCX builder to embed images and
-enforce the venue's caption side (table titles above, figure titles below);
-verifying placement on the built DOCX/PDF — where
-`page.get_images(full=True)` lies (resource list, "4 images on all 31 pages")
-and `page.get_image_info()` tells the truth (4 pages, one bbox each); and paying
-for the figures by deleting the prose that restates tables, while never cutting
-a string a verifier pins. Plus the abstract rewrite that trades a dense list of
-percentages for the five-beat context→gap→idea→results-in-words→limits shape
-while keeping the sample size **and its denominator**.
+Adding figures to a tables-only manuscript, or cutting the prose that funds
+them, is covered in
+[Figure-driven prose revision](references/figure-driven-prose-revision.md):
+whose style is really the model, figures generated from the measurement bundle,
+glyph and vision gates, caption placement, built-artifact verification, and
+prose cuts that never touch a verifier's pinned string.
