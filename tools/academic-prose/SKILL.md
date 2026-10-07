@@ -446,6 +446,7 @@ Read these references as needed:
 - [Terminology localization policy](references/terminology-localization.md)
 - [Composition workflow](references/composition-workflow.md)
 - [Figure-driven prose revision](references/figure-driven-prose-revision.md)
+- [Calque and wording audit](references/calque-wording-audit.md)
 - [Capability matrix](references/capability-matrix.md)
 - [Argument and evidence](references/argument-and-evidence.md)
 - [Genre playbooks](references/genre-playbooks.md)
