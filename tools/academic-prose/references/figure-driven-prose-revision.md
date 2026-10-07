@@ -205,3 +205,28 @@ must be explainable as a format change (parenthetical → narrative, separate �
 grouped), and every lost number must be one the author asked to remove. Also
 spot-check that content "deduplicated" from section A still exists in section B —
 one dedupe pass deleted a finding outright instead of pointing at its duplicate.
+
+**Restoring a wrongly-deleted finding re-creates the duplication it replaced.**
+The Belay restore put the full clause back into the Introduction while the
+literature section still carried it; a Jaccard scan over sentence pairs flagged
+the pair at 0.96. After any restore, re-run the near-duplicate scan — restoration
+and compression are the same operation with opposite signs, and only the scan
+sees both.
+
+**Build the cut-candidate list by excluding sentences that hold a single-occurrence
+citation.** Count every in-text key across the prose: in one manuscript 33 of 72
+keys appeared exactly once, so cutting those sentences orphans a reference and
+fails the bibliography check that runs after assembly. Filter candidates to
+sentences containing no single-occurrence key and no string a verifier pins, then
+sort by length. This turns "find something to cut" from a reading exercise into a
+ranked, safe work list.
+
+**Report word count against the right baseline, or the number lies.** Splitting
+long sentences *increases* total words slightly while making the text read much
+shorter; adding figure captions and lead-ins adds ~180 words. Printing one
+"before → after" number hides which pass did what. Print the count after **every**
+pass and, at the end, a trajectory table against both the pre-review baseline and
+the pre-figures baseline, so "more figures, less prose" can actually be checked
+rather than asserted. If review-mandated additions outweigh the compression, say
+so plainly and offer the structural lever (move an illustrative section to
+supplementary) instead of quietly shaving hedges.
