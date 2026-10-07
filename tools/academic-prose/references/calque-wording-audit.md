@@ -86,6 +86,25 @@ label. Attempts to confirm the legal usage hit three blocked sources (404, 403, 
 page), so the term was **left unchanged and reported as unverified** rather than
 replaced on memory. Do not swap a term you cannot source; flag it for the author.
 
+## A superseded review file can declare verbatim constraints that no longer bind
+
+Renaming a calque can break a "must stay verbatim" list written by an earlier review
+round. Before honoring or overriding such a list, establish which round it belongs to:
+
+1. Grep the **live verification scripts** for the string. A phrase pinned only in a
+   markdown note is not enforced; a phrase pinned in a script fails the build.
+2. Test whether the document's own proposals were ever applied. One audit proposed a
+   replacement abstract containing a specific statistic; the current abstract did not
+   contain it, so the document had been superseded by the next review round.
+3. Separate the letter of a constraint from its intent. The real invariant was "do not
+   delete a qualification to save words". After renaming `định danh văn bản quy phạm` →
+   `nêu văn bản quy phạm` and `vị trí trích xuất` → `vị trí trích nguồn`, all four
+   qualifications were still present under the new wording, verified by count. Renaming
+   a calque is not deleting a hedge.
+
+Write the verdict into the project folder where the next session will read it, or the
+same conflict gets re-litigated and someone "restores" the calque.
+
 ## Verify the word count after every edit, not after the batch
 
 Two edits labelled "cut redundant words" actually added 1 and 1 words because the
