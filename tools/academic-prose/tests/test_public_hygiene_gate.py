@@ -483,6 +483,48 @@ class TestSeparatorVariantsAndDescriptorCollisions(unittest.TestCase):
         finally:
             shutil.rmtree(tmp, ignore_errors=True)
 
+    def test_vietnamese_words_ending_in_the_vocative_are_not_caught(self) -> None:
+        """`\\b` and LETTER_BOUNDARY are both wrong for a Vietnamese token.
+
+        Measured regression: the personal-name pattern matched INSIDE ordinary legal
+        terms such as định danh văn bản quy phạm (identify the governing document) and
+        thành danh văn hiến, because once case is folded the tail of those words reads
+        exactly like the vocative. A reference file quoting the term failed the gate
+        forever, and the only way to pass was to delete correct prose. The pattern now
+        carries a boundary that also excludes precomposed Latin letters with
+        diacritics. These literals are deliberately written out, not concatenated: this
+        file sits inside the scanned tool directory, so the suite is self-guarding — if
+        the boundary is ever dropped, the real-directory test fails too. Any prose here
+        must keep the token glued inside a longer word, or the gate flags this file.
+        """
+        clean = [
+            "không định danh văn bản quy phạm và khai báo chuẩn đầu ra",
+            "hồ sơ thiếu định danh văn bản quy phạm kèm vị trí trích nguồn",
+            "đoạn nguồn không định danh văn bản quy phạm",
+            "một văn bản thành danh văn hiến của triều Nguyễn",
+            "yêu cầu định danh văn bản áp dụng",
+        ]
+        tmp = build_tool({f"vn{i}.md": s + "\n" for i, s in enumerate(clean)})
+        try:
+            rc, out = run_gate(Path(tmp))
+            self.assertEqual(rc, 0, out)
+            self.assertIn("PASS", out)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
+
+        # the real vocative must still be caught, in both cases and across a line break
+        for leak in ("đã nhờ " + PERSONAL_NAME + " soát lại",
+                     "gửi " + PERSONAL_NAME.upper() + " giúp em",
+                     "nhờ anh\n" + "Văn xem lại"):
+            with self.subTest(leak=leak.replace("\n", " ")):
+                tmp = build_tool({"leak.md": leak + "\n"})
+                try:
+                    rc, out = run_gate(Path(tmp))
+                    self.assertEqual(rc, 1, out)
+                    self.assertIn("personal-name", out)
+                finally:
+                    shutil.rmtree(tmp, ignore_errors=True)
+
     def test_the_old_colliding_descriptor_is_now_caught_and_the_new_one_is_legal(self) -> None:
         """The collision was resolved by RENAMING, then the pattern was strengthened.
 
