@@ -44,5 +44,28 @@ Rules, in the order that catches the most:
 6. **A lexical gate hit can be a collision — adjudicate, don't blindly rewrite.** `đã biên dịch sẵn` (a prebuilt object file) trips `verification_log_prose`, whose pattern targets first-person process narration. Apply the three tests (admissible semantic subject, work-continues, re-typesetting); if the subject is a world entity and the reader can verify it from the cited source, the verdict is `license` — recast only when an equally exact wording removes the collision without distorting the technical meaning.
 7. **Table captions are a licensed exception to the no-colon rule.** `Bảng 1: Tên bảng` is the Vietnamese house convention and appears in the author's own approved theses; `vi_ai_pattern_scan` flags caption colons as candidates by design. Adjudicate them as licensed rather than rewriting.
 
+## Recitals explain, articles bind — never cite a preamble as an obligation
+Measured on a Vietnamese master's essay: the draft said the EU Cyber Resilience Act "does not apply to individuals contributing source code", phrased as a binding rule. That sentence lives in **Recital 18**, a non-binding preamble. Article 2 (Scope) contains no such exclusion; the operative threshold is **Article 3(22)**, which defines `making available on the market` as supply `in the course of a commercial activity, whether in return for payment or free of charge`.
+
+Rules:
+1. Before attributing any obligation or exclusion to a regulation, locate the sentence and record whether it sits in a **Recital** (numbered `(n)` in the preamble) or an **Article** (binding). Fetch the full text — EUR-Lex HTML is often truncated or JS-gated, so pull it through the Wayback snapshot and grep the plain text.
+2. Verify by grepping the article text, not by trusting a summary blog. Blogs routinely state Article numbers that do not exist in the adopted text (one source cited "Article 8" for steward obligations; the adopted text has **Article 24**).
+3. Do not put named examples next to a quoted definition unless the instrument itself names them. Grepping the CRA full text for `Apache`, `Linux Foundation`, `Eclipse`, `Python Software Foundation` returned **zero** hits; the regulation only says "certain foundations". Naming ASF/LF right after quoting Art. 3(14) implies the text names them.
+4. Cite EU provisions in the form the instrument uses — `Điểm b khoản 10 Điều 64` for Art. 64(10)(b), `Điểm 14 Điều 3` for Art. 3(14). Writing `Điều 3 khoản 14` reverses the hierarchy.
+
+## Verify byline and date from the page, not from memory
+The essay credited LWN article 967192 ("How the XZ backdoor works") to Jonathan Corbet. The page's own `FeatureByline` div says **Daroc Alden, April 2, 2024**. Corbet appears zero times. Any web citation must have author and date read off the fetched page; `grep -o 'FeatureByline">(.\{0,160\}\?)</div>'` is enough.
+
+A `curl` HTTP 403/405 does **not** prove a URL is dead. `opensource.org/osd` returned 403 to bare curl but 200 to a browser User-Agent; `arstechnica.com` returns 405/403 to any curl but is live and archived. Test with a browser UA and with the Wayback availability API before reporting a broken reference.
+
+## A reviewer subagent writes its findings into the session DB, not into your file
+An independent reviewer was told to append findings to `FINDINGS.md` after each part. It wrote the header once, then stopped updating the file for 40+ minutes while continuing to work — the file looked stale and the run looked hung. The real work product was in `~/.hermes-racer/state.db`, table `messages`, keyed by `session_id`; its tool results contained the verified evidence (CRA article text, Công báo PDF of Thông tư 20/2014, LWN byline, NVD CWE data).
+
+Rules:
+1. Before concluding a long reviewer run is stuck, read `state.db` messages for its session — do not judge progress from the mtime of the file it was asked to maintain.
+2. `assistant` rows can have empty `content` while `tool` rows carry all the substance; extract tool results too, filtered by keywords from the task.
+3. An instruction to "write findings to a file after each part" is not self-enforcing. If the deliverable is the report, require the reviewer to emit it in its final message as well, and treat the file as a bonus.
+4. Stop the run when the evidence gathered already covers the brief; a reviewer at 100+ minutes emitting no new claims is spending tokens, not finding defects.
+
 ## Pointer in SKILL.md
 Section "Evidence-Bound Revision" item 6 now references this file.
