@@ -59,9 +59,20 @@ def joined(*parts: str, flags: int = re.I) -> "re.Pattern[str]":
 #                               to other letters; case-insensitive here would flag prose
 LETTER_BOUNDARY = r"(?<![A-Za-z]){}(?![A-Za-z])"
 
+# LETTER_BOUNDARY is not enough for a Vietnamese token, because it only guards ASCII
+# letters and '\b' stops at any non-word byte. Measured: `anh\s+văn` matched INSIDE the
+# ordinary legal term `định dANH VĂN bản quy phạm` (identify the governing document),
+# so a reference file quoting that term failed the gate forever. This class covers
+# precomposed Latin letters with diacritics, which is what Vietnamese prose uses.
+VN_LETTER = r"A-Za-z\u00C0-\u1EFF"
+VN_BOUNDARY = rf"(?<![{VN_LETTER}]){{}}(?![{VN_LETTER}])"
+
 FORBIDDEN: list[tuple[str, re.Pattern[str]]] = [
-    # personal identifiers
-    ("personal-name", re.compile(r"anh\s+văn|người dùng Van\b|\bVan's\b", re.I)),
+    # personal identifiers. The vocative takes VN_BOUNDARY so a word ending in
+    # "-anh văn" cannot match; `môn anh văn` (the English subject) still does, which is
+    # the accepted cost of guarding a two-word lowercase token.
+    ("personal-name", re.compile(
+        VN_BOUNDARY.format(r"anh\s+văn") + r"|người dùng Van\b|\bVan's\b", re.I)),
     ("host-username", re.compile("hito" + "kiri")),
     ("old-skill-name", re.compile("anh-van-" + r"research-workflow")),
     # internal paths / storage
