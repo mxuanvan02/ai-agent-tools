@@ -166,7 +166,9 @@ Decision tree nhanh:
 
 Khi cần verify hoặc discover citations programmatically (đặc biệt cho region-context citations ngoài PRISMA corpus), dùng `references/crossref-api-citation-verification.md` — có recipe batch Crossref API, pitfalls (gov VN portals block bot, search engines block headless), và bảng 14 nguồn VN-region đã verify session 2026-06-24.
 
-Mục tiêu: tạo corpus có thể kiểm chứng, không chỉ liệt kê paper.
+Mục tiêu: tạo corpus có thể kiểm chứng, không phải chỉ liệt kê paper.
+
+Bằng chứng khó truy cập (văn bản pháp luật, nguồn bị chặn, scan không text layer): chạy `scripts/zero_hallucination_gates.py --self-test` trước khi báo một số 0, theo `references/zero-hallucination-evidence-gates.md`.
 
 Deliverable: `Literature Corpus`
 - Search strings/databases/date searched.

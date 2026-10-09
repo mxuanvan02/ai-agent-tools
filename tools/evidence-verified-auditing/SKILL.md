@@ -456,6 +456,36 @@ Four findings that reverse the obvious call:
 Depth, including the manifest-survival fix and the generated-report pattern:
 `references/dedup-to-single-version.md`.
 
+### 15. An absence finding needs a positive control
+
+A checker that returns zero cannot distinguish "nothing is there" from "I looked in the
+wrong place", and absence is the most load-bearing kind of finding in an audit — it is
+what a gap claim, a missing-citation report, or a "no violations found" verdict is built
+on. Measured failure: a script counted domestic authors in a bibliography by matching
+numbered lines (`^\s*\d+[.)]`); the list was alphabetical APA with no numbers, so it
+returned **0** while the entries sat in plain sight. The report would have claimed the
+bibliography had no domestic sources at all.
+
+Before reporting any zero, insert one item you know by direct reading to be present and
+run the same checker on it. If that also returns zero, the checker is wrong — fix it
+before counting anything else. Apply the same discipline to a regex that verifies your
+own edits: a pattern written as `a.pdf/.txt` matches one token and reports a file missing
+that exists; check each filename as its own literal.
+
+Two more absence traps: a source that failed an integrity check makes every keyword count
+read zero (undecompressed gzip, or a scanned PDF with no text layer — gate the count on
+text length and diacritic ratio first), and a version mismatch turns a real provision into
+an absent one (a draft's `Article 13` can become the enacted text's `Article 12`, with the
+rule itself changed). Cite numbering only from the promulgated version.
+
+Depth, including the seven-gate table, the read-status labels that decide which citation
+may carry a number, and the retrieval routes for blocked official portals: the
+`zero-hallucination-evidence-gates` reference shipped with the evidence-first-research
+skill. It is named rather than pathed on purpose — a cross-tool path beginning with a
+directory this skill also has reads as an internal pointer, so the repository's
+stale-pointer test reports it missing, and an installed copy could never resolve it
+anyway. Measured: writing it as a path failed CI on the first push attempt.
+
 ## Reporting shape
 
 1. Lead with the verdict per area: `PASS` / `BLOCKED`, separately.
