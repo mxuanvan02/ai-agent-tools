@@ -60,6 +60,38 @@ Same discipline for regex-based verification of your own output: a pattern writt
 `a.pdf/.txt` matches a single token and reports a file missing that is present. Check
 each name as its own literal.
 
+**Probe the shortest unique substring, never the form you intended to write.** Three
+measured false negatives of this one kind:
+
+- Searching an APA reference list for `Đặng Bá Lãm` returned **0** while the entry was
+  present as `Lãm, Đ. B. (2003)` — APA inverts the name. Probe `Lãm,` and the year.
+- Counting domestic authors by matching numbered lines returned **0** because the list
+  was alphabetical with no numbers.
+- Checking that a new citation landed by searching `(Chính, 2002)` returned **0** in a
+  document that contained it, because the rendered form was the group
+  `(Chính, 2002; Lương, 2022)` — the closing parenthesis is not adjacent to the year.
+  Probe `Chính, 2002` without punctuation.
+
+The tell is the same every time: a "missing" result that contradicts another check that
+passed (here, the orphan-citation gate reported zero orphans while the probe reported the
+citation absent). When two checks disagree, one of them is wrong — resolve it before
+reporting either.
+
+Two more traps in the same family, both measured:
+
+- **A positive control may only contain items you have confirmed are present.** A control
+  set built from the *expected* contents of a document is not a control: it asserted
+  `Đặng` was in a paper that never mentions that author, so it printed FAIL and cast doubt
+  on a reading that was correct. Build the control from strings you have already seen in
+  the source.
+- **A DOCX-built PDF splits diacritics away from their base letters.** `page.get_text()`
+  returned `"Li u, N. T., B o, L. Đ."` for `Liễu, N. T., Bảo, L. Đ.` — tone marks arrive
+  as separate code points, often at the end of the line. So no accent-stripping fold will
+  ever match a heading searched from the PDF text layer. Search headings in the *markdown
+  or DOCX source*, and use the PDF only for page counts and layout. Detect it first: if a
+  probe for a 5-letter heading fails but a 4-letter accent-free fragment (`"THAM KH"`)
+  matches, the text layer is mark-split.
+
 ## 3. Never cite an article number from a draft
 
 Drafts and enacted texts differ in **content and numbering**, and the numbering shift is
