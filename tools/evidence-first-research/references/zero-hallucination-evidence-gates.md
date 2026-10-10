@@ -92,6 +92,70 @@ Two more traps in the same family, both measured:
   probe for a 5-letter heading fails but a 4-letter accent-free fragment (`"THAM KH"`)
   matches, the text layer is mark-split.
 
+Six more from the same session, each one a check that reported a defect which did not
+exist — or missed one that did:
+
+- **Compare like with like before calling a difference a defect.** A drift check of a blank
+  data-collection FORM against a research PAPER flagged five numeric strings (163, 2.371,
+  8,6 %, 79,1 %, 95,1 %) as "mismatched". The form is meant to be empty of results, so
+  every one was a false positive. State what each artefact is *for* before diffing them.
+- **Search every place the text can live.** A sentinel phrase lived inside table cells
+  (twice), while the haystack was built from paragraphs only, so the gate reported
+  `article=False` for text that was present. A sentinel that can appear in a table must be
+  searched in table text.
+- **Case and surface form, again.** Probing `Hoãn` / `Dùng được` against a form that prints
+  `HOÃN` / `DÙNG ĐƯỢC` reads as absent. Fold case for content probes; keep case sensitivity
+  only where it is the thing under test.
+- **Know your units before you tune a number.** Word cell padding is in `dxa` = 1/20 point,
+  so a "padding 8" change is 0.14 mm — visually nothing. It read as a real fix and bought
+  none. Convert to mm and say the mm out loud.
+- **A verification script that crashes verifies nothing.** A backslash inside an f-string
+  expression (`f"...{len(re.findall(r'\S+',seg))}..."`) is a SyntaxError in Python, and it
+  killed three separate check runs in one session, each time silently shortening what got
+  checked. Hoist regexes to module constants (`WS = re.compile(r"\S+")`).
+- **Patch by verified anchor or by index, never by memory.** One edit used a hard-coded
+  anchor for text the previous edit had already changed, and another spliced at
+  `s.index("gate_all()", start)` which matched the substring inside `def gate_all():`
+  itself, leaving a duplicate block and a SyntaxError. `assert s.count(old) == 1`, prefer
+  regex or line indices, and `ast.parse()` **before** writing the file.
+
+## Gates for layout claims, not just content claims
+
+A prose claim about an artefact's *shape* is as checkable as a claim about its content, and
+it breaks silently. Two measured cases:
+
+- **The article claimed a one-page review sheet three times.** The sheet shipped at two
+  pages; page 2 held eight border drawings and no text at all — only the blank signature row
+  had spilled. Measure the page count of the promised artefact in the same audit that checks
+  the manuscript, and include the artefact's own sentinel phrases so drift is caught. Here
+  the sheet had drifted for five days because the manuscript pipeline never invoked its
+  builder: the source carried a reviewer-mandated fix the shipped PDF did not.
+- **Four figures were printed at 14.60 × 8.91 cm against a written 7 × 14 cm limit**, and
+  every earlier audit pass said nothing, because the PNGs were fine and the oversize came
+  from a `width=` attribute in the markdown. Measure figure extents from the built DOCX
+  (`wp:extent` cx/cy ÷ 360000 EMU-per-cm), never from the image file.
+
+When fitting something to a size limit, sweep and measure instead of guessing: 35
+combinations of (font scale × cell padding × page margins) were rendered and page-counted to
+find the one that kept both the one-page claim and a usable 1.6 cm signature row. Guessing
+took three failed attempts first.
+
+Two mechanical traps that make figure work fail invisibly:
+
+- **Shrinking a canvas does not shrink its labels' collisions when the axes are
+  aspect-locked.** `imshow()` forces `aspect='equal'`, so cutting the canvas height hands the
+  surplus back to the cells and the tick-label overlap stays *identical*: measured, labels
+  17.4 % narrower and the overlap still exactly 4.9 px. For an `imshow` figure the only safe
+  lever is uniform scaling at print size, which cannot change overlap at all. Shrink the
+  canvas for bar charts; never for one.
+- **Gate label overlap on bounding boxes, and negative-control the gate.** Vision readings of
+  the same figure disagreed three times in one session (not overlapping / nearly touching /
+  overlapping). `get_window_extent()` on the live axes settled it in one run. Then prove the
+  gate can fail: pumping `fontsize=16.0` made it exit 1 with `43.3 px / 52.3 px`. A gate that
+  has never been shown to fail is decoration — and the first version of this one silently
+  measured nothing, because the drawing functions `plt.close()` their own figure before the
+  gate could read it.
+
 ## 3. Never cite an article number from a draft
 
 Drafts and enacted texts differ in **content and numbering**, and the numbering shift is
