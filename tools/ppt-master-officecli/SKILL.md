@@ -33,6 +33,10 @@ python3 scripts/slide_pipeline.py finalize /absolute/path/draft.pptx /absolute/p
 
 A successful finalization writes a byte-identical delivered PPTX plus `manifest.json`, component reports, and `preview.png`. A machine pass does not replace human review of glyphs, spacing, hierarchy, visual correctness, and factual accuracy.
 
+## Batch lesson decks from JSON
+
+For a course of many lessons sharing one pedagogical shape, do not hand-author each deck: keep one lesson-content JSON schema and one generator that emits per-lesson slide specs, then run every lesson through the same fail-closed gates (alphabetical order == teaching order, zero pronoun/scaffolding text on slide faces with a self-tested scanner, minute windows tiling the lesson exactly, builder report with `raise_on_error=True`). Systemic defects get fixed once in the generator, not per deck. Full pipeline, schema, gates, read-back, and production pitfalls: [`references/json-motif-batch-decks.md`](references/json-motif-batch-decks.md).
+
 ## Hands-on practice slides
 
 Any deck teaching a hands-on operation must show the REAL operation on EVERY practice slide of EVERY lesson: a real screenshot, numbered annotations pointing at exact on-screen locations, and matching numbered steps. Text-only descriptions do not count, and one pictured lesson does not cover the rest. Body text floor ≥ 18px on a 1280×720 canvas; no dead white band larger than ~1/3 of a slide. Full capture → annotate → crop → vision-review workflow and the renderer-artifact proof: [`references/hands-on-screenshot-slides.md`](references/hands-on-screenshot-slides.md).
