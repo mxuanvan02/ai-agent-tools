@@ -17,6 +17,8 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`explainer-ladder`](tools/explainer-ladder/) | Four-rung explainer ladder for learners: controlled text (ASD-STE100 spirit), diagram, interactive HTML page, video; each rung adds to the one below, every deliverable keeps a verifiable text layer | `tools/explainer-ladder/SKILL.md` |
 | [`google-sheets-formatting`](tools/google-sheets-formatting/) | Google Sheets via API, professional from the first write: born-formatted workbooks, real data types and formulas, dropdown validation, status colors, and two-layer read-back (API properties plus rendered screenshots); includes the batchUpdate schema traps that cause HTTP 400 | `tools/google-sheets-formatting/SKILL.md` |
 | [`ui-ux-pro-max`](tools/ui-ux-pro-max/) | UI/UX design intelligence with cognitive psychology, calm 60-30-10 color strategy, extreme minimalism, and multi-stack best practices | `tools/ui-ux-pro-max/SKILL.md` |
+| [`web-toolkit`](tools/web-toolkit/) | Three dependency-free browser-automation modules: proxy pool with leases/cooldown/health probes, human-like timing for test stability, and a declarative page-state machine for multi-step forms | `tools/web-toolkit/SKILL.md` |
+| [`jev-form-driver`](tools/jev-form-driver/) | Form automation with a measured code/model split: code orchestrates (checklist, values, arithmetic, termination, verification), a System-One decision model selects each field in one parallel request; library + CLI + MCP tool, 4/5 graded fixtures passed at ~$0.00003/run | `tools/jev-form-driver/SKILL.md` |
 
 ## Validation
 
