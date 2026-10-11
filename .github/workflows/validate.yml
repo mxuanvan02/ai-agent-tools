@@ -83,3 +83,15 @@ jobs:
           python3 tools/ui-ux-pro-max/scripts/validate_data.py
           python3 tools/ui-ux-pro-max/scripts/public_hygiene_check.py
           python3 -m py_compile tools/ui-ux-pro-max/scripts/*.py
+
+      - name: Validate web-toolkit
+        run: |
+          python3 tools/web-toolkit/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/web-toolkit/src/*.py tools/web-toolkit/scripts/*.py
+          pip install pytest
+          python3 -m pytest tools/web-toolkit/tests/test_web_toolkit.py -q
+
+      - name: Validate jev-form-driver
+        run: |
+          python3 tools/jev-form-driver/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/jev-form-driver/src/*.py tools/jev-form-driver/tests/*.py tools/jev-form-driver/scripts/*.py
