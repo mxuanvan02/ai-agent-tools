@@ -437,6 +437,63 @@ A gate must be calibrated on both a known-broken and a known-good artefact befor
 threshold means anything. Measured on only the fixed one, 92 % looked like a healthy margin;
 measured on both, it was revealed as a bias, and the true margin was 100 % vs 18 %.
 
+## Companion artefacts drift, and the main document's gates cannot see it
+
+A submission is usually *more than one file*: a manuscript plus a form, worksheet, codebook,
+supplementary table or appendix that a **different script** builds. The main pipeline never
+calls that script, so the companion silently diverges while every gate on the main artefact
+stays green. Observed: the companion was five days stale, and a second time its terminology
+had drifted after the article's own wording pass.
+
+Measured case. A one-page review form claimed to operationalise the article's Table 2 and was
+published so departments could "use it immediately". Its axis-2 checkbox labels were
+`Rule-recall`, `Rule-explanation`, `Issue/Application` — English terms appearing **0 times** in
+the article, whose Table 2 axis reads `Nhắc lại quy phạm hoặc thuật ngữ`, `Giải nghĩa điều kiện
+áp dụng của quy phạm`, … A reviewer holding the form could not map it onto the article. It had
+also kept `thao tác pháp lý` after the article standardised on `thao tác chuyên môn` (19× vs 0×).
+**All nine existing checks on the form passed** — they tested page count, one wording sentinel
+and six row numbers. A form can satisfy every one of those and still be unusable.
+
+Gates that actually catch this class, each calibrated on the broken and the fixed artefact:
+
+| Gate | Broken | Fixed |
+|---|---|---|
+| no term the article has retired | FAIL (`thao tác pháp lý` ×2) | ok |
+| every label traces to the article (≥4 labels, ≥70 % of its tokens present) | FAIL (2 labels, worst 50 %) | ok (8 labels, worst 100 %) |
+| punctuation rule already enforced in the article | FAIL (8 em dashes) | ok (0) |
+| checkbox bound to its label with a non-breaking space | n/a | ok (0 separable / 44 joined / 86 boxes) |
+
+The traceability gate is the general one: for each label or field the companion prints, require
+that most of its content words occur in the main artefact. It catches renamed concepts,
+leftover foreign-language jargon, and stale terminology without hard-coding any specific string.
+
+Two traps inside the gate itself:
+
+- **A whitespace-flattened variable cannot delimit labels.** The audit already had
+  `_ft = re.sub(r'\s+', ' ', raw)`; splitting labels on `r'\s{2,}'` then recovered 1 of 4 and
+  the fragment `gian`. Parse raw text with newlines intact.
+- **`grep` for a lowercase term misses the capitalised occurrence.** The stale term appeared at
+  line 245 lowercase and line 252 as `Thao tác pháp lý…`, so a case-sensitive sweep found one of
+  two and would have left a drifted header in place.
+
+### Coordinates prove nothing about a line break inside a cell
+
+The form's text bounding box measured **identical** before and after the change (bottom edge
+754.3 pt, 3.09 cm of slack), so no coordinate check could flag it — yet the fourth checkbox sat
+alone at the end of line 1 with its label pushed to line 2, reading as **five items where there
+are four**. Joining each box to its label with U+00A0 (14/14 sites) fixed it; the separator
+*between* items stays a normal space so wrapping still happens at the right place.
+
+Only looking at the rendered cell revealed this. Rule: for forms and checklists, geometry
+proves the box does not overflow the page, never that a marker stayed attached to its label.
+
+### Verify the companion with the same instrument as the main artefact
+
+After fixing the article's text layer, run the *identical* phrase probe on the companion: it
+returned 40/40 = 100 % and 0 orphan lines because it uses Times New Roman (TrueType, 282/282
+Vietnamese codepoints), while the article used the substituted P052. Same probe, different
+verdicts — a fix applied to one file says nothing about the other, in either direction.
+
 ### A cached reference document may be an error page wearing a `.pdf` extension
 
 `hujos_assets/author_guidelines.pdf` was 1,789 bytes of HTML — Google Drive's
