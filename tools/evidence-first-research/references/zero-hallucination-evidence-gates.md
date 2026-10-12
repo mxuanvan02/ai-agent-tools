@@ -306,3 +306,75 @@ VERDICT:    supported | unsupported | must-downgrade
 
 A finding without `READ-STATUS` and at least gates 1–2 is a hypothesis, and must be
 labelled as one in the manuscript.
+
+## The measuring instrument also fabricates findings
+
+Every trap above was a probe that mis-searched real data. This family is worse: the
+measurement function itself manufactures a defect that does not exist in the artefact, so
+there is nothing to re-read to catch it. Four measured cases from one manuscript pass.
+
+- **Joining lines before splitting sentences invents sentences.** A word-count audit did
+  `" ".join(all_lines)` and then split on `(?<=[.!?])\s+`. A title line has no terminal
+  period, so it fused with the author line and four affiliation lines into a single
+  "143-word sentence", and a build sentinel (`<<<ENGLISH_BLOCK>>>`) fused with the English
+  title into a "124-word sentence". The report said 7 sentences exceeded 60 words; the real
+  count was 5, and the two worst offenders were not text at all. Split sentences *within
+  each line*, and exclude front matter by an explicit pattern rather than by assuming every
+  line is prose.
+- **A fixed-character context window bleeds across sentence boundaries.** An epistemic-upgrade
+  check looked at ±62 characters around each hit to apply its whitelist. An affirmative
+  `Nó chứng minh một điều yếu hơn` was acquitted because the *preceding* sentence contained
+  `không chứng minh` — which is precisely the self-contradiction the rule exists to catch.
+  Scope a whitelist to the enclosing sentence (`s.rfind('.', 0, pos)` … next `.`), never to a
+  character window.
+- **Counting a table column as flattened text.** A numbered column was probed as the literal
+  `"Hàng 1."` and reported absent, because the number `1` sits in its own cell apart from the
+  header word `Hàng`. No such concatenated string exists in the file. Iterate
+  `doc.tables[i].rows[j].cells[k]` when the field under test is a table.
+- **A rule that judges a list by its lead-in.** A "compressed argument" check counted
+  semicolons in the whole sentence, so `khung năm thành phần: a; b; c; d` — a genuine
+  colon-led enumeration — was reported as a defect because the lead-in counted as the first
+  item. Partition at the colon and judge only the items after it.
+
+The general discipline: **when a metric produces a number, print the items behind it.** Every
+one of these four was caught by printing the offending text rather than by trusting the count.
+A count that cannot be traced to its members is not evidence.
+
+### Negative fixtures are part of a self-test
+
+A check that has only ever been shown to catch defects can still over-fire, and over-firing
+is what sends an author to rewrite correct prose. Measured on this manuscript, an un-triaged
+style audit reported 64 defects of which **46 were false positives**: `8.192` and `2.371`
+flagged as decimal points when Vietnamese uses the dot as the thousands separator (25 of 30
+hits); 12 of 15 "epistemic upgrades" that were negations (`không chứng minh`), mathematical
+senses (`tính kín đã chứng minh`), or schema requirements (`trường bắt buộc`); two
+`semicolon chains` that were APA citation separators; and a keyword "missing" from the
+reference list because the search ran against 76 titles instead of an external index.
+
+So each rule needs both directions in its self-test:
+
+```python
+positive = [("H.md", 1, 'Một là hai nhãn không suy ra nhau. Hai là hồ sơ thiếu nhãn.', 'prose')]
+negative = [("G.md", 1, 'Không gian gồm 8.192 trạng thái trên 2.371 câu ở mục 3.6.', 'prose'),
+            ("G.md", 2, 'Cập nhật (Haladyna & Downing, 1989; Towns, 2014; Haladyna, 2022).', 'prose')]
+```
+
+And a fixture set is only as good as its strictest threshold: a check configured `>= 0`
+passes on every possible input. The title-and-keyword check passed its first self-test by
+matching nothing; adding a title that repeats its own noun and a one-item keyword list, then
+raising the threshold to `>= 3`, is what made it a gate.
+
+### Cross-checking an independent reviewer is a two-way audit
+
+Dispatching reviewers over the same text found three defects the tool had missed (an
+enumerative pair with no colon, an upgrade acquitted by the previous sentence, three surface
+forms for one concept). Reviewing the reviewers back rejected three of their proposals:
+
+| Reviewer proposal | Verdict | Evidence |
+|---|---|---|
+| Expand a legal term, claiming another section "already uses this form" | **reject** | `grep` for that exact form: **0 occurrences** anywhere. False premise. |
+| Replace `ánh xạ` as an untranslated borrowing | **reject** | It is standard Vietnamese mathematical terminology, and it is pinned. |
+| Reorder two sections to put Limitations before Future Work | **reject** | The section number is pinned in both abstracts, five body references, and a verifier gate. Reordering means renumbering. |
+
+Accept a reviewer's finding only after re-measuring it against the artefact, the same
+discipline as any other claim.
