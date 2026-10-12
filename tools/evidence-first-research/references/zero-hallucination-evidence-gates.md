@@ -378,3 +378,71 @@ forms for one concept). Reviewing the reviewers back rejected three of their pro
 
 Accept a reviewer's finding only after re-measuring it against the artefact, the same
 discipline as any other claim.
+
+## A rendered image can be perfect while the artefact is broken
+
+The opposite failure to the family above: the measurement said something was wrong, the
+author looked at the output, it looked flawless, so the measurement got discarded as a bad
+probe. Here the measurement was right and the eye was the thing that could not see.
+
+Measured case. A Vietnamese manuscript's DOCX→PDF step produced a 31-page PDF whose pages
+rendered **perfectly** — vision review confirmed diacritics complete and correctly placed,
+no tofu boxes, no clipping. But its text layer was unusable:
+
+| Measurement | Broken PDF | Fixed PDF |
+|---|---|---|
+| Vietnamese phrases findable (top 40) | **7/40 = 18 %** | 40/40 = 100 % |
+| Table captions `Bảng 1..8` findable | **0/8** | 8/8 |
+| Lines holding a single orphaned diacritic | **6,372 of 10,863 = 58.66 %** | 0 |
+| Copy-paste of one sentence | `Phân tích khái ni m  m c 3.2 phân bi t ba c p` | correct |
+| Page count | 31 (inflated) | 27 |
+
+Root cause, traced rather than guessed: the venue mandated `Palatino Linotype`, which was
+not installed; fontconfig substituted **P052**, whose Type1 build covers **194/282** of the
+Vietnamese codepoints (`texgyrepagella` covers 278/282 — the same typeface in OpenType).
+LibreOffice therefore painted each diacritic as a separate text object. Fix: a local
+`fonts.conf` passed via `FONTCONFIG_FILE` for that one conversion only, mapping the mandated
+name onto TeX Gyre Pagella, with a dedicated `UserInstallation` profile so LibreOffice's own
+font cache cannot reintroduce the substitution. The DOCX keeps declaring the mandated font,
+so the venue's own font gate still passes.
+
+Two rules follow:
+
+1. **Rendering quality and text-layer integrity are separate properties.** A gate must read
+   the text layer directly. Looking at the PDF — by a human or by a vision model — cannot
+   detect this class of defect, and the defect survived several review rounds for exactly
+   that reason. An earlier round had already reached a *wrong* conclusion from it ("the
+   review sheet is missing from the PDF") and worked around it by measuring the DOCX
+   instead; the workaround preserved the finding's absence but not its cause.
+2. **Prove the absence of content before trusting a page-count drop.** The fix removed 4
+   pages, which looks like data loss until measured: comparing the normalised character
+   stream (NFC, whitespace stripped) of DOCX vs old PDF vs new PDF gave **70,966 = 70,966 =
+   70,966**, an exact multiset match. The old PDF was longer because 6,372 lines contained a
+   single mark each, not because it held more text.
+
+### When a gate's own threshold disagrees with reality, suspect the gate first
+
+The first version of the new text-layer gate reported `37/40 = 92 %` on the *fixed* PDF and
+passed only barely. The three misses were `bộ giáo dục và đào tạo`, `giáo dục và đào tạo` and
+`và đào tạo` — all present in the PDF, but capitalised as a proper noun, so a lowercase needle
+can never match. Comparing case-insensitively: **40/40 = 100 %** fixed, **7/40 = 18 %** broken,
+so the threshold could be tightened to 95 % instead of 90 %.
+
+Same for the orphan-line rule: the first discriminator was `len(line) <= 2 and every char is
+a diacritic`, which over-fired on the real words `đề` (from `Nhận diện vấn đề`) and `độ` (from
+`trình độ đại học`) whenever a table cell wrapped them alone. Restricting it to *exactly one*
+character, and gating the **ratio** rather than the count, separated 58.66 % from 0.00 %.
+
+A gate must be calibrated on both a known-broken and a known-good artefact before its
+threshold means anything. Measured on only the fixed one, 92 % looked like a healthy margin;
+measured on both, it was revealed as a bias, and the true margin was 100 % vs 18 %.
+
+### A cached reference document may be an error page wearing a `.pdf` extension
+
+`hujos_assets/author_guidelines.pdf` was 1,789 bytes of HTML — Google Drive's
+*"Sorry, the owner hasn't given you permission to download this file."* The real guideline was
+sitting beside it as `1hVqkAGK4_...bin`, a genuine 4-page PDF. Any constraint justified by
+pointing at the first file is unfounded. This is the same trap already recorded for the
+reference corpus (three `.pdf` files that were 403 pages); it applies equally to **project
+assets and specification documents**, not just to cited sources. Run `file -b` over every
+cached evidence file, not only over downloaded references.
