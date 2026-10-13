@@ -16,6 +16,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`jev-routing-relay-ops`](tools/jev-routing-relay-ops/) | Jev model/effort routing behind a local relay (one endpoint fronting many upstream accounts): verify the wire instead of the config, price pools from measured per-request cost, and gate the guards that catalog-unknown refs silently disable | `tools/jev-routing-relay-ops/SKILL.md` |
 | [`explainer-ladder`](tools/explainer-ladder/) | Four-rung explainer ladder for learners: controlled text (ASD-STE100 spirit), diagram, interactive HTML page, video; each rung adds to the one below, every deliverable keeps a verifiable text layer | `tools/explainer-ladder/SKILL.md` |
 | [`google-sheets-formatting`](tools/google-sheets-formatting/) | Google Sheets via API, professional from the first write: born-formatted workbooks, real data types and formulas, dropdown validation, status colors, and two-layer read-back (API properties plus rendered screenshots); includes the batchUpdate schema traps that cause HTTP 400 | `tools/google-sheets-formatting/SKILL.md` |
+| [`vietnamese-classroom-slide-production`](tools/vietnamese-classroom-slide-production/) | Vietnamese high-school lesson decks end to end: real hands-on screenshots (xterm/Inkscape on Xvfb) verified by OCR against ground truth, projected-font-size math, geometry gates that import house thresholds, mandatory independent peer review before release, and checksum-verified publication | `tools/vietnamese-classroom-slide-production/SKILL.md` |
 | [`ui-ux-pro-max`](tools/ui-ux-pro-max/) | UI/UX design intelligence with cognitive psychology, calm 60-30-10 color strategy, extreme minimalism, and multi-stack best practices | `tools/ui-ux-pro-max/SKILL.md` |
 | [`web-toolkit`](tools/web-toolkit/) | Three dependency-free browser-automation modules: proxy pool with leases/cooldown/health probes, human-like timing for test stability, and a declarative page-state machine for multi-step forms | `tools/web-toolkit/SKILL.md` |
 | [`jev-form-driver`](tools/jev-form-driver/) | Form automation with a measured code/model split: code orchestrates (checklist, values, arithmetic, termination, verification), a System-One decision model selects each field in one parallel request; library + CLI + MCP tool, 4/5 graded fixtures passed at ~$0.00003/run | `tools/jev-form-driver/SKILL.md` |
@@ -34,6 +35,8 @@ python3 tools/evidence-first-research/scripts/public_hygiene_check.py
 python3 -m py_compile tools/evidence-first-research/scripts/*.py
 python3 tools/system-one-work-loop/scripts/public_hygiene_check.py
 python3 -m py_compile tools/system-one-work-loop/scripts/*.py
+python3 tools/vietnamese-classroom-slide-production/scripts/public_hygiene_check.py
+python3 -m py_compile tools/vietnamese-classroom-slide-production/scripts/*.py
 python3 tools/evidence-verified-auditing/scripts/public_hygiene_check.py
 python3 -m py_compile tools/evidence-verified-auditing/scripts/*.py
 python3 tools/github-pr-workflow/scripts/public_hygiene_check.py
