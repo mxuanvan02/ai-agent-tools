@@ -503,3 +503,79 @@ pointing at the first file is unfounded. This is the same trap already recorded 
 reference corpus (three `.pdf` files that were 403 pages); it applies equally to **project
 assets and specification documents**, not just to cited sources. Run `file -b` over every
 cached evidence file, not only over downloaded references.
+
+## Text inside a generated figure is invisible to both gates a manuscript usually has
+
+A figure is a raster embedded in the document, so its wording is absent from the PDF text
+layer — every text-layer check passes regardless of what the picture says. And a
+matplotlib gate that measures `get_xticklabels()`/`get_yticklabels()` does not see
+`ax.text()`, which is how flowchart labels are actually drawn.
+
+Two measured defects, both introduced by an otherwise correct edit:
+
+1. **Label overflow.** Renaming one flowchart label to the article's canonical term
+   (+7 characters) made it 20.13 data units wide inside a 17.42-unit box, spilling over
+   both borders and onto the horizontal arrows. The existing gate printed
+   `label overlap: 0 overlaps in 4 figure(s)` because it never looked at `ax.text()`.
+2. **An arrow anchored to the wrong node.** A vertical arrow was hard-coded at `x=78`.
+   After the boxes were recomputed, the steps spanned `x=[0.4,17.8] [21.0,38.4]
+   [41.6,59.0] [62.2,79.6] [82.8,100.2]`, so 78 sat inside step 4 while the output box
+   is produced by step 5 (centre 91.5). The diagram then read as *"the output skips the
+   step that produces it"*. No geometric check can flag this: nothing overlaps, nothing
+   overflows, nothing is clipped. Only reading the rendered image caught it.
+
+Fixes:
+- add a text-in-box gate that compares each `ax.text` window extent against the **region
+  it actually lives in**, on **both axes**. A flowchart cell holds a header band above a
+  body region; comparing a four-line note against the whole 36-unit cell passes by luck
+  when the body region is only 23 units.
+- derive arrow anchors from the same list that positions the nodes (`xs[-1] + w / 2`),
+  never from a literal that was correct for an earlier layout.
+- calibrate the gate on a deliberately broken copy: rebuild the old geometry, assert
+  `exit=1` and the exact message (`overflows its region by x+2.71`). A gate shown only
+  on the good artefact has not been shown to fail.
+
+### A padded bounding box is not ink: a negative gap does not mean collision
+
+`get_window_extent()` includes padding. Measured on this figure, one line of text has a
+bbox ≈ **1.82 × fontsize** in points (6.62 data units at fontsize 6.9, where 1 data unit
+= 1.896 pt), not 1.0 ×. Consequences for line spacing:
+
+| pair of lines | spacing | one-line bbox | "gap" by bbox |
+|---|---|---|---|
+| 1–2, before → after widening | 4.0 → 4.8 units | 6.62 | −4.96 pt → −3.45 pt |
+| 2–3, before → after | 3.4 → 4.8 units | 6.04 | −5.01 pt → −2.36 pt |
+| worst pair in the lower box | 4.0 → 4.4 units | 6.04 | −3.87 pt → −3.11 pt |
+
+Every value is negative, **including the version a vision pass confirmed as clean**. The
+narrow version drew the comment "a bit tight", not "text collides". So the sign of a bbox
+difference cannot gate leading. Either measure ink rows in the rendered raster, or accept a
+vision reading as the evidence and label it as such.
+
+### Four attempts at measuring ink rows, all discarded
+
+| attempt | approach | why it failed | what it printed |
+|---|---|---|---|
+| 1 | find box borders in columns 2–8 px | the image is saved with `bbox_inches="tight"`, so borders are not at the left edge | `[]` — measured nothing |
+| 2 | find borders across the full width at grey < 128 | solid-filled headers are also "dark", so they count as ink | 33 fake border groups, then `PASS (99.00pt)` computed over an **empty band** (y_lo > y_hi) |
+| 3 | map data → px with `get_tightbbox()` | that call returns **inches**; the code divided by pixels | 6 of 7 boxes `EMPTY`; still printed `PASS` |
+| 4 | affine calibration from two known texts | sampled `dark[lo:hi, :]` across the **full width**, so the two vertical borders contributed ink to every row | three text lines merged into one 34 px band (for 6.3 pt text); `PASS (1.51pt)` |
+
+All four printed a pass verdict. **A measuring tool that reports green while measuring
+nothing is worse than one that reports red wrongly**, because it ends the investigation.
+
+Rules taken from this:
+- a pixel-level measurement must assert that it measured something
+  (`if measured == 0: sys.exit(...)`), and must print the band count so that
+  "3 text lines → 1 band" is visible instead of being averaged away;
+- exclude the box's own borders before counting ink rows (inset all four sides), and
+  prefer regions with no solid fill;
+- stop after three failures on the same measurement. The question usually already has two
+  stronger, independent answers — a vision reading of the artefact as actually rendered
+  (from the PDF, not from the intermediate PNG), and a data-unit measurement taken from
+  the drawing code.
+
+Also measured here: `FancyArrowPatch.get_path().vertices` is in the patch's **own**
+coordinate system. Transforming it with `ax.transData.inverted()` produced nonsense
+(`x[-19.9, -11.4]` for arrows anchored at x ≥ 0.4). Read arrow anchors from the drawing
+source — one line, no interpretation risk.
