@@ -1,0 +1,146 @@
+#!/usr/bin/env python3
+"""Tests for veracity_protestation_scan.py.
+
+The corpus is the real slide that motivated the gate (rclone/Google Drive demo,
+2026-10-12) plus licensing edge cases. Run: python3 test_veracity_protestation_scan.py
+"""
+from __future__ import annotations
+
+import sys
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from veracity_protestation_scan import scan, split_sentences, read_input  # noqa: E402
+
+
+class TestProtestationHits(unittest.TestCase):
+    def test_real_slide_title_and_callouts(self) -> None:
+        # Verbatim strings from the motivating slide.
+        text = (
+            "THAO TÁC THẬT TRÊN GOOGLE DRIVE — LỆNH CHẠY, KẾT QUẢ TRẢ VỀ. "
+            "Ba thư mục tầng 1 nằm trên Drive thật, không phải ảnh vẽ. "
+            "4 đối tượng, 217 byte — dung lượng đo được, không ước lượng. "
+            "Ảnh chụp thật terminal đang chạy rclone với tài khoản Drive của lớp. "
+            "Mọi dòng chữ trên ảnh là kết quả lệnh thật, kể cả đường dẫn."
+        )
+        r = scan(text)
+        self.assertEqual(r["verdict"], "fail")
+        # 5 sentences, each carries at least one protest; scanner reports one per sentence
+        self.assertGreaterEqual(len(r["findings"]), 4)
+        spans = " ".join(f["span"] for f in r["findings"])
+        self.assertIn("Drive thật", spans)
+
+    def test_english_counterparts(self) -> None:
+        text = ("This is real output, not simulated. The actual screenshot was "
+                "captured on the live system, not mocked.")
+        r = scan(text)
+        self.assertEqual(r["verdict"], "fail")
+        self.assertGreaterEqual(len(r["findings"]), 2)
+
+    def test_clean_slide_passes(self) -> None:
+        # The same slide rewritten with pointers instead of adjectives.
+        text = (
+            "Cấu trúc thư mục lớp trên Google Drive — lệnh chạy, kết quả trả về. "
+            "Ba thư mục tầng 1: 01_HOC_TAP, 02_CLB_NANG_LUC_SO, 03_CA_NHAN. "
+            "rclone size trả về Total objects: 4, Total size: 217 B ngày 12/10. "
+            "Đường dẫn remote: gdrive:00_THPT_THUAN_HOA/12_CLB_NLS_AI/99_DEMO."
+        )
+        r = scan(text)
+        self.assertEqual(r["verdict"], "pass")
+        self.assertEqual(r["findings"], [])
+
+    def test_needs_pointer_class(self) -> None:
+        text = "Biểu đồ này được lấy trực tiếp từ hệ thống đang vận hành."
+        r = scan(text)
+        self.assertEqual(r["verdict"], "fail")
+        self.assertEqual(r["findings"][0]["class"],
+                         "authenticity_claim_without_pointer")
+        self.assertEqual(r["findings"][0]["verdict"], "replace_with_pointer")
+
+
+class TestLicensing(unittest.TestCase):
+    def test_math_real_numbers_licensed(self) -> None:
+        text = ("Tập số thực là đủ để mô hình hoá. Hàm giá trị thực liên tục "
+                "trên miền đóng. We study real analysis and the real part of "
+                "the eigenvalues.")
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+    def test_stated_contrast_licensed(self) -> None:
+        text = ("Bộ thử dùng dữ liệu nhật ký thật, khác với bộ tổng hợp ở "
+                "Mục 3. Real logs versus synthetic ones behave differently.")
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+    def test_quote_licensed(self) -> None:
+        text = 'Học sinh phải phát hiện câu "ảnh chụp thật" là dấu hiệu quảng cáo.'
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+    def test_tex_comment_stripped(self) -> None:
+        # read_input strips tex comments; verify via a temp file
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".tex", delete=False,
+                                         encoding="utf-8") as f:
+            f.write("% anh that, khong phai anh ve (comment khong tinh)\n"
+                    "Nội dung sạch không có gì đáng ngờ.\n")
+            p = Path(f.name)
+        try:
+            text = read_input(p)
+            self.assertNotIn("thật", text)
+            self.assertEqual(scan(text, str(p))["verdict"], "pass")
+        finally:
+            p.unlink()
+
+    def test_code_fence_stripped(self) -> None:
+        text = ("Hướng dẫn:\n```\n$ rclone lsf gdrive:/  # thao tác thật\n```\n"
+                "Đoạn trên là lệnh mẫu.")
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+
+class TestMechanics(unittest.TestCase):
+    def test_exit_code_contract(self) -> None:
+        from veracity_protestation_scan import main
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False,
+                                         encoding="utf-8") as f:
+            f.write("Ảnh chụp thật từ máy của lớp.\n")
+            p = Path(f.name)
+        try:
+            self.assertEqual(main([str(p), "--json"]), 2)
+        finally:
+            p.unlink()
+        with tempfile.NamedTemporaryFile("w", suffix=".md", delete=False,
+                                         encoding="utf-8") as f:
+            f.write("Nội dung sạch.\n")
+            p = Path(f.name)
+        try:
+            self.assertEqual(main([str(p), "--json"]), 0)
+        finally:
+            p.unlink()
+
+    def test_unsupported_input_returns_3(self) -> None:
+        from veracity_protestation_scan import main
+        import tempfile
+        with tempfile.NamedTemporaryFile("w", suffix=".xyz", delete=False) as f:
+            f.write("x")
+            p = Path(f.name)
+        try:
+            self.assertEqual(main([str(p)]), 3)
+        finally:
+            p.unlink()
+
+    def test_self_scan_passes(self) -> None:
+        # The scanner must not flag its own source (comments/docstrings are
+        # stripped for md/tex; .py is not a scanned extension at all).
+        here = Path(__file__).resolve().parent / "veracity_protestation_scan.py"
+        self.assertTrue(here.exists())
+        self.assertNotIn(".py", {".tex", ".md", ".txt", ".html", ".rst",
+                                 ".docx", ".pptx"})
+
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
