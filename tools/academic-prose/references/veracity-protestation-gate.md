@@ -1,8 +1,9 @@
 # Veracity-protestation gate
 
-A generated artifact that asserts its own evidence is real is padding. This file
-defines the failure class, the licensing rules, and how the gate is wired into
-every content-producing skill.
+A generated artifact that talks about itself — asserting its evidence is
+real, echoing the request it came from, narrating its structure, or signing off
+like an assistant — is padding. This file defines the failure classes, the
+licensing rules, and how the gate is wired into every content-producing skill.
 
 ## The failure
 
@@ -48,10 +49,24 @@ A pointer is verifiable by the reader; an adjective is not.
 
 ## Classes and verdicts
 
+The gate covers the whole family of artifact self-talk, not only authenticity
+protests. Unifying principle: **a sentence whose function is to describe the
+artifact, the request, or the assistant — instead of the subject matter — is
+padding.** Seven classes:
+
 | class | catches | verdict |
 | --- | --- | --- |
 | `veracity_protestation` | authenticity assertions and fakery denials (`thật`-stacks, `không phải ảnh vẽ`, `not simulated`) | `delete` |
 | `authenticity_claim_without_pointer` | a provenance claim with no checkable handle (`chụp trực tiếp từ máy`, `captured directly from the system`) | `replace_with_pointer` |
+| `request_echo` | the artifact restates the commissioning request back at the reader (`theo yêu cầu của anh`, `như bạn đã đặt hàng`, `as requested`) | `delete` |
+| `model_self_reference` | the producing assistant appears as subject (`với tư cách là một AI`, `tôi là một mô hình ngôn ngữ`, `as an AI`) | `delete` |
+| `closing_ceremony` | AI-flavoured closings (`hy vọng tài liệu này sẽ hữu ích`, `chúc các bạn thành công`, `hope this is helpful`) | `delete` |
+| `structural_announcement` | the artifact narrates its own structure (`trong phần này chúng tôi sẽ`, `this slide will walk you through`) | `delete` — licensed in `--genre manuscript`, where the intro roadmap is a genre convention |
+| `reader_address` | second-person scaffolding (`như các bạn đã biết`, `let's dive in`, `you might be wondering`) | `recast` — classroom imperatives (`các em hãy mở tệp`) can be real instruction, so always adjudicate |
+
+Two genre protections: a plain `Cảm ơn thầy cô đã lắng nghe` on a final slide
+is genre-standard and is **not** matched; `structural_announcement` is licensed
+on manuscripts via `--genre manuscript`.
 
 `delete` means remove the protest, keep the evidence sentence around it.
 `replace_with_pointer` means substitute a URL, hash, path, date, or command.

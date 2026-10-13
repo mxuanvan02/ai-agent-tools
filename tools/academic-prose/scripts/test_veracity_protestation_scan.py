@@ -101,6 +101,49 @@ class TestLicensing(unittest.TestCase):
         self.assertEqual(r["findings"], [], r["findings"])
 
 
+class TestNewClasses(unittest.TestCase):
+    def test_request_echo(self) -> None:
+        text = ("Báo cáo này được lập theo yêu cầu của người dùng. As requested, "
+                "the deck covers three modules.")
+        r = scan(text)
+        classes = {f["class"] for f in r["findings"]}
+        self.assertIn("request_echo", classes)
+        self.assertEqual(r["verdict"], "fail")
+
+    def test_model_self_reference(self) -> None:
+        text = ("Với tư cách là một AI, tôi không thể kiểm chứng số liệu. "
+                "As an AI assistant I prepared this summary.")
+        r = scan(text)
+        classes = {f["class"] for f in r["findings"]}
+        self.assertIn("model_self_reference", classes)
+
+    def test_closing_ceremony(self) -> None:
+        text = ("Hy vọng tài liệu này sẽ hữu ích cho các bạn. "
+                "Hope this is helpful. Chúc các bạn thành công.")
+        r = scan(text)
+        classes = {f["class"] for f in r["findings"]}
+        self.assertIn("closing_ceremony", classes)
+
+    def test_plain_cám_ơn_not_flagged(self) -> None:
+        # genre-standard final-slide thanks must stay clean
+        text = "Cảm ơn thầy cô và các bạn đã lắng nghe."
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+    def test_structural_announcement_genre_license(self) -> None:
+        text = "Trong phần này chúng tôi sẽ trình bày mô hình đe doạ."
+        self.assertEqual(scan(text, genre="auto")["verdict"], "fail")
+        self.assertEqual(scan(text, genre="manuscript")["verdict"], "pass")
+        self.assertEqual(scan(text, genre="slide")["verdict"], "fail")
+
+    def test_reader_address(self) -> None:
+        text = "Như các bạn đã biết, thư mục là nơi chứa tệp. Let's dive in."
+        r = scan(text)
+        classes = {f["class"] for f in r["findings"]}
+        self.assertIn("reader_address", classes)
+        self.assertEqual(r["findings"][0]["verdict"], "recast")
+
+
 class TestMechanics(unittest.TestCase):
     def test_exit_code_contract(self) -> None:
         from veracity_protestation_scan import main
