@@ -18,7 +18,7 @@ Select exactly one authoring engine per mutation pass:
 - Small deterministic native edit to an existing PPTX → OfficeCLI.
 - Read/extract/analyze only → read-only tools; do not initialize authoring.
 
-The exported `.pptx` is the integration boundary. Never let both engines rebuild the same deck in one pass. Every created or mutated deck must pass `scripts/slide_pipeline.py inspect`; use `finalize` for the delivered copy. The shared post-generation OfficeCLI gate is read-only and performs no automatic fixes.
+The exported `.pptx` is the integration boundary. Never let both engines rebuild the same deck in one pass. Every created or mutated deck must pass `scripts/slide_pipeline.py inspect`; use `finalize` for the delivered copy. The shared post-generation OfficeCLI gate is read-only and performs no automatic fixes. Every deck must also pass the veracity-protestation scan (`python3 ~/.hermes/skills/academic-prose/scripts/veracity_protestation_scan.py <deck.pptx>`, or the copy in the ai-agent-tools monorepo): slide text or speaker notes asserting their own evidence is genuine ("ảnh chụp thật", "thao tác thật", "not simulated") must be deleted or replaced with a checkable pointer (path, link, command, date) — see `tools/academic-prose/references/veracity-protestation-gate.md`.
 
 ## Setup and use
 

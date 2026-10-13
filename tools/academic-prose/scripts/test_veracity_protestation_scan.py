@@ -122,6 +122,28 @@ class TestMechanics(unittest.TestCase):
         finally:
             p.unlink()
 
+    def test_pptx_native_reader(self) -> None:
+        # ooxml_text.read_text cannot read .pptx (falls back to raw utf-8
+        # decode and raises); the native reader parses slideN.xml + notes.
+        import tempfile, zipfile
+        slide_xml = (
+            '<?xml version="1.0"?>'
+            '<p:sld xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"'
+            ' xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">'
+            '<p:cSld><p:spTree><p:sp><p:txBody><a:p><a:r><a:t>'
+            'Ảnh chụp thật terminal của lớp.'
+            '</a:t></a:r></a:p></p:txBody></p:sp></p:spTree></p:cSld></p:sld>')
+        with tempfile.NamedTemporaryFile(suffix=".pptx", delete=False) as f:
+            with zipfile.ZipFile(f, "w") as z:
+                z.writestr("ppt/slides/slide1.xml", slide_xml)
+            p2 = Path(f.name)
+        try:
+            text = read_input(p2)
+            self.assertIn("Ảnh chụp thật", text)
+            self.assertEqual(scan(text, str(p2))["verdict"], "fail")
+        finally:
+            p2.unlink()
+
     def test_unsupported_input_returns_3(self) -> None:
         from veracity_protestation_scan import main
         import tempfile

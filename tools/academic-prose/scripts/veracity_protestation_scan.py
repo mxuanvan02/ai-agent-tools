@@ -102,7 +102,37 @@ COMMENT_MD = re.compile(r"<!--.*?-->", re.S)
 FENCE = re.compile(r"(?s)```.*?```")
 
 
+def read_pptx(path: Path) -> str:
+    """Extract slide text and speaker notes from a .pptx zip natively.
+
+    ooxml_text.read_text only special-cases .docx and falls back to a raw
+    utf-8 read, which raises on .pptx bytes -- measured on three real decks
+    (2026-10-13). Parse slideN.xml + notesSlideN.xml ourselves instead.
+    """
+    import zipfile
+    from xml.etree import ElementTree as XET
+    out = []
+    with zipfile.ZipFile(path) as z:
+        names = sorted(z.namelist())
+        xmls = [n for n in names
+                if n.startswith("ppt/slides/slide")
+                or n.startswith("ppt/notesSlides/notesSlide")]
+        for n in xmls:
+            try:
+                root = XET.fromstring(z.read(n))
+            except XET.ParseError:
+                continue
+            texts = [t.text for t in root.iter(
+                "{http://schemas.openxmlformats.org/drawingml/2006/main}t")
+                if t.text]
+            if texts:
+                out.append(" ".join(texts))
+    return "\n\n".join(out)
+
+
 def read_input(path: Path) -> str:
+    if path.suffix.lower() == ".pptx":
+        return read_pptx(path)
     if path.suffix.lower() in OFFICE_EXTS:
         if read_ooxml_text is None:
             raise ValueError(f"ooxml_text unavailable, cannot read {path}")
