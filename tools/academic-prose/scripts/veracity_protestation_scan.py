@@ -83,6 +83,58 @@ NEEDS_POINTER = [
     r"\bcaptured\s+(?:directly\s+)?(?:from|on)\s+the\s+(?:live\s+)?(?:system|machine)\b",
 ]
 
+# Verdict: delete -- the artifact echoes the commissioning request back at the
+# reader instead of delivering content ("như anh đã yêu cầu", "as requested").
+REQUEST_ECHO = [
+    r"theo\s+yêu\s+cầu\s+của\s+(?:anh|chị|bạn|quý|thầy|cô|khách\s+hàng|người\s+dùng|sếp)",
+    r"như\s+(?:anh|chị|bạn|quý\s+vị|các\s+bạn)\s+(?:đã\s+)?(?:yêu\s+cầu|đặt\s+hàng|nhờ|giao)",
+    r"để\s+đáp\s+ứng\s+yêu\s+cầu\s+của",
+    r"đúng\s+như\s+(?:đề\s+bài|yêu\s+cầu)\s+đã\s+(?:nêu|đặt\s+ra)",
+    r"\bas\s+(?:you\s+)?requested\b|\bper\s+(?:your|the)\s+request\b",
+    r"\bjust\s+like\s+you\s+asked\b",
+]
+
+# Verdict: delete -- the artifact narrates the assistant that produced it.
+MODEL_SELF_REFERENCE = [
+    r"với\s+tư\s+cách\s+là\s+một?\s*(?:AI|mô\s+hình\s+ngôn\s+ngữ|trợ\s+lý\s+ảo|chatbot)",
+    r"tôi\s+là\s+một\s+(?:AI|mô\s+hình\s+ngôn\s+ngữ|trợ\s+lý\s+ảo)",
+    r"\bas\s+an?\s+AI\b|\blanguage\s+model\s+like\s+me\b",
+    r"\bI\s+cannot\s+(?:browse|access|run)\b",
+]
+
+# Verdict: delete -- AI-assistant-flavoured closings. Pure "cảm ơn ... đã lắng
+# nghe" on a final slide is genre-standard and is deliberately NOT matched.
+CLOSING_CEREMONY = [
+    r"hy\s+vọng\s+(?:tài\s+liệu|bài\s+viết|slide|nội\s+dung|báo\s+cáo)\s+này\s+(?:sẽ\s+)?(?:hữu\s+ích|giúp\s+ích|có\s+ích)",
+    r"chúc\s+(?:các\s+bạn|quý\s+vị|anh|chị|thầy\s*(?:cô)?|mọi\s+người)\s+(?:thành\s+công|làm\s+việc\s+hiệu\s+quả|một\s+ngày)",
+    r"hẹn\s+gặp\s+lại",
+    r"\bhope\s+(?:this|you\s+find\s+this)\s+(?:is\s+)?helpful\b",
+    r"\bhappy\s+(?:coding|building)\b",
+]
+
+# Verdict: delete on slides/demos/reports; licensed on manuscripts, where the
+# introduction roadmap ("bài báo này trình bày...") is a genre convention.
+STRUCTURAL_ANNOUNCEMENT = [
+    r"trong\s+(?:phần|slide|mục|bài|trang)\s+này\s+(?:chúng\s+tôi|tôi|chúng\s+ta)?\s*(?:sẽ|xin)",
+    r"mục\s+tiêu\s+của\s+(?:slide|tài\s+liệu|bài\s+viết|trang)\s+này\s+là",
+    r"nội\s+dung\s+(?:chính\s+)?(?:của\s+(?:slide|bài|tài\s+liệu)\s+)?này\s+(?:gồm|bao\s+gồm)",
+    r"bài\s+viết\s+này\s+(?:sẽ\s+)?(?:trình\s+bày|giới\s+thiệu|tập\s+trung)",
+    r"this\s+(?:slide|section|document|page)\s+(?:will|presents|covers|walks)",
+    r"in\s+this\s+(?:section|slide|part),?\s+we\s+(?:will|present|show)",
+]
+
+# Verdict: recast -- second-person scaffolding. On slide faces it is padding
+# ("như các bạn đã biết"); in a classroom imperative ("các em hãy mở tệp") it
+# can be real instruction, so this class is always a candidate for review.
+READER_ADDRESS = [
+    r"như\s+(?:các\s+)?(?:bạn|anh\s+chị|quý\s+vị|chúng\s+ta)\s+(?:đã|đều)\s+(?:biết|thấy|nắm)",
+    r"hãy\s+cùng\s+(?:xem|tìm\s+hiểu|khám\s+phá|đến\s+với)",
+    r"chắc\s+hẳn\s+(?:bạn|các\s+bạn|quý\s+vị)",
+    r"bạn\s+có\s+thể\s+tự\s+hỏi",
+    r"\blet'?s\s+dive\s+in\b|\bas\s+you\s+can\s+see\b|\byou\s+might\s+be\s+wondering\b",
+    r"\bwithout\s+further\s+ado\b",
+]
+
 # --- licensing ---------------------------------------------------------------
 
 MATH_LICENSE = re.compile(
@@ -154,49 +206,59 @@ def split_sentences(text: str) -> list[str]:
     return [p.strip() for p in parts if p.strip()]
 
 
-def scan(text: str, source: str = "<stdin>") -> dict:
+CLASSES: list[dict] = [
+    {"code": "veracity_protestation", "verdict": "delete",
+     "patterns": PROTESTATION, "licensed_genres": set()},
+    {"code": "authenticity_claim_without_pointer", "verdict": "replace_with_pointer",
+     "patterns": NEEDS_POINTER, "licensed_genres": set()},
+    {"code": "request_echo", "verdict": "delete",
+     "patterns": REQUEST_ECHO, "licensed_genres": set()},
+    {"code": "model_self_reference", "verdict": "delete",
+     "patterns": MODEL_SELF_REFERENCE, "licensed_genres": set()},
+    {"code": "closing_ceremony", "verdict": "delete",
+     "patterns": CLOSING_CEREMONY, "licensed_genres": set()},
+    {"code": "structural_announcement", "verdict": "delete",
+     "patterns": STRUCTURAL_ANNOUNCEMENT, "licensed_genres": {"manuscript"}},
+    {"code": "reader_address", "verdict": "recast",
+     "patterns": READER_ADDRESS, "licensed_genres": set()},
+]
+
+
+def scan(text: str, source: str = "<stdin>", genre: str = "auto") -> dict:
     findings = []
     for i, sent in enumerate(split_sentences(text), start=1):
         licensed = bool(MATH_LICENSE.search(sent))
-        for pat in PROTESTATION:
-            m = re.search(pat, sent, re.I)
-            if not m:
+        for cls in CLASSES:
+            if genre in cls["licensed_genres"]:
                 continue
-            # a stated contrast against synthetic/simulated data is a methods
-            # statement, not protestation -- but only when the hit word itself
-            # is the contrastive one (dữ liệu thật vs dữ liệu tổng hợp)
-            if not licensed and CONTRAST_LICENSE.search(sent) and re.search(
-                    r"(?:thật|thực\s+tế|real|actual|live)", m.group(0), re.I):
-                licensed = True
-            if licensed:
+            hit_span = None
+            for pat in cls["patterns"]:
+                m = re.search(pat, sent, re.I)
+                if not m:
+                    continue
+                span = m.group(0)
+                if cls["code"] == "veracity_protestation":
+                    # a stated contrast against synthetic/simulated data is a
+                    # methods statement, not protestation -- but only when the
+                    # hit word itself is the contrastive one
+                    if licensed or (CONTRAST_LICENSE.search(sent) and re.search(
+                            r"(?:thật|thực\s+tế|real|actual|live)", span, re.I)):
+                        continue
+                hit_span = span
+                break
+            if hit_span is None:
                 continue
             findings.append({
                 "id": f"V{len(findings)+1}",
-                "class": "veracity_protestation",
-                "verdict": "delete",
+                "class": cls["code"],
+                "verdict": cls["verdict"],
                 "sentence_no": i,
-                "span": m.group(0),
+                "span": hit_span,
                 "sentence": sent[:200],
                 "source": source,
             })
             break  # one finding per sentence is enough signal
-        if any(f["sentence_no"] == i for f in findings):
-            continue
-        for pat in NEEDS_POINTER:
-            m = re.search(pat, sent, re.I)
-            if not m:
-                continue
-            findings.append({
-                "id": f"V{len(findings)+1}",
-                "class": "authenticity_claim_without_pointer",
-                "verdict": "replace_with_pointer",
-                "sentence_no": i,
-                "span": m.group(0),
-                "sentence": sent[:200],
-                "source": source,
-            })
-            break
-    return {"source": source, "findings": findings,
+    return {"source": source, "findings": findings, "genre": genre,
             "verdict": "fail" if findings else "pass"}
 
 
@@ -231,6 +293,9 @@ def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(
         description="Flag veracity-protestation padding; report only, never rewrite.")
     ap.add_argument("inputs", nargs="+", help="file or directory")
+    ap.add_argument("--genre", default="auto",
+                    choices=["auto", "slide", "manuscript", "report", "demo"],
+                    help="manuscript licenses structural_announcement (intro roadmap)")
     ap.add_argument("--json", action="store_true")
     args = ap.parse_args(argv)
 
@@ -241,7 +306,7 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as e:
             print(f"input error: {p}: {e}", file=sys.stderr)
             return 3
-        results.append(scan(text, str(p)))
+        results.append(scan(text, str(p), genre=args.genre))
 
     if args.json:
         print(json.dumps(results, ensure_ascii=False, indent=2))
