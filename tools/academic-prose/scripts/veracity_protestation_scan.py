@@ -146,6 +146,13 @@ CONTRAST_LICENSE = re.compile(
     r"synthetic|tổng\s+hợp|mô\s+phỏng|giả\s+lập|dummy|fake)", re.I)
 QUOTE_LICENSE = re.compile(r'“[^”]*”|"[^"]*"|\\(?:enquote|textquote|blockquote)\{[^}]*\}|`[^`]*`')
 
+# Negated mention = a rule/rubric instruction ("không ảnh chụp dữ liệu thật",
+# "tránh thao tác thật", "no real screenshots"), not a protestation. The
+# negation must sit before or around the hit within the same sentence.
+NEGATION_LICENSE = re.compile(
+    r"không|chứ\s+không|tránh|đừng|cấm|nói\s+không|no\b|not\b|avoid|never|don'?t|do\s+not",
+    re.I)
+
 TEXT_EXTS = {".tex", ".md", ".txt", ".html", ".rst"}
 OFFICE_EXTS = {".docx", ".pptx"}
 
@@ -243,6 +250,14 @@ def scan(text: str, source: str = "<stdin>", genre: str = "auto") -> dict:
                     # hit word itself is the contrastive one
                     if licensed or (CONTRAST_LICENSE.search(sent) and re.search(
                             r"(?:thật|thực\s+tế|real|actual|live)", span, re.I)):
+                        continue
+                    # negated mention ("không ảnh chụp dữ liệu thật") is a
+                    # rubric instruction, not a protestation -- but only when
+                    # the negation directly governs the hit phrase, i.e. the
+                    # hit word itself is not negated content ("không phải ảnh
+                    # vẽ" IS protestation, "không dùng ảnh chụp thật" is a rule)
+                    neg = NEGATION_LICENSE.search(sent)
+                    if neg and neg.start() < sent.lower().find(span.lower()):
                         continue
                 hit_span = span
                 break
