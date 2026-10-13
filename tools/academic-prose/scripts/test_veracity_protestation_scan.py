@@ -130,6 +130,20 @@ class TestNewClasses(unittest.TestCase):
         r = scan(text)
         self.assertEqual(r["findings"], [], r["findings"])
 
+    def test_negated_mention_licensed(self) -> None:
+        # rubric instructions are not protestation
+        text = ("Slide thực hành không dùng ảnh chụp dữ liệu thật, chỉ mô tả. "
+                "Tránh thao tác thật không có ảnh minh hoạ. "
+                "No real screenshots without annotation.")
+        r = scan(text)
+        self.assertEqual(r["findings"], [], r["findings"])
+
+    def test_negation_does_not_license_denial_protestation(self) -> None:
+        # "không phải ảnh vẽ" IS protestation despite containing a negation
+        text = "Ba thư mục nằm trên Drive thật, không phải ảnh vẽ."
+        r = scan(text)
+        self.assertEqual(r["verdict"], "fail")
+
     def test_structural_announcement_genre_license(self) -> None:
         text = "Trong phần này chúng tôi sẽ trình bày mô hình đe doạ."
         self.assertEqual(scan(text, genre="auto")["verdict"], "fail")
