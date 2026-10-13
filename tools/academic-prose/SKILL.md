@@ -183,6 +183,12 @@ holds: a hit is a candidate for the taxonomy verdict in
 rewrite, and a clean scan is a partial verification only. See
 [Vietnamese AI-pattern gate](references/vi-ai-pattern-gate.md).
 
+Slides, demos, and reports also run
+[`scripts/veracity_protestation_scan.py`](scripts/veracity_protestation_scan.py):
+a sentence asserting its evidence is genuine (`ảnh chụp thật`, `not simulated`)
+is padding — delete it or give a checkable pointer. See
+[Veracity-protestation gate](references/veracity-protestation-gate.md).
+
 For manuscript-like prose in either language, run
 [`scripts/academic_discourse_scan.py`](scripts/academic_discourse_scan.py) on
 every `draft`, `develop`, `revise`, `translate`, `humanize`, and `audit`
@@ -474,6 +480,7 @@ Read these references as needed:
 - [Internal register gate](references/internal-register-gate.md)
 - [Process logic gate](references/process-logic-gate.md)
 - [Vietnamese AI-pattern gate](references/vi-ai-pattern-gate.md)
+- [Veracity-protestation gate](references/veracity-protestation-gate.md)
 - [Academic discourse gate](references/academic-discourse-gate.md)
 - [Metric and formula exposition](references/metric-and-formula-exposition.md)
 - [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) — prose-extract recipe for paragraph-level scans on `.tex`, the polyglossia `\refname` truncated-heading trap, deriving declarations placement from a published OJS article, per-record verification of dataset claims against the released HF artifact, the manuscript↔GitHub↔HF drift sweep, Crossref-verified citation insertion with Vancouver render-order check, renaming public GH/HF artifacts mid-submission, and the no-numbers-in-conclusion gate
