@@ -83,6 +83,12 @@ block, or number stays; only the self-authenticating words go.
   per sentence and only when the hit word is the contrastive one.
 - **Quotations.** Text inside quotes, `\enquote{}`, or code fences is not
   scanned — quoting someone else's protestation is not making one.
+- **Descriptive `thật` about the subject matter.** `đọc dữ liệu thật của một
+  hộp giám sát hành trình` (the exercise uses real trip-monitor data), `thao tác
+  thật trên áp phích` (the thumbnail matches the real operation being taught),
+  `giải thích dữ liệu thật` (a methods boundary) describe the *subject*, not the
+  artifact's authenticity. License them; measured 3 such cases in a live sweep of
+  41 teaching-deck files (2026-10-13).
 - **Negated meta-discussion.** A sentence discussing the rule itself (this
   file, a lesson teaching students to spot fake screenshots) is licensed by
   context: comments are stripped before scanning, and markdown/HTML comments
