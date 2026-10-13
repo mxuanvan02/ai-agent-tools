@@ -42,3 +42,24 @@ Giữ số bài hai chữ số nếu cả thư mục dùng chuẩn đó; nếu t
 ## Báo cáo theo lô
 
 Với bộ nhiều bài, báo cáo ngắn theo bảng: bài, nguồn, số slide, notes, QA, tên Drive, trạng thái. Không tuyên bố “đã làm hết” khi chỉ mới tạo script hoặc bản dựng trung gian.
+
+
+## Đo lỗi trình bày: đọc XML, đừng đọc text
+
+- **`python-pptx .text` KHÔNG chứa bullet tự sinh.** Dấu `buChar`/`buAutoNum` nằm ở `pPr`, không nằm trong run, nên tìm chuỗi `"• •"` trong `paragraph.text` luôn ra 0 hit. Đã vì thế mà kết luận SAI một lỗi có thật: 40 đoạn trên 4 deck vừa khai `<a:buChar char="•"/>` vừa có text bắt đầu bằng `•` → PowerPoint vẽ HAI dấu. Muốn biết màn hình vẽ mấy dấu thì đọc XML của `pPr`, và xác nhận lại bằng vision trên ảnh zoom.
+- **Sửa bullet lặp: bỏ dấu GÕ THỪA trong text, giữ `buChar`.** `buChar` mang màu/cỡ/font của template (`buClr`/`buSzTx`/`buFontTx`); xoá nó sẽ làm bullet mất style và lệch với các bullet khác trong cùng deck.
+- **Lệch bullet trong PDF có thể là artifact của renderer, không phải lỗi deck.** Artifact để dạy là `.pptx` mở bằng PowerPoint, còn ảnh ta đo là PDF do `soffice` render. Tách cho rõ bằng thí nghiệm có đối chứng: dựng pptx tối thiểu với các textbox có `left/marL/indent/buChar` GIỐNG HỆT, chỉ khác độ dài chữ, rồi render và đo toạ độ glyph bằng `fitz`. Nếu bản đối chứng cũng lệch (đã đo: 5.24pt, cùng cỡ 3.36pt trên deck thật) thì đó là cách LibreOffice render hanging indent — **không "sửa" geometry vốn đúng**.
+
+## Guard phải chặn đúng thứ thật, không chặn proxy tự chế
+
+- Guard "số từ mỗi slide không được tăng" từng CHẶN OAN một sửa đổi đúng: slide đó đã vượt ngưỡng sẵn nên thêm 3–5 từ không làm slide nào **mới** vượt. Tiêu chí đúng: **số slide vượt ngưỡng không được tăng**. Còn rủi ro thật (tràn chữ đè ảnh) thì chặn theo từng đoạn ("bản mới không dài hơn bản cũ + 2 kí tự", vì shape có width cố định) và để cổng `ink_clip_check` trên PDF đã render phán xử — cổng đó đo va chạm thật, không phải proxy.
+- **Đọc chữ ký hàm trước khi dùng nó làm guard.** `measure_path()` trả `(size, ncols, hits)`; unpack thành `sev, ncols, hits` rồi kiểm `if sev:` là kiểm **size** — tuple luôn truthy nên guard FAIL oan dù `hits=[]` (0 vết cắt). In kèm giá trị thô vào log là cách phát hiện loại lỗi này ngay.
+- **Đừng dựng lát cắt từ hiệu hai toạ độ rồi giả định nó khác rỗng.** Cắt dải "khoảng trống giữa hai band" với `start = mốc_trên + cao_band + 2`, `stop = mốc_dưới - 2` cho slice RỖNG khi band cao hơn khoảng cách giữa hai mốc → `np.median([])` trả NaN → `ValueError`. Cách bền: lấy median của pixel **không-mực** trong toàn nội dung, kèm guard kiểm số pixel tối thiểu.
+- **Phát hiện vạch chia dọc phải bỏ viền ngoài.** Quét cột xám chạy suốt trên toàn chiều rộng sẽ bắt luôn viền khung (cột 0 và W-1 cũng thoả) → khoảng chia thành rỗng → "0 band". Chỉ quét trong vùng nội dung, gom cụm, loại cụm quá rộng và cụm dính mép, chọn cụm hẹp gần tâm nhất.
+- **Thêm guard bảo toàn mực khi dịch/chuyển nội dung ảnh:** tổng số pixel mực trước và sau phải bằng nhau từng pixel (đã dùng: 54343 → 54343). Kèm guard dải định cắt phải 0 pixel mực. Hai guard này bắt được glyph gãy mà mắt thường dễ bỏ qua.
+
+## Cổng kết luận "đã đồng bộ" phải so với server, không so với clone local
+
+- Một script verify so `~/.hermes/skills/...` với `~/ai-agent-tools/...` (clone **local**) và chỉ quét những file có sẵn trong thư mục references sẽ kết luận "KHÔNG cần mở PR" ngay cả khi base branch trên server chưa có nội dung mới. Phép thử quyết định: `git show origin/<base>:<đường dẫn>` có chứa luật mới không, và `git ls-tree origin/<base> <thư mục>` có file mới không.
+- **`gh` cài bằng snap bị confine: không đọc được `<data>`.** Chạy `gh pr create` từ worktree trên đĩa đó ra `fatal: error opening '.../.git': Permission denied`. Cách đúng: chạy `gh` từ clone trong `$HOME` và đặt file body PR trong `$HOME` (`/tmp` cũng không đọc được). Nếu vẫn kẹt, fallback `gh api repos/<owner>/<repo>/pulls -X POST -F body=@/home/<user>/file.md` không cần git.
+- **Exit code của pipeline là exit code của LỆNH CUỐI.** `gh pr create ... | tail -5; echo $?` trả 0 dù lệnh create fail. Luôn verify bằng một lệnh đọc độc lập: `gh pr list --head <branch> --state all --json number,state,url`.
