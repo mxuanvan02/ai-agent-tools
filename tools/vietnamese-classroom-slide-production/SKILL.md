@@ -6,6 +6,18 @@ version: 1.0.0
 
 # Vietnamese Classroom Slide Production
 
+## Luật cứng: cổng số từ KHÔNG được đạt bằng cách xoá chữ
+
+Cổng design "≤60 từ/slide" chỉ đạt hợp lệ khi nội dung được CHUYỂN VÀO ẢNH, không phải bị xoá đi. Ảnh không bị đếm từ nên đạt cả cổng mật độ lẫn cổng nội dung.
+
+Sau MỌI lần cắt chữ, bắt buộc kiểm hai bước trước khi báo xong:
+1. Đếm shape thân slide (y trong 1.45–6.9) và số ảnh có width > 2in. Slide có ≤4 shape thân VÀ 0 ảnh = RỖNG → fail, không được gửi.
+2. Render PDF rồi vision_analyze ít nhất 2 slide đã cắt, hỏi thẳng "có vùng trống lớn bất thường / chữ mồ côi lơ lửng không". Chữ giữ lại vì keep-list mà mất ngữ cảnh xung quanh sẽ thành dòng mồ côi — đó là lỗi, không phải tiết kiệm.
+
+Đã trả giá: tối ưu con số cổng thay vì slide dạy được, kết quả 18/20 slide chỉ còn 1–2 dòng chữ lơ lửng trên nền trắng dù cả hai cổng đều PASS.
+
+Khi cổng nội dung và cổng thiết kế kéo ngược nhau trên cùng một template chữ dày, không chọn một trong hai bằng cách cắt — giải bằng ảnh.
+
 ## Phạm vi
 
 Dùng cho một bài hoặc cả bộ bài giảng THPT. Kết hợp bắt buộc với `powerpoint` để thao tác PPTX và `academic-prose` để viết tiếng Việt học thuật–sư phạm.
@@ -28,6 +40,12 @@ Dùng cho một bài hoặc cả bộ bài giảng THPT. Kết hợp bắt buộ
 
 - **Notification của job nền đến trễ KHÔNG phải trạng thái hiện tại — và job đã bị thay thế vẫn ghi đè được artifact.** Một job cũ báo "đã dựng 9 strip, còn 2 vết cắt" đến SAU khi bản hội tụ đã được promote; tin theo nó sẽ làm lại việc đã xong. Cách phân xử duy nhất là ĐO, không suy từ thứ tự thông báo: (a) sha256 của blob ảnh NHÚNG TRONG deck — đọc thẳng từ zip `ppt/media/*.png`, loại logo trường bằng sha prefix — so với sha strip trên đĩa; (b) mtime timeline của strip, deck, và các script để biết ai ghi sau cùng. Trong ca thật, job cũ đã ghi đè 8 strip, nhưng rebuild hội tụ và promote chạy sau nên artifact cuối vẫn đúng; chỉ một strip bị đổi thật và đã được dựng lại. Phòng ngừa tận gốc: **script đo/dựng lại ảnh phải ghi ra đường dẫn TẠM rồi mới promote** — job cũ ghi thẳng vào `final/` nên mới có khả năng xoá bản hội tụ. Giữ một script trạng thái CHỈ ĐỌC (đo sha + size + vết cắt + timeline, in verdict) làm cổng regression cho đúng lớp bug này, theo nguyên tắc test-nơi-đã-tìm-thấy-bug.
 - **So skill local với bản repo phải trừ phần sanitize trước khi kết luận lệch.** Repo công khai đã ẩn danh (`$HOME`, `chủ dự án`) nên md5 thô luôn lệch dù nội dung giống hệt; một lần so thô suýt mở PR thừa. Cách đúng: nạp bảng `REPLACEMENTS` thật từ script sanitizer (không chép lại bảng, vì bảng đổi thì phép kiểm âm thầm sai), áp lên bản local TRONG BỘ NHỚ, rồi so md5 từng file với bản repo. Khớp hết nghĩa là đã đồng bộ; còn lệch thì in đúng số dòng khác.
+
+- **Mọi token làm mốc trong cổng dựng trên OCR phải ASCII-safe; chữ có dấu chỉ được kiểm bằng pixel.** Đã dính **4 lần** cùng một bẫy: OCR thay dấu bằng chữ số hoặc chữ cái gần giống — đo được trong log thật: `Tuổi:` → `Tu6i:` và `TuOi:`, `Nhập:` → `Nhap:`, `Xin chào` → `Xin chao`. Hệ quả: cổng báo FAIL oan (điều kiện "output phải xuất hiện ở band sau" không bao giờ thoả) dù ảnh **đã đúng**, và lỗi thật bị che. Luật: token mốc phải là số/giá trị ASCII (`'16'`, `'45'`, `'2010'`) hoặc chuỗi đã gập dấu; còn dấu thì đo bằng IoU pixel có-dấu-vs-gập-dấu. Khi so theo band phải so sau `fold`+`squash` vì OCR còn tách từ (`Nam sinh: ((`).
+- **Cổng "smoke test" in ra rỗng là FAIL-OPEN, nguy hiểm hơn không có cổng.** Bản kiểm dấu bằng OCR từng in `diacritic_missing=[]` — trông như ĐẠT — trong khi chính nguồn dữ liệu của nó không đọc được token có dấu, tức cổng **không chứng minh được gì ở cả hai chiều**. Đã suýt promote artifact dựa trên cổng đó. Luật: cổng nào cũng phải có **đối chứng dương VÀ âm** chạy trước khi tin verdict xanh (ảnh PIL chuẩn: hỏi bản có dấu phải ra `DIACRITIC_RENDERED`, hỏi bản gập dấu phải KHÔNG ra), và phải **mutation-test** bằng chính hình dạng defect cũ. `echo_verdict` đạt 7/7 ca với 5 ca phải ĐỎ đều đỏ — đó mới là bằng chứng cổng sống.
+- **Ảnh dạy học phải hiện đúng lệnh học sinh được dạy, không hiện công cụ nội bộ của pipeline.** Đã chụp ảnh có dòng `./py -u b18_vn_nhap_in.py` — `./py` là wrapper riêng để rút ngắn dòng lệnh, học sinh không bao giờ gõ nó và Bài 18 dạy `python3 <file>`. Cách đúng: `cd` vào thư mục script rồi dùng `python3 -u <tên file>` (28 kí tự, vẫn ngắn hơn nhiều so với 104 kí tự của đường dẫn tuyệt đối — lý do gốc từng làm strip phình 9950px). Lưu ý **không thay python venv bằng symlink**: `ln -s <venv>/bin/python3 ~/.local/bin/p3` rồi `p3 -c "import pptx"` ra `ModuleNotFoundError`, vì CPython resolve symlink về binary thật rồi tìm `pyvenv.cfg` **kế bên binary đó**, không thấy nên không nạp site-packages; muốn dùng tên ngắn phải là **wrapper exec đúng đường dẫn tuyệt đối**.
+- **`input()` chụp bằng pipe stdin là DẠY SAI chính khái niệm đang dạy.** `printf 'An\n2010\n' | python3 script.py` làm stdin thành **pipe, không phải tty**, nên line discipline không có gì để echo; cộng thêm `stty -echo` thì màn hình hiện `Nhập tên: Xin chào, An` — lời nhắc dính liền kết quả, học sinh không biết dữ liệu từ đâu ra và dễ tưởng `input()` nhận cả cụm đó (reviewer vai học sinh tìm ra; đo lại và xác nhận là lỗi thật). Cách sửa: **gõ dữ liệu thật vào tty** bằng xdotool/xclip, và bật lại `stty echo` **SAU KHI đã gõ xong các dòng lệnh** (gõ lúc echo còn tắt thì chính dòng `stty echo` không hiện ra). Thứ tự ngược sẽ echo dòng lệnh dài và làm strip phình trở lại.
+- **Band hàng phải đo bằng MỰC và nhóm theo (CỘT, band), không dùng giả định "một dòng OCR = một dòng màn hình".** OCR tự tách một dòng vật lý thành nhiều dòng (`Nhập: 45` → `Nhap:` + `45`) nên mọi cổng dựng trên giả định đó FAIL oan. Và strip do recrop dựng là **N cột ghép ngang**: hai dòng terminal khác nhau ở hai cột có thể nằm cùng một khoảng y (đo thật trên strip 2084×496: `input('Nhap:` ở x 292–1153 cột 0, `./py` ở x 2149–2422 cột 1) — nhóm chỉ theo y sẽ trộn chữ hai cột và thấy lời nhắc dính output. OCR chỉ còn vai trò **định vị** band.
 
 Xem `references/knowledge-example-visual-repair.md` để áp dụng các ca sửa và cổng kiểm tra từ BAI_02/03.
 
@@ -182,6 +200,9 @@ Chủ dự án: *"Nên tự có chuyên gia đánh giá độc lập theo các t
 - `references/clone-contamination-guard.md`: checklist chống lẫn nội dung khi clone deck bài trước (Bài 22→23) — quét token cấm trước/sau dựng, mỗi bài một thư mục rebuild riêng, ghi vở là khái niệm, bug `note_slide` che hàm `icon()`.
 - `references/2026-09-14-bai27-30-batch.md`: batch cuối §5.31–§6.34 — smoke 30 điểm / 7 từ / phiếu 4 ô, 4 icon thay thế đã verify, fix tràn O4 dòng dài.
 - `references/2026-09-14-bai02-retrofit.md`: mẫu retrofit deck cũ → chuẩn BAI_14–30 (§1.2: 3 TB + 2 đối chứng, 28 slide) và khóa số liệu BAI_03 (§1.7: 12 tệp / 45 MB / 4 bước).
+- `references/vision-and-capture-infrastructure.md`: hạ tầng dựng ảnh — Open WebUI tự chủ
+  khi mọi trang AI công cộng chặn máy tự động hoá, và bảng chẩn đoán vision relay
+  (`402`/`429`/`503` là chuyện account/quota, không phải model sai).
 - Đồng thời đọc `powerpoint/references/classroom-lesson-deck-revision.md` và `powerpoint/references/python-pptx-classroom-deck-qa.md`.
 
 ## Cổng THIẾT KẾ riêng, và bảy lỗi detector đã trả giá
@@ -304,53 +325,6 @@ nhưng **Google Drive 0 lần, OneDrive 0, Dropbox 0**; deck dạy OCR nhưng
 viết "ứng dụng OCR đã được phép". Khi dạy một công cụ, phải đếm xem tên công
 cụ đó có mặt trong deck không — nêu chung chung thì học trò ngồi trước máy
 không biết mở cái gì.
-
-## Ảnh thao tác AI web: dựng Open WebUI tự chủ khi mọi trang công cộng bị chặn
-
-Khi bài học cần ảnh chụp "dùng AI trên web" mà các trang công cộng đều chặn máy
-tự động hoá (đã đo 10/10/2026: Copilot bắt đăng nhập, Qwen đòi xác nhận tuổi,
-Duck.ai/HuggingChat/Perplexity dính CAPTCHA/403/Cloudflare, LM Arena/Blackbox
-không phải bản chat miễn phí), đừng dựng ảnh giả giao diện. Dựng **Open WebUI
-tự chủ** (Docker) trỏ vào endpoint AI nội bộ — giao diện web thật + AI thật nên
-ảnh chụp là ảnh thao tác thật, không cần tài khoản của người dùng.
-
-Chuỗi lỗi đã trả giá (mỗi cái là một vòng ~5 phút vì model sinh chữ chậm):
-
-1. **Danh sách `/v1/models` của relay KHÔNG đầy đủ.** Nó chỉ liệt kê vài model
-   (ở đây claude-sonnet-5, claude-opus-5 — đều hết quota), còn model cần dùng
-   gọi trực tiếp vẫn HTTP 200 nhưng không có trong danh sách. Kết luận sai đã
-   mắc: "không endpoint nào còn quota" vì chỉ thử model trong `/models`. Phải
-   thử cả model mình thật sự cần. Cách nối: proxy mỏng phơi `/v1/models` chỉ
-   chứa model đó rồi chuyển tiếp kèm streaming (Open WebUI cần SSE, không đệm).
-2. **Open WebUI gửi model id RỖNG** dù đã set `DEFAULT_MODELS` và UI hiện đúng
-   tên model -> relay báo "Model ' ' was not found", không có câu trả lời. Sửa ở
-   proxy: ÉP `payload['model']=MODEL` trước khi forward. Proxy là tầng mình kiểm
-   soát nên đó là chỗ đúng để ép.
-3. **Model "thinking" gọi tool rồi TREO.** qwen3.8-max gọi `get_current_timestamp`
-   để tra ngày cho loại lỗi "lỗi thời" và UI treo ở bước thực thi tool (resp kẹt
-   129 ký tự 180s, proxy vẫn HTTP 200). Sửa bằng PROMPT: cấp ngữ cảnh thời gian
-   ngay trong câu lệnh + ghi rõ "không dùng công cụ tra cứu bên ngoài". Đây cũng
-   là bài dạy học trò: đủ ngữ cảnh thì AI không đi lòng vòng.
-4. **Chụp ảnh câu trả lời: cuộn container theo % KHÔNG BAO GIỜ trúng.** Câu trả
-   lời AI nằm GIỮA (sau tin nhắn người dùng chứa khối dữ liệu dài) nên 0%->phần
-   người dùng, 100%->cuối câu trả lời. Phải `scrollIntoView` vào CHÍNH phần tử
-   trả lời, chọn phần tử innerText DÀI NHẤT. Và selector `.prose` là KHÔNG ĐỦ —
-   Open WebUI bọc trả lời trong `.chat-assistant`; bộ selector rộng
-   `.chat-assistant, .prose, [class*="response"], .markdown, article` mới trúng.
-5. **Mở lại chat đã lưu KHÔNG lấy được câu trả lời để chụp lại.** Open WebUI
-   không commit nội dung stream vào DB ngay (assistant content = 0), nên mở lại
-   chỉ render phần người dùng, `.prose` count = 0. Muốn ảnh trả lời thì phải chụp
-   NGAY trong phiên đang render; không tiết kiệm quota bằng cách mở lại được.
-6. **Scroll ô nhập contenteditable lên đầu bằng `Ctrl+Home`**, không bằng
-   `scrollTop=0` (set scrollTop trên contenteditable của Open WebUI không ăn).
-   Verify bằng cách đọc ký tự ĐẦU đang hiển thị, không tin đã cuộn.
-
-Kỷ luật verify ảnh: exit 0 của script chụp KHÔNG phải bằng chứng ảnh đúng. Đã 6
-lần checker tự động báo sai (so theo MaHS trong khi AI trả lời theo số dòng; ngưỡng
-`len>5` trong khi đáp án đúng dài đúng 5 ký tự; OCR mất dấu nên tìm chuỗi có dấu
-khớp 0/9). Phải đọc NỘI DUNG THẬT (OCR text hoặc vision) và đối chiếu ground truth,
-không tin boolean của checker. Vision hay timeout ở bước này — OCR là phép kiểm
-chính, vision để xác nhận thẩm mỹ.
 
 ## Chú thích trên ảnh chụp: 4 luật đã trả giá
 
@@ -593,22 +567,6 @@ Ghi chú biên tập (timestamp mâu thuẫn, "xem bảng ở cuối", trạng t
 Đặt raw TeX **trước** dấu `*` làm pandoc mất khả năng nhận emphasis: dấu `*` in ra thành chữ và font không nghiêng. `\color` cần `\usepackage{xcolor}` trong file nạp qua `pandoc -H`, thiếu sẽ `Undefined control sequence`.
 
 Đọc kết quả fixture phải soi **cả bốn** chỉ số. Đã mắc: kết luận "phương án A hoạt động" chỉ vì size và color đúng, bỏ qua dấu `*` lộ và font không Italic → build thật ra bản hỏng.
-
-## Bài học phiên 2026-10-09 — chèn kịch bản nói vào tài liệu giải thích (deck 19 slide)
-
-Khi `vision_analyze` lúc được lúc không, nguyên nhân thường là **relay bốc ngẫu nhiên giữa các account** chứ không phải model sai. Đo bằng probe 1 lượt/model rồi **phân loại theo lỗi của account**, không phân loại theo model:
-
-| Lỗi trả về | Nghĩa thật |
-|---|---|
-| `402 insufficient_user_quota` / "chưa kích hoạt subscription" | account hết gói → route này chết |
-| `429 insufficient_quota` + ngày reset | account cạn quota tháng |
-| `503 No available accounts` | **không có account nào** khai model đó (model chỉ chạy text, không nhận ảnh) |
-
-Hệ quả: một lệnh `vision_analyze` thành công **không chứng minh** vision ổn định — nó chỉ chứng minh lượt đó bốc trúng account còn hạn. Muốn kết luận phải probe lặp ≥8 lần.
-
-**Model sống sót chưa chắc dùng QA được.** `MiniMax-M3` probe ra `VISION_OK` nhưng 3 lần gọi chỉ 1 lần trả nội dung (2 lần trả đúng 1 ký tự `'>'`), và lần trả nội dung thì **đọc sai chữ trên ảnh** (`"màu thuẫn, xem bảng cuối mỗi dấu"` thay vì `"mâu thuẫn, xem bảng cuối phần mở đầu"`). OCR sai chữ = bằng chứng âm, nguy hiểm hơn không có bằng chứng vì nó mời ta kết luận "đạt". Trước khi tin một model làm QA trực quan, bắt nó **đọc nguyên văn một dòng ta biết trước**; đọc sai thì loại.
-
-Khi mọi đường vision đều chết: dùng cổng đo tọa độ (PyMuPDF `span['font']`, `bbox`) để chứng minh *cấu trúc* — in nghiêng, thụt lề, không cắt trang, không tofu — và **ghi rõ trạng thái "chưa xác minh trực quan"** cho phần thẩm mỹ. Không thay bằng lời mô tả suy đoán.
 
 ## Bài học phiên 2026-10-09 — chèn kịch bản nói vào tài liệu giải thích (deck 19 slide)
 
