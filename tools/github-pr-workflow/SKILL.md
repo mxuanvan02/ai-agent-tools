@@ -471,6 +471,55 @@ git push -u origin HEAD
 # 8. Merge when green (see Section 6)
 ```
 
+## Worktrees on data-disk filesystems — three traps, all hit for real
+
+Use a worktree instead of branching in the main checkout when another agent may be
+working in that repo. But if the worktree lives on a mount that does not preserve
+Unix file modes (FAT/exFAT/NTFS-style data disks):
+
+1. **`git config core.fileMode false` inside the worktree BEFORE the first `git status`.**
+   Otherwise every file shows as `mode change 100644 => 100755` — one docs PR showed
+   **448 unrelated mode changes** next to a 9-line SKILL.md edit. `git diff --stat`
+   with hundreds of files changed but only tens of insertions/deletions is the
+   signature; `git diff --summary | grep -c 'mode change'` confirms. Never commit that.
+2. **`gh` cannot open the worktree's `.git` file on such mounts** (`failed to run git:
+   error opening '.../.git': Permission denied`). The push still works (plain git), so
+   run `gh pr create` / `gh pr merge` **from the main checkout** — same remote, branch
+   already pushed.
+3. **`gh pr merge --delete-branch` fails while a worktree still has the branch checked
+   out** (`cannot delete branch ... used by worktree`). The server-side merge has
+   ALREADY landed — verify with `gh pr view N --json state,mergedAt` before retrying.
+   Clean up after: `git worktree remove <path> --force`, `git branch -D <br>`,
+   `git push origin --delete <br>`, and confirm with `git ls-remote --heads origin <br>`
+   returning empty.
+
+## Cross-skill references break the stale-pointer CI gate
+
+In this monorepo, CI (`test_every_internal_pointer_in_every_skill_resolves`) extracts
+every backticked `references/<file>.md` token from a tool's SKILL.md and requires the file
+to exist **inside that tool** — because `_is_internal()` only checks the FIRST path
+component (`tool/references/` exists → token treated as internal). Pointing at another
+skill's reference doc with a relative path therefore fails CI with
+`Lists differ: ['references/x.md'] != []`.
+
+Fix: cite the other skill by ABSOLUTE path (`~/.hermes/skills/<skill>/references/x.md`)
+— tokens starting with `/` or `~` are skipped by the gate, and the absolute path is
+where the file actually lives.
+
+**Meta-trap, hit for real:** documenting this gate by writing its own pattern as a
+literal backticked example (`references/<name>.md` written as a glob) makes the very
+SKILL.md that explains the gate FAIL the gate — the extractor scans examples too and
+cannot tell a real pointer from an illustration. Always write such examples with a
+`<placeholder>`, which `NOT_A_PATH` excludes. After editing any SKILL.md in this repo,
+grep it for backticked `references/...` tokens and check each one resolves inside that
+same tool before pushing. Verify locally before pushing:
+`python3 -m unittest tests.test_public_hygiene_gate.TestInternalPointersResolve -v`
+from `tools/academic-prose` (the gate's home). The suite includes a
+break-a-pointer control test, so a local pass is real evidence.
+
+Also: when sanitizing files for a public repo, **exclude LICENSE** — word-level
+identity-redaction rules (e.g. `\bVan\b`) corrupt the legal copyright holder name.
+
 ## Useful PR Commands Reference
 
 | Action | gh | git + curl |
