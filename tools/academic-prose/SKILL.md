@@ -111,6 +111,17 @@ verdicts are licensed (`delete`, `recast`, `relocate`, `license`); **soften is
 forbidden**. Recast preserves the scope the internal sentence was carrying,
 or the repair becomes an overclaim.
 
+The third test is what makes a **reusable companion artifact** its own genre. A
+form, checklist or worksheet published beside the paper is meant to be copied and
+used on its own, so a cross-reference into the paper's numbering — `(Bảng 1)`,
+`mục 3.2.1`, "one table of the article" — fails it even though the same string is
+required prose inside the manuscript. Declare `--genre reusable_form`; the scanner
+then enforces `companion_cross_reference` (threshold 0) and licenses
+`verification_log_prose`, because recording verification acts is the form's
+function. Nine such references survived a full gate suite on a shipped one-page
+form before this class existed. See
+[Internal register gate](references/internal-register-gate.md) §11.
+
 ### Venue ambition is a separate register, not a strong claim
 
 The publication target — the venue, its tier, its indexing, the referee you expect —
