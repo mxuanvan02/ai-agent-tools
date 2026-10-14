@@ -49,6 +49,8 @@ Dùng cho một bài hoặc cả bộ bài giảng THPT. Kết hợp bắt buộ
 
 Đo "chữ có tràn không" thì đừng so chữ với cái hộp: `spAutoFit` làm khung tự co theo chữ nên mực luôn chạm đáy khung, và `wrap=none` thì tràn khỏi hộp là bình thường. Đo mực trong đúng vùng chữ rồi so với mốc NHÌN THẤY ĐƯỢC (logo, mép slide) — xem `references/qa-and-release.md`.
 
+Khi sửa cỡ chữ, cắt chữ thừa, build handout hoặc viết cổng kiểm: đọc `references/slide-qa-hard-lessons.md` (13 luật cứng có số đo — vd thủ phạm tràn hộp thường là `space_after` chứ không phải câu dài; ảnh có `left` ≥ chiều rộng slide thì không bao giờ hiển thị nên đo là báo oan).
+
 Trước khi kết luận một lỗi trình bày là có thật hay không: đọc `pPr` XML chứ đừng đọc `paragraph.text` (bullet tự sinh không nằm trong text), và dựng bản đối chứng cùng geometry để tách lỗi renderer khỏi lỗi deck — xem `references/qa-and-release.md`.
 
 Xem `references/knowledge-example-visual-repair.md` để áp dụng các ca sửa và cổng kiểm tra từ BAI_02/03.
