@@ -459,5 +459,93 @@ class TestVenueAmbition(unittest.TestCase):
         self.assertEqual(THRESHOLDS["venue_ambition_leak"], 0)
 
 
+class TestCompanionCrossReference(unittest.TestCase):
+    """A reusable companion artifact (form, checklist, worksheet) must stand alone.
+
+    Measured on a real one-page review form shipped as a journal appendix: it carried
+    nine cross-references into the parent paper's numbering — «(Bảng 1)», «mục 3.2»,
+    «mỗi khối tương ứng một bảng của bài báo» — and `document_as_subject` caught none
+    of them, because its patterns target meta-prose («phần này sẽ trình bày»), not
+    parenthesised cross-references. The same strings are REQUIRED in the manuscript,
+    so the class is gated by genre (`reusable_form`), never by wording.
+    """
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.dirty_vi = scan_fixture("internal_register_form_dirty.md", "reusable_form")
+        cls.dirty_en = scan_fixture("internal_register_form_dirty_en.md", "reusable_form")
+        cls.clean_vi = scan_fixture("internal_register_form_clean.md", "reusable_form")
+        cls.clean_en = scan_fixture("internal_register_form_clean_en.md", "reusable_form")
+        cls.dirty_text = (FIXTURES / "internal_register_form_dirty.md").read_text(encoding="utf-8")
+
+    def test_dirty_form_fires_in_both_languages(self) -> None:
+        for result in (self.dirty_vi, self.dirty_en):
+            with self.subTest(genre=result["genre"]):
+                self.assertIn("companion_cross_reference", classes(result))
+                self.assertEqual(result["exit_code"], 2)
+                self.assertEqual(result["gate"], "revise")
+
+    def test_vietnamese_form_hits_every_reference_site(self) -> None:
+        hits = [f for f in self.dirty_vi["findings"]
+                if f["class"] == "companion_cross_reference"]
+        # nine distinct reference sites in the fixture; «(Bảng 3 × Bảng 4)» and the
+        # repeated «(mục 3.2.1)» are separate sentences, so >= 9 is the floor.
+        self.assertGreaterEqual(len(hits), 9, len(hits))
+
+    def test_clean_form_scans_clean_in_both_languages(self) -> None:
+        for result in (self.clean_vi, self.clean_en):
+            with self.subTest():
+                self.assertNotIn("companion_cross_reference", classes(result))
+                self.assertEqual(result["exit_code"], 0)
+
+    def test_form_internal_block_letters_never_fire(self) -> None:
+        """Calibration: a form numbering its OWN parts (A, B, C1, D) is legitimate."""
+        result = scan(
+            "Hồ sơ kèm theo: đủ hoặc thiếu (ghi ở D). Nếu Không thì xét tiêu chí 6 ở khối C.",
+            "reusable_form",
+        )
+        self.assertNotIn("companion_cross_reference", classes(result))
+
+    def test_genre_gating_is_bidirectional(self) -> None:
+        """The same text is a defect in a form and required prose in a manuscript."""
+        as_manuscript = scan(self.dirty_text, "manuscript")
+        self.assertNotIn("companion_cross_reference", classes(as_manuscript))
+        self.assertIn("companion_cross_reference", classes(self.dirty_vi))
+
+    def test_manuscript_cross_references_stay_clean(self) -> None:
+        result = scan(
+            "Bảng 2 cho thấy độ chính xác 55,43%. Kết quả ghi ở Bảng 1 và mục 3.2 mô tả "
+            "đặc tả hai chiều (xem thêm Hình 4 và khuyến nghị 4)."
+        )
+        self.assertEqual(result["findings"], [], result["findings"])
+
+    def test_class_still_reported_in_threshold_table_under_manuscript(self) -> None:
+        """Genre-gating must not drop the check from the report (test line 80 pins
+        reported == set(THRESHOLDS) for the dirty manuscript fixture)."""
+        reported = {c["check"] for c in self.dirty_vi["thresholds"]}
+        self.assertIn("companion_cross_reference", reported)
+        as_manuscript = scan(self.dirty_text, "manuscript")
+        row = next(c for c in as_manuscript["thresholds"]
+                   if c["check"] == "companion_cross_reference")
+        self.assertEqual(row["observed"], 0)
+        self.assertTrue(row["pass"])
+
+    def test_class_is_revision_level_not_blocking(self) -> None:
+        self.assertNotIn("companion_cross_reference", BLOCKING)
+        self.assertIn("companion_cross_reference", THRESHOLDS)
+        self.assertEqual(THRESHOLDS["companion_cross_reference"], 0)
+
+    def test_reusable_form_licenses_verification_language(self) -> None:
+        """A review form's function IS recording verification acts. Measured false
+        positive: scanning the real form as `manuscript` reported «chưa phải bằng chứng
+        đã xác nhận» as `verification_log_prose`; declaring the genre removes it."""
+        as_form = scan(self.clean_vi_text(), "reusable_form")
+        self.assertNotIn("verification_log_prose", actionable_classes(as_form))
+
+    @staticmethod
+    def clean_vi_text() -> str:
+        return (FIXTURES / "internal_register_form_clean.md").read_text(encoding="utf-8")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

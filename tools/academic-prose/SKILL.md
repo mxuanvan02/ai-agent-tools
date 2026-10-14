@@ -147,7 +147,8 @@ the claim must be *about* the venue. See
 
 Run the gate on every `draft`, `develop`, `revise`, `humanize`, `audit`, and
 `translate` delivery. One confirmed hit requires a whole-document sweep of both
-language versions before reply. See [Internal register gate](references/internal-register-gate.md).
+language versions before reply. See [Internal register gate](references/internal-register-gate.md)
+§11 for reusable forms.
 
 **A gate is not implemented until its fixture executes.** Documentation, patterns,
 and a scanner file establish only a proposed control. Before reporting the gate as
