@@ -209,6 +209,7 @@ Chủ dự án: *"Nên tự có chuyên gia đánh giá độc lập theo các t
 - `references/vision-and-capture-infrastructure.md`: hạ tầng dựng ảnh — Open WebUI tự chủ
   khi mọi trang AI công cộng chặn máy tự động hoá, và bảng chẩn đoán vision relay
   (`402`/`429`/`503` là chuyện account/quota, không phải model sai).
+- `references/photo-insertion-into-live-deck.md`: chèn ảnh chạy thật vào deck ĐANG CÓ — đệ quy GROUP khi đo, viết lại `run.text` thay vì xoá shape, trừ lề footer và chỗ caption, trần 72% bề ngang, script không idempotent phải khôi phục backup, detector mới phải tự kiểm chứng (vụ 1083 báo động giả), và vision timeout thì kiểm hình học bằng lệnh.
 - Đồng thời đọc `powerpoint/references/classroom-lesson-deck-revision.md` và `powerpoint/references/python-pptx-classroom-deck-qa.md`.
 
 ## Cổng THIẾT KẾ riêng, và bảy lỗi detector đã trả giá
