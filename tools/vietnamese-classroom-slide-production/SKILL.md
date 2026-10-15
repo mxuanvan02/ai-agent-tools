@@ -210,6 +210,7 @@ Chủ dự án: *"Nên tự có chuyên gia đánh giá độc lập theo các t
   khi mọi trang AI công cộng chặn máy tự động hoá, và bảng chẩn đoán vision relay
   (`402`/`429`/`503` là chuyện account/quota, không phải model sai).
 - `references/photo-insertion-into-live-deck.md`: chèn ảnh chạy thật vào deck ĐANG CÓ — đệ quy GROUP khi đo, viết lại `run.text` thay vì xoá shape, trừ lề footer và chỗ caption, trần 72% bề ngang, script không idempotent phải khôi phục backup, detector mới phải tự kiểm chứng (vụ 1083 báo động giả), và vision timeout thì kiểm hình học bằng lệnh.
+- `references/corpus-wide-text-rewrite.md`: sửa chữ HÀNG LOẠT trên cả kho deck — tách luật ra module dùng chung (dry-run và bản ghi thật phải import cùng một file), số chuỗi khác nhau mới quyết định cách làm, thứ tự luật là quy tắc, bật `re.I` kèm giữ HOÁ, đếm biến thể trước khi viết regex, cổng phải so sai phân (2 detector hỏng trong một phiên: 525 và 1083 âm giả), và so bản local vs bản phát hành phải chuẩn hoá cả hai phía (bug dịch-một-ô báo "213 vị trí lệch" oan).
 - Đồng thời đọc `powerpoint/references/classroom-lesson-deck-revision.md` và `powerpoint/references/python-pptx-classroom-deck-qa.md`.
 
 ## Cổng THIẾT KẾ riêng, và bảy lỗi detector đã trả giá
