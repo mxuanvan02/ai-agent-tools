@@ -155,6 +155,50 @@ Choose synthetic inputs where the correct and the buggy algorithm provably
 disagree, and assert they do — otherwise the self-test cannot distinguish them and
 says nothing.
 
+### Substring pins cannot catch mutations when the same number appears more than once
+
+A gate that tests `has(s)` — substring presence — pins one **occurrence** of a number,
+not the number itself. If `163` appears 27 times in the manuscript, pinning one phrase
+containing `163` protects only that phrase; corrupting any other occurrence still passes
+because the substring is found at the old spot. Measured case: a mutation sweep of 82
+pairs on a HUJOS manuscript found 13 blind spots — numbers the gate recomputed correctly
+but could not catch because they appeared multiple times.
+
+Two mechanisms tie at 13/13 when simulated, so the deciding measurement is the other
+direction: a raw token census would pin `count('163')==27`, `count('0')==13`,
+`count('9')==8` and go red on every harmless rewording. A gate that cries wolf is as
+bad as a blind gate. Contextual pins (`pin_count(label, phrase, 1)`) break only when
+that exact phrase changes, and the FAIL message prints the phrase to look for.
+
+Generate pin strings and assert the constraints that matter:
+
+- **Unique** in the whitespace-collapsed text — otherwise mutation at one spot still passes
+  thanks to the other.
+- **No `#`** — avoid crossing a heading boundary.
+- **Contains the token** it is supposed to protect.
+- **≥16 chars** — short enough to be readable, long enough to be unique.
+- **True word boundaries** — check the *neighbouring character in the collapsed text*,
+  not the first character of the candidate. A check like `re.match(r'^[\w(]', s)` happily
+  admits «ạt 163 (100%)», a fragment cut out of «Đạt». Functionally fine, but the FAIL
+  message then shows a meaningless stub.
+
+Prove an append-only patch mechanically. Asserting "I only added lines so nothing can
+regress" is an argument, not evidence. Diff the backup against the patched file and assert
+`removed == 0` and exactly one inserted block; then every previously-green check is verbatim
+intact and regression testing becomes unnecessary.
+
+When a long sweep is cut off, run the missing subset instead of restarting it. An 82-pair
+sweep was killed at pair 54 by the tool's own ceiling. Replicate the sweep's exact mutation
+logic (`bump()` for VN locale, the occurrence regex, restore-immediately, identical jsonl
+keys) and run just the 20 unmeasured pairs — ~2 minutes instead of ~10. Always re-check the
+green baseline on the copy first and verify the manuscript's sha256 afterwards.
+
+Read the recorded keys, not the keys you meant to write. The comparison script read
+`r.get("failed")` while the sweep wrote `failed_sample`, so 5 pairs that the sweep log clearly
+showed as caught were counted as still blind. Symptom to recognise: the summary contradicts
+the per-item log lines right above it. Also keep "not measured" and "still blind" in separate
+buckets — merging them reported 13 blind when 5 were caught and 8 were merely unrun.
+
 ---
 
 ## 3. A guard cannot protect itself: use a separate trust root
