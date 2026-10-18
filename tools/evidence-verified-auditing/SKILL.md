@@ -334,6 +334,7 @@ green were each found in a verifier that reported clean:
 | --- | --- | --- |
 | vacuous aggregate | `all(...) if items else False` | an empty subset reports a verdict regardless of truth |
 | wrong key | iterating a dict keyed `<id>::<variant>` while matching `row['id']` | 0 of N scored, every fraction silently 0.0 |
+| field that is not there | comparing `x.value` where `x` IS the value (a type alias for a number/string, not a wrapper) | `undefined !== undefined` is false, so a "differences found" counter can never be non-zero and reports 0 forever |
 | neutered guard | `if False:` left around an assertion | compiles, reports success, nothing runs |
 | swallowed assertion | `try: assert ... except AssertionError: pass` | call site present and "live", failure discarded |
 
@@ -346,6 +347,14 @@ Requirements:
 - **A mutant that fails during setup never ran.** Count it separately. Reporting
   "16/16 killed" when one mutant raised before its assertion is a false claim about your
   own test.
+- **Assert the shape of what you compare, and make the sweep anti-vacuous.** A counter that
+  cannot be non-zero is not a measurement: reading `.value` off a plain number compared
+  `undefined` to `undefined` across 105300 pairs and reported "0 differences", which was then
+  quoted as evidence in a merged change. Preflight the contract (`typeof` check plus one known
+  pin read back) and ABORT before counting; in the assertion itself require both outcomes to
+  have been exercised (`kept > 1000` beside `changed == 0`), so a sweep that matched nothing
+  fails instead of passing. Counters that compare against `null` were unaffected — check which
+  of your counters actually touched the bad field before retracting or keeping a number.
 - **Positive mutants alone do not validate a classifier — add a negative control.** A
   hand-written "allowed residue" whitelist passed all four injected results and still
   reported nonsense, because `\d+(?:[.,]\d+)*` chops one commit hash into `041420` /
@@ -478,6 +487,16 @@ text length and diacritic ratio first), and a version mismatch turns a real prov
 an absent one (a draft's `Article 13` can become the enacted text's `Article 12`, with the
 rule itself changed). Cite numbering only from the promulgated version.
 
+**Case sensitivity is the third trap, and it bites hardest in one-off probes.** A quick
+`text.count('phán quyết')` returned **0** while the audited sheet carried the term twice —
+it is capitalised at line start. The same bug had just been fixed in a repo tool's pin
+check (a proposal that only *capitalised* a pinned phrase was reported as breaking the pin),
+and recurred one command later in a hand-written probe. Fold both sides
+(`t.casefold().count(k.casefold())`) in every "is it still there / did it disappear" count,
+including the greps you type ad hoc in a terminal, unless capitalisation is itself what you
+are checking. **When a one-off probe contradicts a gate that has a self-test, suspect the
+probe first, not the gate** — the gate's positive control already proves it can see the term.
+
 Depth, including the seven-gate table, the read-status labels that decide which citation
 may carry a number, and the retrieval routes for blocked official portals: the
 `zero-hallucination-evidence-gates` reference shipped with the evidence-first-research
@@ -600,6 +619,30 @@ not cross-check.
   tree for entry points lacking those three headings and report the ratio (`0/11`), not a prose
   impression; the count is what makes the gap actionable. Fixing one tool's help text does not
   fix the family.
+- **A gate must declare its own COVERAGE, not just its verdict.** `[ok] submitted PDFs carry no
+  annotations` printed green while the scan had silently dropped the second PDF from its list:
+  the file list was recomputed from a *relative* argument
+  (`DOCX.parent.parent.parent/'out'/x.pdf` → `out/x.pdf`, `exists()` False) instead of reusing
+  the already-resolved path variable that carried an absolute fallback two hundred lines earlier.
+  Fix both ends: **reuse the resolved path** rather than re-deriving it, and **print
+  `coverage: N/M files scanned`** so every green verdict states what it actually covered. A
+  verdict without a denominator is unfalsifiable.
+  Corollary that decided this one: run the checker **the way the pipeline runs it** (relative
+  vs absolute cwd). The bug only appeared under the pipeline's own invocation — a test harness
+  that used absolute paths stayed green while production was blind.
+- **An exemption list must prove it still exempts something that exists.** When an author or
+  owner deliberately waives a check (personal data withheld, a length cap accepted), the
+  right fix is a declared waiver that prints `[waived]` **with the reason and the date of the
+  decision** and stays out of the failure list — never a deleted check, and never a permanently
+  red gate. A gate that is red every run teaches the next person to ignore `FAIL`, which is how
+  a real defect later walks through. Two locks keep a waiver from becoming a mute switch:
+  **(1)** every waiver key must be *consumed* by a live check call in this run — a renamed label
+  leaves a dead waiver that protects nothing while looking maintained, so fail the run on it;
+  **(2)** a waived item that now **passes** must be reported (`[note] … now PASS — remove the
+  waiver`) so the exemption cannot outlive the reason for it and mask a hole that got fixed.
+  Prove both locks by running deliberate mutants (add a fabricated key; point a key at a check
+  that passes) and requiring red/note respectively. Rule 12 applies to waivers too: an exemption
+  you have not seen fail is unverified.
 - **A measurement harness must fail closed when its input is missing.** Licensed or
   off-machine data is a normal state, not an excuse to synthesise. Exit non-zero with an
   explicit `BLOCKED` status and an empty results block, and pin the exit code in a
@@ -683,15 +726,31 @@ not cross-check.
   Wrapping the payload as `{"command": ..., "timeout": ...}` inside an `arguments` object, or
   putting a second stray key beside `command`, is rejected *before* running, so no state
   changed — confirm that ("file unchanged, sha256 ...") and reissue rather than assuming a
-  partial edit landed. Same family: f-strings cannot contain backslashes, so build the
+  partial edit landed. Recognise the signature `Invalid command: expected string, got
+  NoneType` as *"I wrapped the payload"* and change the SHAPE on the very next call: re-issuing
+  the same wrapper is what turns one slip into dozens of lost iterations, and the message never
+  names the field you got wrong. Same family: f-strings cannot contain backslashes, so build the
   replacement text outside the literal; and a cell that fails to compile has applied nothing,
   which is worth stating explicitly before retrying.
 - **A tool installed as a snap cannot read your payload files.** `gh` from `/snap/bin` has its
   own private `/tmp` and a `home` interface that excludes dotfiles, so `gh api -F body=@file`
   fails with `no such file or directory` for `/tmp/x.md` and `permission denied` for
   `~/.x.md` — while `ls` in the same command proves the file exists. Diagnose with
-  `command -v gh` before retrying. Fix: let the host shell read it and pass the content as an
-  argument (`-f body="$(cat /tmp/x.md)"`), which needs no path the snap can see.
+  `command -v gh` before retrying. For `gh api`, let the host shell read the file and pass the
+  content as an argument (`-f body="$(cat /tmp/x.md)"`). **But do not carry that flag across
+  subcommands:** `-f/--field` belongs to `gh api`; `gh pr create` takes `--body-file`, and
+  passing `-f body=…` to it dies with `unknown argument "body=…"` followed by the usage text.
+  For `gh pr create`/`gh pr edit`, pipe instead: `cat /tmp/x.md | gh pr create … --body-file -`
+  — stdin needs no path the snap can see and no argument-shaped payload. Measured cost: one
+  wasted turn, and the failure line sat *above* the usage dump that `tail -3` kept, so read the
+  whole stderr, not its end.
+- **Run the CI's own command list, not a subset you remember.** A file-size ceiling test lived
+  in `tests/test_repository.py` while the local habit was `validate_skill.py` + `pytest scripts/`,
+  so local reported green and CI reported red on the same commit. Read
+  `.github/workflows/*.yml` and replay its `run:` blocks verbatim (same working directory, same
+  interpreter major version) before pushing. Also check which unit the test counts: a ceiling on
+  **characters** versus `wc -c` **bytes** differ by ~1% on Vietnamese diacritics, which is enough
+  to invert a headroom calculation.
 - **A compile failure in your patch cell is not a failed patch.** When the edit is
   expressed as Python (`path.write_text(src.replace(old,new))`), a syntax error anywhere in
   the cell — including in a diagnostic print after the write — aborts the whole cell, so
