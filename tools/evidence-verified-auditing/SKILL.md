@@ -640,6 +640,29 @@ not cross-check.
   A well-built checker already distinguishes these: it fired on exactly one of the three because the
   other two sit under history markers or inside a dated correction block. Trust that selectivity and
   read each hit's own sentence before editing.
+- **Narration is an ungated copy of your measured figure — gate it against the source of truth.**
+  Every number in the dossier had a check except the one SPOKEN in the video: the narration read
+  "ten thousand eight hundred sixty-five lines of code" while the measured figure was 10,838, and
+  the script that builds audio only measured duration and loudness. The wrong number shipped inside
+  a draft for a week because narration lives in three places (the dict that generates audio, the
+  prose document, the generated .srt) and gates watched none of them. Fix: a pre-flight check that
+  reads the measured value, converts it to words, and requires that exact string in the narration —
+  which catches both a wrong number AND a correct number that got dropped — plus a blacklist of the
+  specific wrong variants already shipped. Run it BEFORE generating audio so a bad number cannot
+  reach the recording.
+- **Regenerate spoken text from the dict, never from a retyped string.** Importing the module and
+  reading the entry keeps ONE source; typing the sentence into a shell command creates a fourth copy
+  that will drift the next time someone edits the script.
+- **A fail-closed gate with a buggy helper blocks every legitimate run.** My first number-to-words
+  function mapped digit positions wrong (10838 → "một nghìn tám mươi ba tám"), so the new gate would
+  have aborted the audio build forever on correct input. Because the gate aborts on mismatch, its own
+  helper must be unit-tested against known-good outputs before it is wired into the pipeline.
+- **Mutation-test a gate the moment you add it, including the silent case.** Required behaviour: gate
+  silent on current truth, gate firing on each injected fault (restore the historical wrong value,
+  delete the number entirely, shift it by one digit outside any blacklist, hide the wrong number in
+  one shot while planting the right number in another), and gate firing when the measured source is
+  missing. Without the silent-on-truth case you cannot tell a working gate from one that just always
+  passes.
 - **Counter drift corrupts both halves of a before/after.** Word and line counts
   depend on how markup is normalised away: stripping LaTeX commands, braces, `$`
   and `~` before splitting yields a different total than splitting the raw source.
