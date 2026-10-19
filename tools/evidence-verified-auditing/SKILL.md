@@ -394,6 +394,35 @@ Requirements:
   precedence, mutate the call **order** — consult the fallback before the evidence — which
   is observable on a clean corpus and is the failure mode the gate exists for.
 
+- **A parser that only matches on the same line as the key token silently drops multi-line items.**
+  Counting shot durations with a regex that looked for `SHOT_nn` and `— Xs` on the same line
+  reported "9 shots · 290s" while the brief had 10 shots · 315s — shot 5's duration was on the
+  next line. Signature: the printed list skips a number in the middle (01,02,03,04,**06**...).
+  Fix: after matching the key token, scan up to N lines (e.g. 5) for the associated value, and
+  **ASSERT the collected set equals the expected set** (e.g. `{1..10}`) before printing any
+  total. A total without an ASSERT is untested.
+- **Inserting prose into structured markdown demands checking whether the insertion point sits
+  inside a table or fenced block.** A blockquote dropped between two table rows splits the table
+  into two orphan halves; the second half has no header and renders as plain text. The check
+  that cannot lie: `longest contiguous run of table rows == total table rows`. Inserting prose
+  also demands checking whether the insertion point sits inside a fenced code block (count
+  triple-backtick lines before and after — must be even). A blockquote inside a code block
+  becomes literal text, not a rendered quote.
+- **After relocating a block of lines, a leftover blank line can still break the structure.**
+  Moving a blockquote out of a table left one blank line between the two table halves, so the
+  table was still broken even though the blockquote was gone. The fix: after relocation, scan
+  for blank lines whose predecessor AND successor both start with `|` (table rows) — those are
+  the ones cutting the table. Delete exactly those, then re-verify `longest run == total`.
+  Never trust "I moved it" without re-measuring the structural property.
+- **An acceptance criterion that cannot be satisfied by the artefact it describes is itself a
+  defect, not evidence the artefact is incomplete.** A plan requiring "4 types of PDFs" checked
+  by `ls *.pdf | grep -c "phản hồi|đồng nghiệp"` reported 0/4, concluding the work was undone —
+  while all 4 types existed in merged files. The criterion checked filenames, not content. Fix:
+  check the property the criterion intends (content, structure, behaviour), not a proxy that
+  happens to be easy to measure. Before declaring work incomplete, verify the acceptance
+  criterion itself can pass on a correct artefact — if it cannot, the criterion is wrong, not
+  the work.
+
 Depth: `references/proving-a-verifier-can-fail.md`.
 
 ### 13. Per-token provenance does not imply line-level consistency
@@ -523,6 +552,72 @@ not cross-check.
 
 ## Pitfalls
 
+- **Score on the system's own scoring formula, not on your intuitive axis.** Auditing a
+  self-grading app, two separate measurements used the wrong axis and both produced confident,
+  wrong conclusions: the label axis (`did the verdict match`) instead of the graded axis
+  (`verdict AND error-type must both match`). Same heuristic, same corpus, verdict 67.9% versus
+  graded score 44.9% — and the headline claim ("headroom is only 14.1 points") inverted to 55.1
+  once measured on the formula the app actually uses. Read the scoring function first, copy it
+  verbatim into the probe, and print each axis separately so no one can quote one as the other.
+  Corollary: check which columns the score *consumes*. A column computed and exported but absent
+  from the score formula is a secondary measurement; a defect in it cannot "let a student score
+  85.9%".
+- **Two complementary branches summed is always the whole set.** `count(cond) + count(not cond)`
+  reported a surface heuristic at **100.0%**, dragging the derived "true headroom" to 0.0 — and
+  the output still looked like a finding. A trivial heuristic scoring 100% (or exactly 0%) is a
+  counting bug until proven otherwise. Add an anti-vacuity assertion: any measured heuristic rate
+  of 100% or 0% must ABORT the report, not be printed as a result.
+- **Counting the complement class as a hit inflates a rate by its own base rate.** Scoring
+  "pick the longest option + always answer ERROR" as correct on the 25 no-error items lifted
+  53.8% to 85.9%; on those items the heuristic is a false accusation, not a hit. When a
+  heuristic bundles an answer with a location, score the two on their own denominators and say
+  which one a number describes (`42/53 of the flawed items`, not `67/78`).
+- **A heuristic that reads the answer key is not a surface heuristic.** Computing accuracy from
+  `label == predicted_position` measures a clairvoyant, not a student who cannot see labels. Any
+  probe of "what can be guessed without reading" must use only what the UI renders; if it needs
+  the key to decide where to point, it belongs in a different table, labelled as such.
+- **A self-checker's ban list must be context-scoped, not bare strings.** Banning `100.0%`
+  outright FAILed three times on correct output, because `100.0%` is the legitimate value of the
+  ORACLE row. Ban the *claim*, not the token: require the forbidden number to be absent from
+  every line that lacks an allow-keyword (`ORACLE`). Same family as the exemption rule in
+  rule 12 — a checker that cannot tell a legal from an illegal occurrence teaches the next person
+  to ignore FAIL.
+- **The same quantity printed by two scripts must state its rounding convention.** A gate
+  threshold was `42.4` (difference of two rounded percentages) while the recomputation gave
+  `42.3077` (difference of raw ones). Neither is wrong; two files in one directory disagreeing
+  invites "which measurement is broken". Print both, name the convention the threshold uses, and
+  say which one is compared against the gate.
+- **Escape-sequence bugs survive review and only show in output.** `print("… 66,7%% …")` in a
+  string with no format arguments prints a literal `%%`. Reading the source does not catch it;
+  grepping the *output* for `%%` does. Verify formatting bugs by scanning captured stdout, and
+  add that scan to the checker rather than to your eyes.
+- **A reproducible number needs a committed script, and the script must stand alone.** Quoting a
+  measurement whose script lives in a scratch directory that is pruned in 24h publishes a claim
+  nobody can re-run. Copy the probes into the repo, derive every path from `__file__` (so they
+  run from a foreign cwd), self-generate their inputs, regenerate on staleness by mtime, fail
+  closed with a non-zero code and instructions rather than returning an empty list, and print
+  provenance (item count, source path, why it regenerated). Then verify by running from a
+  directory outside the repo.
+- **Load data through its interpreter, not through a regex.** Counting keys with
+  `re.findall(r"^\s{4}(\w+):\s*\{", block)` returned **3** error types where the runtime had
+  **5**, because two keys were indented differently — which inverted both the sign and the size
+  of a printed arithmetic finding ("−2 items" instead of "+2"). Any count taken from a JS/JSON
+  literal must come from `node` + `vm` (or a real parser). Regex over source is for locating, never
+  for counting.
+- **Cross-check every number in a report against script output, by machine.** Extract each
+  percentage in the report, require it to appear in the captured stdout of the committed scripts,
+  and force every exception into a named exemption list with a reason. Also run it backwards and
+  print numbers present in output but absent from the report — that direction is how a third
+  measurement (a cue tested on three text scopes, `p` ranging from 8.28e-05 to a non-significant
+  0.487) surfaced and became the strongest evidence in the report.
+- **Markdown tables break silently; assert the structure.** After inserting a table, verify every
+  table has uniform column counts, a separator row, and no blank line or blockquote between rows
+  (`longest contiguous run of table rows == total rows`). Rendering shows no error.
+- **Re-run the whole gate suite AFTER the commit that adds files, not before.** Gates that count
+  tracked files, manifest lines, or a line-of-code total can be disturbed by the very commit that
+  reports them. Confirm which repo each count belongs to (parent 386 tracked files vs child 127 —
+  a count that "did not move" may simply be the child's), and confirm the code total excludes the
+  audit scripts you just added, so the number in the commit message is the post-commit one.
 - **Counter drift corrupts both halves of a before/after.** Word and line counts
   depend on how markup is normalised away: stripping LaTeX commands, braces, `$`
   and `~` before splitting yields a different total than splitting the raw source.
