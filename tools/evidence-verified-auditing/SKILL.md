@@ -618,6 +618,28 @@ not cross-check.
   reports them. Confirm which repo each count belongs to (parent 386 tracked files vs child 127 —
   a count that "did not move" may simply be the child's), and confirm the code total excludes the
   audit scripts you just added, so the number in the commit message is the post-commit one.
+- **A stored short hash never equals a full HEAD — compare by prefix.** An evidence file recorded
+  `ac682537a208` (12 chars) while `git rev-parse HEAD` returned the 40-char digest, so an equality
+  test reported a mismatch on a pair that was in fact identical. Use `full.startswith(short)`, and
+  print both strings so the reader can see the relation instead of trusting the verdict.
+- **Editing a file that a published measurement counts forces you to choose before you type.** A
+  line-of-code metric that counts `.js`/`.html`/`.css` counts *comment lines too*, so a 10-line
+  explanatory comment moved the published figure 10,838 → 10,848 — a number printed inside two
+  submitted PDFs and read aloud in a video. Fix: put the correction comment on the SAME line as the
+  code, keeping the count stable, and move the long explanation to the audit report where nothing
+  measures it. Before adding prose to any counted file, ask what re-derives from its line count.
+- **When a stale-hash check fires, classify the hit as a living pointer or a measurement record.**
+  Three lines carried the same old commit hash and only one was wrong:
+
+  | Shape of the line | Verdict |
+  | --- | --- |
+  | "the number to use for the CURRENT state: N lines at HEAD `abc123`" | **living pointer — update the hash** |
+  | "`f383ee7` → 10,798; `4dc98fd` → 10,838" (a measurement at a commit) | **record — keep; rewriting falsifies the measurement history** |
+  | "on disk AT THE TIME OF THIS CORRECTION: `6bcdafb`" inside a dated erratum | **snapshot — exempt, do not update; a new hash makes the sentence false** |
+
+  A well-built checker already distinguishes these: it fired on exactly one of the three because the
+  other two sit under history markers or inside a dated correction block. Trust that selectivity and
+  read each hit's own sentence before editing.
 - **Counter drift corrupts both halves of a before/after.** Word and line counts
   depend on how markup is normalised away: stripping LaTeX commands, braces, `$`
   and `~` before splitting yields a different total than splitting the raw source.
