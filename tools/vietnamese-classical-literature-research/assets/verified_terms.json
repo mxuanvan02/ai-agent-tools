@@ -1,0 +1,2333 @@
+{
+ "corpus_pages": 142,
+ "terms": [
+  {
+   "label": "Bạch Vân am",
+   "han": "白雲庵",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_byat,vi_nbk"
+    }
+   ],
+   "ctx": "'''Bạch Vân am thi tập''' (白雲庵詩集, hiểu theo nghĩa nôm na là “tập thơ viết từ [[am (thờ cúng)|am]] Mây Trắng”) là tuyển tập thơ viết bằng [[chữ Hán]] của Trình [[quốc công]] (程國公) [[Nguyễn Bỉnh Khiê"
+  },
+  {
+   "label": "Chu Văn An",
+   "han": "朱文安",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_cva"
+    }
+   ],
+   "ctx": "thông Chu Văn An, Hà Nội]], hoặc xem các trang có cùng tên ở [[Chu Văn An (định hướng)]]}} {{Thông tin nhân vật phong kiến | màu = #999999 | tên = Chu Văn An | tên gốc = 朱文安 | hình = Institut des Fils"
+  },
+  {
+   "label": "Huyền Quang",
+   "han": "玄光",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_hq"
+    }
+   ],
+   "ctx": " {{Hộp thông tin Tu sĩ | background = brown | tiền tố = Tôn giả | tên = Huyền Quang <br /> 玄光 | hình = Huyen Quang - tam tổ.jpg | chú thích hình = Tượng Tam tổ Huyền Quang trong Thiền Viện Trúc Lâm, ["
+  },
+  {
+   "label": "Hải Thượng Lãn Ông",
+   "han": "海上懶翁",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_lht"
+    }
+   ],
+   "ctx": "ng.jpg }} '''Lê Hữu Trác''' ([[chữ Hán]]: 黎友晫, [[27 tháng 12]] năm [[1724]] – [[18 tháng 3]] năm [[1791]]), thường được biết đến với nghệ danh '''Hải Thượng Lãn Ông''' (海上懶翁) là một đại danh y, danh n"
+  },
+  {
+   "label": "Hồ Xuân Hương",
+   "han": "胡春香",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_hxh"
+    }
+   ],
+   "ctx": "m]] | ethnicity = [[người Việt|Việt]] | period = Cổ điển | genre = [[Hán Nôm]] | spouse = [[Nguyễn Bình Kình]]<br>[[Phạm Viết Ngạn]] }} '''Hồ Xuân Hương''' ([[chữ Hán]]: 胡春香) là một [[Nhà thơ|nữ thi s"
+  },
+  {
+   "label": "Lê Hữu Trác",
+   "han": "黎有晫",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_lht"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật phong kiến | tên = Hải Thượng Lãn Ông | tên đầy đủ = Lê Hữu Trác (黎有晫) | sinh = | nơi sinh = [[Liêu Xá]], [[Yên Mỹ (huyện)|Yên Mỹ]], [[Hưng Yên]], [[Việt Nam]] | mất = {{death dat"
+  },
+  {
+   "label": "Lê Quý Đôn",
+   "han": "黎貴惇",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ldt"
+    }
+   ],
+   "ctx": "Thị Ích (mẹ) | spouse = Lê Thị Trang | children = [[Lê Quý Kiệt]]<br>Lê Quý Châu<br>Lê Quý Tá<br>Lê Quý Nghị | website = | footnotes = }} '''Lê Quý Đôn''' ([[chữ Hán]]: 黎貴惇, [[2 tháng 8]] năm [[1726]]"
+  },
+  {
+   "label": "Lê Thánh Tông",
+   "han": "黎聖宗",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ltt"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật hoàng gia | tên = Lê Thánh Tông | tên gốc = 黎聖宗 | tước vị = [[Hoàng đế Việt Nam]] | thêm = Đại Việt | hình = Le Thanh Tong (cropped).png | cỡ hình = 250px | ghi chú hình = | chức "
+  },
+  {
+   "label": "Lê Văn Hưu",
+   "han": "黎文休",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_lvh,zh_hanlin"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật phong kiến | tên gốc = 黎文休 | hình = Tượng sử gia Lê Văn Hưu tại Khu Đại học Quốc gia TP Hồ Chí Minh, Thủ Đức, TPHCM, Việt Nam Apr 2022.jpg | ghi chú hình = Tượng Lê Văn Hưu tại Kh"
+  },
+  {
+   "label": "Lý Tế Xuyên",
+   "han": "李濟川",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ltc"
+    }
+   ],
+   "ctx": "'''Lý Tế Xuyên''' ([[chữ Hán]]: 李濟川, ? - ?) là một danh sĩ sống vào khoảng cuối [[thế kỷ 13]] đến đầu [[thế kỷ 14]] trong [[lịch sử Việt Nam]]. ==Tiểu sử và tác phẩm== Sách vở biên chép về '''Lý Tế Xu"
+  },
+  {
+   "label": "Mạc Đĩnh Chi",
+   "han": "莫挺之",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_mdc"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật hoàng gia | tên = Mạc Đĩnh Chi | tên gốc = 莫挺之 | tước vị thêm = | hình = [[Tập tin:Đền thờ Đức Thánh Trần ở Tân Phú n2022 (thờ Mạc Đĩnh Chi) (3).jpg|300px]] | ghi chú hình = Tượng"
+  },
+  {
+   "label": "Nguyễn Bỉnh Khiêm",
+   "han": "阮秉謙",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_byat"
+    }
+   ],
+   "ctx": ", hiểu theo nghĩa nôm na là “tập thơ viết từ [[am (thờ cúng)|am]] Mây Trắng”) là tuyển tập thơ viết bằng [[chữ Hán]] của Trình [[quốc công]] (程國公) [[Nguyễn Bỉnh Khiêm]] (阮秉謙), là một nhà thơ lớn đồng "
+  },
+  {
+   "label": "Nguyễn Cư Trinh",
+   "han": "阮居貞",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Nguyễn Cư Trinh': tên gốc = 阮居貞"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Nguyễn Du",
+   "han": "阮攸",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nd2"
+    }
+   ],
+   "ctx": " {{Thông tin nhà văn | name = Nguyễn Du<br>阮攸 | image = Tượng đài cụ Nguyễn Du.jpg | imagesize = 222px | bgcolour = | caption = | birthname = Nguyễn Du | birth_date = | birth_place = [[Ngh"
+  },
+  {
+   "label": "Nguyễn Dữ",
+   "han": "阮嶼",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ndu"
+    }
+   ],
+   "ctx": " | tên = Nguyễn Dữ | nơi sinh = [[Hải Dương (tỉnh)|Hải Dương]] | nơi mất = [[Thanh Hóa]] | notable works = ''[[Truyền kỳ mạn lục]]'' }} '''Nguyễn Dữ''' ([[chữ Hán]]: '''阮嶼''') là một danh sĩ thời [[Nh"
+  },
+  {
+   "label": "Nguyễn Huy Tự",
+   "han": "阮輝嗣",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Nguyễn Huy Tự': (阮輝嗣, 1743-1790), tự Hữu Chi, hiệu Uẩn Trai"
+    },
+    {
+     "kind": "named-source",
+     "where": "CORRECTED from recalled candidate 阮輝似 which appears in no source"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Nguyễn Khuyến",
+   "han": "阮勸",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nk2"
+    }
+   ],
+   "ctx": "spouse = | partner = | children = | relatives = | influences = | influenced = | signature = | website = |học vấn=|trường lớp=}} '''Nguyễn Khuyến''' ([[chữ Hán]]: 阮勸, ngày 15 tháng 2 năm 1835 - ngày 5 "
+  },
+  {
+   "label": "Nguyễn Trung Ngạn",
+   "han": "阮忠彥",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ntn2"
+    }
+   ],
+   "ctx": "'''Nguyễn Trung Ngạn''' ([[chữ Hán]]: 阮忠彥；[[1289]]–[[1370]]), tự là '''Bang Trực''', hiệu là '''Giới Hiên''', là một nhà chính trị, một đại thần có tài của nước [[Đại Việt]] thời [[nhà Trần]], được xế"
+  },
+  {
+   "label": "Nguyễn Trãi",
+   "han": "阮廌",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nt"
+    }
+   ],
+   "ctx": "thi tập]]'' |spouse=[[#Gia đình|5 vợ]] |children=[[#Gia đình|7 con trai]] |relatives=[[Nguyễn Phi Khanh]] (cha) [[Trần Thị Thái]] (mẹ) }} '''Nguyễn Trãi''' ([[chữ Hán]]: 阮廌; 1380 – 19 tháng 9 năm 1442"
+  },
+  {
+   "label": "Nguyễn Đình Chiểu",
+   "han": "阮廷炤",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ndc"
+    }
+   ],
+   "ctx": "use = | children = 7 | relatives = Nguyễn Đình Huy (cha)<br>Trương Thị Thiệt (mẹ) }} '''Nguyễn Đình Chiểu''' ([[chữ Hán]]: 阮廷炤; 1 tháng 7 năm 1822 – 3 tháng 7 năm 1888), tục gọi là '''cụ đồ Chiểu''' k"
+  },
+  {
+   "label": "Ngô Sĩ Liên",
+   "han": "吳士連",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_dvsktt,vi_nsl,zh_hanlin"
+    }
+   ],
+   "ctx": " về nước năm 1427. * Viết những lời bình luận các sự kiện lịch sử (gồm 174 đoạn), ghi rõ \"''sử thần Ngô Sĩ Liên bàn''\" (史臣吳士連曰 - sử thần Ngô Sĩ Liên viết), viết ''Sách Đại Việt sử ký ngoại kỷ toàn thư"
+  },
+  {
+   "label": "Phan Huy Chú",
+   "han": "潘輝注",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_pnc"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật phong kiến | tên = Phan Huy Chú | tên gốc = 潘輝注 | hình = | cỡ hình = | ghi chú hình = <!-- Binh nghiệp --> | phục vụ = | thuộc = | năm tại ngũ = | cấp bậc = | đơn vị = | chỉ huy ="
+  },
+  {
+   "label": "Pháp Loa",
+   "han": "法螺",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_pl"
+    }
+   ],
+   "ctx": "{{Hộp thông tin Tu sĩ | background = brown | tiền tố = Tôn giả | tên = Pháp Loa <br /> 法螺 | hình = Phap loa.JPG | chú thích hình = Tượng Nhị tổ Pháp Loa trong Thiền viện Trúc Lâm, [[Đà Lạt]], [[Việt N"
+  },
+  {
+   "label": "Phạm Sư Mạnh",
+   "han": "范師孟",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_psm"
+    }
+   ],
+   "ctx": " '''Phạm Sư Mạnh''' ([[chữ Hán]]: 范師孟; 1300 - 1384), tên thật là '''Phạm Độ''', tự '''Nghĩa Phu''', hiệu '''Úy Trai''', biệt hiệu '''Hiệp Thạch (硤 石)'''; là danh sĩ và là quan [[nhà Trần]] trong [[lịc"
+  },
+  {
+   "label": "Phạm Đình Hổ",
+   "han": "范廷琥",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_pdh"
+    }
+   ],
+   "ctx": " {{Thông tin nhà văn | name = Phạm Đình Hổ<br>范廷琥 | image = 范廷琥.jpg | image_size = 222px | bgcolour = blue | caption = | birthname = Phạm Đình Hổ | birthdate = 1768 | birthplace = [[Đông Kinh]], [[Đàn"
+  },
+  {
+   "label": "Thanh Tâm Tài Nhân",
+   "han": "青心才人",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Thanh Tâm Tài Nhân': tên gốc = 青心才人"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Trình quốc công",
+   "han": "程國公",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_byat,vi_nbk"
+    }
+   ],
+   "ctx": "Tên khai sinh: Nguyễn Văn Đạt<br/>Tên tự: Hanh Phủ (亨甫)<br/>Đạo hiệu: Bạch Vân am cư sĩ (白雲庵居士)<br/>Biệt hiệu: Tuyết Giang phu tử (雪江夫子)<br/>Tước phong: Trình Quốc Công (程國公) | birth_date = | birth_pl"
+  },
+  {
+   "label": "Trúc Lâm Tam Tổ",
+   "han": "竹林三祖",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "zh.wikipedia 竹林禪派: 陳仁宗、法螺、玄光三人並稱竹林三祖"
+    },
+    {
+     "kind": "named-source",
+     "where": "chibs.edu.tw CHBS 21 paper citing 釋清慈《竹林三祖講解》"
+    },
+    {
+     "kind": "named-source",
+     "where": "zh.wikipedia 玄光 (越南): 與陳仁宗、法螺三人並稱竹林三祖"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Trương Hán Siêu",
+   "han": "張漢超",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_ths"
+    }
+   ],
+   "ctx": "-469625/|tựa đề=Trương Hán Siêu và \"Bạch Đằng Giang phú\" bất tử|tác giả=|họ=|tên=|ngày=|website=|url lưu trữ=|ngày lưu trữ=|ngày truy cập=2020-08-23}}</ref> [[chữ Hán]]: 張漢超, [[Tên chữ (người)|tên tự]"
+  },
+  {
+   "label": "Trần Nhân Tông",
+   "han": "陳仁宗",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tdv"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật hoàng gia | tên = Trần Nhân Tông | tên gốc = 陳仁宗 | tước vị = [[Danh sách vua Việt Nam|Hoàng đế Việt Nam]] | tước vị thêm = | thêm = vietnam | hình = Trần Nhân Tông TLĐSXSCĐ.png | "
+  },
+  {
+   "label": "Trần Quốc Tuấn",
+   "han": "陳國峻",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tqd"
+    }
+   ],
+   "ctx": " Kiếp Bạc]], Hải Phòng | chức vị = Quốc công tiết chế | phối ngẫu = [[Công chúa Thiên Thành]] | con cái = Xem mục [[#Gia quyến|Gia quyến]] | tên đầy đủ = Trần Quốc Tuấn (陳國峻) | tên tự = | tên hiệu = |"
+  },
+  {
+   "label": "Trần Tế Xương",
+   "han": "陳濟昌",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tx"
+    }
+   ],
+   "ctx": "nces = <!-- Chịu ảnh hưởng từ --> | influenced = <!-- Ảnh hưởng tới --> | signature = <!-- Chu ky.svg --> | website = }} '''Tú Xương''' tên thật là '''Trần Tế Xương''' (陳濟昌) (5 tháng 9 năm 1870 - 29 t"
+  },
+  {
+   "label": "Trần Văn Giáp",
+   "han": "陳文玾",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Trần Văn Giáp': 陳文玾 (8 occurrences in the fetched page)"
+    },
+    {
+     "kind": "named-source",
+     "where": "CORRECTED from recalled candidate 陳文甲 which appears in no source"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đoàn Thị Điểm",
+   "han": "段氏點",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_dtd"
+    }
+   ],
+   "ctx": "{{Thông tin nhân vật phong kiến | tên = Đoàn Thị Điểm | tên gốc = 段氏點 | hiệu = Hồng Hà nữ sĩ (紅霞女士) | chồng = [[Nguyễn Kiều]] | cha = [[Đoàn Doãn Nghi]] | sinh = 1705 | nơi sinh = làng Giai Phạm, huyệ"
+  },
+  {
+   "label": "Đào Duy Từ",
+   "han": "陶維慈",
+   "cat": "author",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Đào Duy Từ': (chữ Hán: 陶維慈)"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đặng Trần Côn",
+   "han": "鄧陳琨",
+   "cat": "author",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_dtc"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Ức Trai (hiệu)",
+   "han": "抑齋",
+   "cat": "author",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nt"
+    }
+   ],
+   "ctx": "đình|7 con trai]] |relatives=[[Nguyễn Phi Khanh]] (cha) [[Trần Thị Thái]] (mẹ) }} '''Nguyễn Trãi''' ([[chữ Hán]]: 阮廌; 1380 – 19 tháng 9 năm 1442), hiệu là '''Ức Trai''' (抑齋), là một nhà chính trị, nhà"
+  },
+  {
+   "label": "Bảng nhãn",
+   "han": "榜眼",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_dianshi,zh_hanlin,zh_jinshi"
+    }
+   ],
+   "ctx": "”，皇帝亲自监考就此成为惯例。殿试于[[宋朝|宋]][[开宝]]六年（973年）成为定例，虽然通常由[[中國皇帝|皇帝]]親自在[[皇宮]]中主持，但有時皇帝會委派大臣主管殿試，不親自策問。這種形式傳至[[朝鮮]]、[[越南]]，也由當地的君主或親自、或派大臣主持。通過殿試錄取的就是[[進士]]，其中第一名稱為[[狀元]]，第二名稱為[[榜眼]]，第三名稱為[[探花]]，三者并称为“三鼎甲”。 ="
+  },
+  {
+   "label": "Hàn lâm viện",
+   "han": "翰林院",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_dianshi,zh_hanlin"
+    }
+   ],
+   "ctx": "的称为“一甲”，赐“'''进士及第'''”，只取三人，即[[狀元]]、[[榜眼]]、[[探花]]，合称“三鼎甲”；第三等的称为“二甲”，赐“'''进士出身'''”；第四、五等的称为“三甲”，赐“'''同进士出身'''”，二甲與三甲的第一名都叫[[傳臚]]。清[[康熙]]年間，謹防作弊，大臣之子弟均置為三甲，即最末甲；一甲状元授官[[修撰|翰林院修撰]]，榜眼與探花則授官[[翰林院編修|翰林院编修]"
+  },
+  {
+   "label": "Hương thí",
+   "han": "鄉試",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_dianshi,zh_keju"
+    }
+   ],
+   "ctx": "[王鏊]]、[[謝遷]]、[[章懋 (兰谿)|章懋]]等人提倡，八股文逐漸形成了以講究格律、步驟，並逐漸形成比較嚴格的程式。成化二十三年（1487年），始由“经义”变为开考八股文，规定要按八股方式作文，格式严格，限定字数，不许违背经注，不能自由发挥。 ===题目=== 題目必须用[[四书五经]]中的原文。题目又分大題、小題兩類。 *[[鄉試]]、[[會試]]多用大題，題意比較完整。又分連章題、全章"
+  },
+  {
+   "label": "Hội thí",
+   "han": "會試",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_dianshi,zh_huishi"
+    }
+   ],
+   "ctx": "[謝遷]]、[[章懋 (兰谿)|章懋]]等人提倡，八股文逐漸形成了以講究格律、步驟，並逐漸形成比較嚴格的程式。成化二十三年（1487年），始由“经义”变为开考八股文，规定要按八股方式作文，格式严格，限定字数，不许违背经注，不能自由发挥。 ===题目=== 題目必须用[[四书五经]]中的原文。题目又分大題、小題兩類。 *[[鄉試]]、[[會試]]多用大題，題意比較完整。又分連章題、全章題、數節題、一"
+  },
+  {
+   "label": "Khoa bảng",
+   "han": "科榜",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_khoa_bang,vi_nhohoc,zh_keju"
+    }
+   ],
+   "ctx": "([[chữ Hán|chữ Nho]]: 科舉). ==Khái quát== [[Tập tin:Classe privée à la famille Annamite.jpg|thumb|300px|Một lớp học chữ Nho tư gia vào khoảng năm 1895]] '''Khoa bảng''' (科榜) là cái bảng danh dự, liệt k"
+  },
+  {
+   "label": "Khoa cử",
+   "han": "科舉",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_khoa_bang,zh_bagu,zh_chuanqi"
+    }
+   ],
+   "ctx": "có một đặc điểm chung là các khoa thi đều do triều đình đứng ra tổ chức, chỉ đạo thi. Hệ thống thi cử tuyển người làm quan này gọi là '''khoa cử''' ([[chữ Hán|chữ Nho]]: 科舉). ==Khái quát== [[Tập tin:C"
+  },
+  {
+   "label": "Quốc Tử Giám",
+   "han": "國子監",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_vmqtg,zh_guozijian,zh_keju"
+    }
+   ],
+   "ctx": "m bao gồm: hồ Văn, khu Văn Miếu – Quốc Tử Giám và vườn Giám, mà kiến trúc chủ thể là ''[[Văn miếu]]'' (chữ Hán: 文廟) - nơi thờ Khổng Tử, và ''[[Quốc tử giám]]'' (chữ Hán: 國子監) - trường đại học đầu tiên"
+  },
+  {
+   "label": "Thám hoa",
+   "han": "探花",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_dianshi,zh_hanlin,zh_jinshi"
+    }
+   ],
+   "ctx": "惯例。殿试于[[宋朝|宋]][[开宝]]六年（973年）成为定例，虽然通常由[[中國皇帝|皇帝]]親自在[[皇宮]]中主持，但有時皇帝會委派大臣主管殿試，不親自策問。這種形式傳至[[朝鮮]]、[[越南]]，也由當地的君主或親自、或派大臣主持。通過殿試錄取的就是[[進士]]，其中第一名稱為[[狀元]]，第二名稱為[[榜眼]]，第三名稱為[[探花]]，三者并称为“三鼎甲”。 ==中國== [[宋太宗]"
+  },
+  {
+   "label": "Tiến sĩ",
+   "han": "進士",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_sino,zh_bagu,zh_chuanqi"
+    }
+   ],
+   "ctx": "For example: *''bác sĩ'' ( ) is widely used with the meaning 'physician' or 'medical doctor', while in Mandarin it refers to a doctoral degree; *''tiến sĩ'' (進士) is used to refer to 'doctoral degree',"
+  },
+  {
+   "label": "Trạng nguyên",
+   "han": "狀元",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_dianshi,zh_jinshi"
+    }
+   ],
+   "ctx": "風尚的追求之下，士人逐漸重視秦漢典籍於時文方面的運用，因此此時編纂的諸子學書籍也以盡量能符合士子的需求為首要，因而產生了對於古籍進行文章行文脈絡的文理、文氣以及文法、文句的評點書籍，如[[沈津]]《百家類纂》、[[陸可教]]、[[李廷機]]《諸子玄言評苑》、[[陳深]]《諸子品節》、[[焦竑]]、[[翁正春]]、[[朱之蕃]]《新鍥翰林三狀元會選二十九子品彙釋評》、[[焦竑]]、[[翁正春]]《新"
+  },
+  {
+   "label": "Văn Miếu",
+   "han": "文廟",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_vmqtg,zh_guozijian"
+    }
+   ],
+   "ctx": "nh Thăng Long]]. Quần thể kiến trúc Văn Miếu – Quốc Tử Giám bao gồm: hồ Văn, khu Văn Miếu – Quốc Tử Giám và vườn Giám, mà kiến trúc chủ thể là ''[[Văn miếu]]'' (chữ Hán: 文廟) - nơi thờ Khổng Tử, và ''["
+  },
+  {
+   "label": "Điện thí",
+   "han": "殿試",
+   "cat": "exam",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_dianshi,zh_huishi,zh_jinshi"
+    }
+   ],
+   "ctx": "{{Infobox East Asian |title=殿試 |tablewidth= |color= |fontcolor= |background= |logo= |logowidth= |img= Palastexamen-SongDynastie.jpg |imgwidth= 220px |caption= 明代绘画中所描绘的殿试 |sort= <!-- 中文 --> |chines"
+  },
+  {
+   "label": "Bình trắc",
+   "han": "平仄",
+   "cat": "form",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_duizhang,zh_guwen,zh_jueju"
+    }
+   ],
+   "ctx": "動詞]]，意謂著將兩兩一對的東西放在一起。「仗」字則來自古代[[儀式]]往往由兩人一組來舉行，有「儀仗」的「仗」意。對偶是指文句中兩兩相對、字數相等、句法相似、意义相关的两个词组或句子所构成的[[修辭]]。对偶从意义上讲前后两部分密切关联，凝练集中，有很强的概括力；从形式上看，前后两部分整齐均匀、音节和谐、具有戒律感。严格的对偶还讲究[[平仄]]相對，充分利用[[声调]]。<ref>{{Cite "
+  },
+  {
+   "label": "Dụng điển",
+   "han": "用典",
+   "cat": "form",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_pianwen,zh_shici,zh_yongdian"
+    }
+   ],
+   "ctx": "“或立谈以邀鼎食，或白首而甘布衣”，也有八字、九字、十字，如“奏之方泽而地袛登，升之圆丘而天神降”“井鱼不可以语于海者，夏虫不可以语于冰者”“行苏张之辩于娲燧之年，用彭韩之术于尧舜之朝”。齐梁以后四六格式定型化，所以也称四六文。 *讲究声韵上的平仄。初期骈体文分韵骈文和无韵骈文，[[南北朝]]开始讲究韵律，唐后愈发严格。 *用词注重藻饰和用典，后期用字生僻，内容虚幻，被认为华而不实。 [[骆鸿凯]"
+  },
+  {
+   "label": "Áp vận",
+   "han": "押韻",
+   "cat": "form",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_cifu,zh_guwen,zh_jueju"
+    }
+   ],
+   "ctx": "[[File:Liangyuan_Gathering.jpg|thumb|right|300px|梁孝王梁園文學會]] '''赋'''，古代[[文体]]名，是一種押韻的文體，由[[楚辭]]演變而來。賦這種體制是較為特殊的，由外表看似乎非詩非文，而其內卻有詩有文，可以說是一種詩文的混合體。 ==流變== 《[[毛诗序]]》把“赋”作为《[[诗经]]》“[[六义]]”之一，解作「铺」的意思，指「铺陈言"
+  },
+  {
+   "label": "Điển cố",
+   "han": "典故",
+   "cat": "form",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_pianwen,zh_shici,zh_tangshi"
+    }
+   ],
+   "ctx": "風氣，文學作品傾向較重文辭修飾，然漢字本便有適合使用偶句的特點，在戰國、漢代文人如李斯、賈誼，文章便已多用偶句，具後世駢文之雛形。 士族之提倡、文學觀念之發展、純文學觀念與[[聲律]]說，亦促使駢文之興盛。 == 特點 == 駢文講求[[對偶]]駢偶，文中間有散句，多用四字句或六字句（四六句法），講求[[平仄]]相對聲律协调，多用[[典故]]，雕琢辭藻，詞色工麗。 *全篇文章均由对偶构成，除少数散"
+  },
+  {
+   "label": "Đối trượng",
+   "han": "對仗",
+   "cat": "form",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_duizhang,zh_guwen"
+    }
+   ],
+   "ctx": "集》第321 页，《复王进士书》）</ref> 。 考試的文體並無規格，没要求對仗排偶。当时有的考生主動運用排比筆法，寫成與八股文類似的文章。被部分[[学者]]视为八股文发展的开端 。 ===元朝=== [[元代]]的科舉制度，基本沿襲宋代<ref>皇庆二年[[中书省"
+  },
+  {
+   "label": "Biền ngẫu",
+   "han": "駢偶",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_pianwen"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Biền văn",
+   "han": "駢文",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_cifu,zh_duizhang,zh_guwen"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Biểu",
+   "han": "表",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_sino,vi_ancl,vi_ldt"
+    }
+   ],
+   "ctx": " |- |hotel; inn |khách sạn 客棧 |酒店 jiǔdiàn, 旅館/旅馆 lǚguǎn |酒店 jáudim, 旅館/旅馆 léuihgún |ホテル hoteru, 旅館 (traditional inn) ryokan |여관 (旅館) yeogwan |- |demonstration |biểu tình 表情 |示威 shìwēi |示威 sihwāi |示威 j"
+  },
+  {
+   "label": "Bát cú",
+   "han": "八句",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_qyls,zh_tangshi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Bát cổ văn",
+   "han": "八股文",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_cifu,zh_keju"
+    }
+   ],
+   "ctx": " [[File:《欽定四書文》书影.jpg|缩略图|《欽定四書文》一章]] '''八股文'''又称'''八比文''' 、'''时文'''、'''時藝'''、'''制艺'''，是[[中国]][[明朝|明]]、[[清朝|清]]皇朝及[[越南]][[阮朝]]考试-{}-制度中所规定的一种特殊文体 。 [[隋朝|隋]][[唐朝|唐]]开始，中国出现了开科取"
+  },
+  {
+   "label": "Bình điểm",
+   "han": "評點",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu"
+    }
+   ],
+   "ctx": "，文章的好壞較難有統一準則，八股文有固定格式，相對來說評判較為公正客觀，爭議度相對減少。}} ====引领風氣==== {{or|在八股文對於外在形式上的“學古”以及風尚的追求之下，士人逐漸重視秦漢典籍於時文方面的運用，因此此時編纂的諸子學書籍也以盡量能符合士子的需求為首要，因而產生了對於古籍進行文章行文脈絡的文理、文氣以及文法、文句的評點書籍，如[[沈津]]《百家類纂》、[[陸可教]]、[[李廷"
+  },
+  {
+   "label": "Bút ký tiểu thuyết",
+   "han": "筆記小說",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi"
+    }
+   ],
+   "ctx": "枕中記]]》、《[[任氏傳]]》、[[元稹]]《[[會真記]]》（又稱《[[崔鶯鶯傳]]》）、[[蔣防]]《[[霍小玉傳]]》、[[白行簡]]《[[李娃傳]]》、[[李公佐]]《[[南柯太守傳]]》、[[陳鴻 (唐朝)|陳鴻]]《[[長恨歌傳]]》、[[袁郊]]《[[紅線傳]]》、[[杜光庭]]《[[虬髯客傳]]》等。典型的傳奇與一般[[筆記小說]]不同，具有複雜情節，曲折描寫，不是實事的記錄，而"
+  },
+  {
+   "label": "Chiếu",
+   "han": "詔",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_ancl,vi_lncq"
+    }
+   ],
+   "ctx": " histories, and declarations of independence from China, as well as [[Vietnamese poetry]]. In chronological order notable works include: * [[Thiên đô chiếu]] ( ) 1010, Edict on transfer the capital of"
+  },
+  {
+   "label": "Chí quái",
+   "han": "志怪",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Chương hồi tiểu thuyết",
+   "han": "章回小說",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_zhanghui"
+    }
+   ],
+   "ctx": "'''章回小說'''是明清以來中國長篇[[小說]]的主要形式，淵源自[[說書]]傳統、宋代[[話本]]及元代[[雜劇]]，在[[魏晉南北朝]]始有具體形式，而於[[明]][[清]]兩代發展。 ==興起原因== 明清兩代都市經濟繁榮，大量需求通俗讀物。[[士人]]對小說的觀念有所改變，一般[[儒家]]思想對[[小說]]加以輕視，以為是「小道」。"
+  },
+  {
+   "label": "Cáo",
+   "han": "誥",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_bndc,vi_nt"
+    }
+   ],
+   "ctx": "f Đại Việt, anon. 1377 * [[Việt điện u linh tập]] ( ), Spirits of the Departed in the Viet Realm, [[Lý Tế Xuyên]] 1400 * [[Bình Ngô đại cáo]] ( ), Great Proclamation upon the Pacification of the Wu Fo"
+  },
+  {
+   "label": "Cổ văn",
+   "han": "古文",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_classiccn,zh_bagu,zh_chuanqi"
+    }
+   ],
+   "ctx": "c-bs = *mən ŋan | mc = mjun ngjon | hanja = 漢文 | hangul = 한문 | rr = hanmun | kanji = 漢文 | romaji = kanbun | qn = | chuhan = | c2 = 古文 | l2 = ancient writing | p2 = gǔwén | w2 = | tp2 = gǔwún | gr2 = g"
+  },
+  {
+   "label": "Hịch",
+   "han": "檄",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_cpn,vi_htt"
+    }
+   ],
+   "ctx": "thern country, poem by [[Lý Thường Kiệt]] * [[Đại Việt sử ký]] ( ), Annals of Đại Việt by [[Lê Văn Hưu]], 1272 * [[Dụ chư tì tướng hịch văn]] ( ), Proclamation to the Officers, General [[Trần Hưng Đạo"
+  },
+  {
+   "label": "Ký",
+   "han": "記",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_ancl,vi_bdgp"
+    }
+   ],
+   "ctx": "(modern Hanoi). * [[Nam quốc sơn hà]] ( ) 1077, Mountains and rivers of the Southern country, poem by [[Lý Thường Kiệt]] * [[Đại Việt sử ký]] ( ), Annals of Đại Việt by [[Lê Văn Hưu]], 1272 * [[Dụ chư"
+  },
+  {
+   "label": "Luật thi",
+   "han": "律詩",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_duizhang,zh_jueju"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Lời bình",
+   "han": "評",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_chuanqi,zh_cifu"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Minh",
+   "han": "銘",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_guwen,zh_hanzi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Ngũ ngôn",
+   "han": "五言",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_jueju,zh_lefu,zh_qyls"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Nhạc phủ",
+   "han": "樂府",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_lefu,zh_shici"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Phú",
+   "han": "賦",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,vi_bdgp,vi_chunom"
+    }
+   ],
+   "ctx": "và các chiến thắng trên sông Bạch Đằng | wikisource = [[:s:vi:Bạch Đằng giang phú|Bạch Đằng giang phú]] tại [[Wikisource]] }} '''''Bạch Đằng giang phú''''' ( ), còn gọi là '''''Phú sông Bạch Đằng'''''"
+  },
+  {
+   "label": "Thất ngôn luật thi",
+   "han": "七言律詩",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_qyls"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Thất ngôn tứ tuyệt",
+   "han": "七言絕句",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_duizhang,zh_jueju,zh_shici"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Truyền kỳ (thể loại)",
+   "han": "傳奇",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_ndu,vi_tkml"
+    }
+   ],
+   "ctx": "Forces, [[Nguyễn Trãi]] 1428 * [[Đại Việt sử ký toàn thư]] ( ), Complete Annals of [[Đại Việt]], [[Ngô Sĩ Liên]] 1479. * [[Truyền kỳ mạn lục]] ( , Collection of Strange Tales, partly by [[Nguyễn Dữ]],"
+  },
+  {
+   "label": "Tuyệt cú",
+   "han": "絕句",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_duizhang,zh_jueju,zh_lefu"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Tống từ",
+   "han": "宋詞",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_duizhang,zh_tangshi"
+    }
+   ],
+   "ctx": "渙的《 》全詩就是由兩組對句所構成：「白日依山盡」對「黃河入海流」，「欲窮千里目」對「更上一層樓」。[[律詩]]則規定第三四句、第五六句必須相對，如杜甫的《 》：國破山河在，城春草木深。'''感時花濺淚，恨別鳥驚心'''。'''烽火連三月，家書抵萬金'''。白頭搔更短，渾欲不勝簪。 宋詞中又例如[[岳飛]]的《[[滿江紅]]》，上下片七言句：'''“三十功名塵與土，八千里路雲和月。'''“'''壯"
+  },
+  {
+   "label": "Từ phú",
+   "han": "辭賦",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_cifu,zh_guwen,zh_keju"
+    }
+   ],
+   "ctx": "。 [[西晉]]時，[[陸機]]的《[[文賦]]》，是中國[[文學批評]]的重要著作，而[[左思]]的《[[三都賦]]》，一-{出}-現即造成了「洛陽紙貴」的效應。[[向秀]]的《[[思舊賦]]》為悼[[嵇康]]而作，深切而感人。[[木華]]的《海賦》，則是針對海洋壯闊的著作。到了[[東晉]]，[[陶淵明]]著名的《[[歸去來辭]]》是辭賦中的名篇，沒有半點雕琢，真實描繪了脫離官場、回歸田園懷抱的"
+  },
+  {
+   "label": "Tự bạt",
+   "han": "序跋",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_guwen,zh_wenyan2"
+    }
+   ],
+   "ctx": " |} 而《[[昭明文選]]》是一本分類很繁雜的選集，將所選的文章分成37類之多。 ===明清=== [[明朝]]的[[吳訥]]著《文章辨體》、[[徐師曾]]著《文體明辨》，[[清朝]][[姚鼐]]編《[[古文辭類纂]]》，都是討論文體的重要著作。其中《古文辭類纂》將文體分為13類： {| | valign=\"top\" | *論辨 *序跋 *奏議 | valign=\"top\" | *書說 *贈序 "
+  },
+  {
+   "label": "Văn ngôn",
+   "han": "文言",
+   "cat": "genre",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_classiccn,zh_bagu,zh_chuanqi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đường thi",
+   "han": "唐詩",
+   "cat": "genre",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_thodt,zh_chuanqi,zh_qyls"
+    }
+   ],
+   "ctx": " '''Thơ Đường''' hay '''Đường thi''' ([[chữ Hán]]: 唐詩) là toàn bộ thơ ca đời [[nhà Đường|Đường]] được các [[nhà thơ]] người [[Trung Quốc]] sáng tác trong khoảng từ [[thế kỷ 7|thế kỉ 7]] - [[thế kỷ 10|"
+  },
+  {
+   "label": "Chữ Hán",
+   "han": "漢字",
+   "cat": "script",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,en_hannom,en_sino"
+    }
+   ],
+   "ctx": " [[Khmer Empire|Khmer]]. ==Terminology== In Vietnamese, Chinese characters go by several names, but all refer to the same script: * ''[[Chữ Hán]]'' (𡨸漢) or ''Hán tự'' (漢字): \"words of [[Han Chinese|Hán"
+  },
+  {
+   "label": "Chữ Nôm",
+   "han": "喃",
+   "cat": "script",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,en_hannom,en_nom2"
+    }
+   ],
+   "ctx": " {{Infobox Writing system | name = Chữ Nôm | altname = | sample = Chữ Nôm (Khải thư).svg | imagesize = 140px | type = [[Logographic]] | languages = [[Vietnamese language|Vietnamese]] | fam1 = [[Orac"
+  },
+  {
+   "label": "Chữ quốc ngữ",
+   "han": "國語",
+   "cat": "script",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,en_hannom,vi_chunom"
+    }
+   ],
+   "ctx": "9], [http://www.vietnamtudien.org/chunom-trichdan/tr0866.png 866]}}</ref> ==Terminology== [[File:Cover page of Đại Nam quốc ngữ 大南國語.png|thumb| ( ) was used historically to refer to . Such as in the b"
+  },
+  {
+   "label": "Hán Nôm",
+   "han": "漢喃",
+   "cat": "script",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,en_hannom,vi_chunom"
+    }
+   ],
+   "ctx": "chữ nôm''), the arbitrariness of their composition, and the inconsistent way the units and their components connect with the sounds of the language.\"</ref> ''Hán Nôm'' (漢喃, \"''Hán'' and ''chữ Nôm'' ch"
+  },
+  {
+   "label": "Hán Việt",
+   "han": "漢越",
+   "cat": "script",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_hannom,en_sino"
+    }
+   ],
+   "ctx": "te book |last=Nguyễn |first=Tài Cẩn |date=1995 |title=Giáo trình lịch sử ngữ âm tiếng Việt (sơ thảo) |publisher=Nhà xuất bản Giáo dục |page=47}}</ref> ''Từ Hán Việt'' (詞漢越, \"[[Sino-Vietnamese vocabula"
+  },
+  {
+   "label": "Khải thư",
+   "han": "楷書",
+   "cat": "script",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_hanzi,zh_sishu"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Hiếu",
+   "han": "孝",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_sino,vi_ltt,vi_nt"
+    }
+   ],
+   "ctx": "u = [[Thánh Tông]] (聖宗) | thụy hiệu = ''Sùng Thiên Quảng Vận Cao Minh Quang Chính Chí Đức Đại Công Thánh Văn Thần Vũ Đạt Hiếu '''Thuần Hoàng đế'''''<br>(崇天廣運高明光正至德大功聖文神武達孝淳皇帝) | cha = [[Lê Thái Tông]]"
+  },
+  {
+   "label": "Kinh học",
+   "han": "經學",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_bagu,zh_jingji,zh_jinshi"
+    }
+   ],
+   "ctx": "[顧炎武]]曾質疑「僅取已成之書，抄謄一過，上欺朝廷，下誑士子」、“⋯⋯故使治經者以宋儒朱考亭先生之說為宗。上之所取，士之所以取於上；師之所教，弟子之所以傳於師，其說皆必出於是。上之所以取而不出於是，由變禮易樂，叛於時王之法也，無所逃當世之責；師弟子所習而不出於是，其罪若偽符節尺量之罪也，徇於路者得而譏之。”，可說是經過宋、元以來，諸儒在經學義理詮釋方面的沈澱以及昇華所得出的一個共同的規範準則。況"
+  },
+  {
+   "label": "Lý học",
+   "han": "理學",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_daojia,zh_jingji"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Ngũ hành",
+   "han": "五行",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_daojia,zh_wuxing,zh_yin"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Nho giáo",
+   "han": "儒教",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nhohoc"
+    }
+   ],
+   "ctx": "ia|1}} |wuu=Sy ka |j=Jyu<sup>4</sup>-gaa<sup>1</sup> |y=Yùh-gāa |ci= |tl=Jû-ka, Lû-ka |mc=Nyu-kæ |oc-bs= |qn=Nho giáo |chuhan=儒教 |hangul=유교 |hanja=儒教 |rr=Yu-gyo |kanji=儒教 |kana=じゅきょう |romaji=Jukyō }} "
+  },
+  {
+   "label": "Nhân nghĩa",
+   "han": "仁義",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_wuxing,zh_yin"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Phật",
+   "han": "佛",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,en_hannom,en_sino"
+    }
+   ],
+   "ctx": "e each by [[Huyền Quang]] and [[Mạc Đĩnh Chi]], were collected and published in 1805. [[File:Page from Phật thuyết đại báo phụ mẫu ân trọng kinh 佛說大報父母恩重經 showing consonant cluster.png|thumb|A page of"
+  },
+  {
+   "label": "Phật giáo",
+   "han": "佛教",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_daojia,zh_fujiao"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Tam cương ngũ thường",
+   "han": "三綱五常",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_wuxing"
+    }
+   ],
+   "ctx": "：「凡五行均布，遍在萬有，不可定守一途。今先論五行體雜，但其氣周流，隨事而用。若言不雜，水只應一，何故謂五而為六？火金木土並爾，當知生數為本，成數為雜。既有雜，故一行當體，即有五義。如木有曲直，此是木也。木中有火，則是火也。木堪為兵仗，有擊觸之能，即是金也。木中有潤，即是水也。木吐華葉子實，即是土也。……」</ref>。五行在漢代也和[[三綱五常|五常]]相配對，以為天有五行，人有五常，以木代表仁"
+  },
+  {
+   "label": "Tam giáo",
+   "han": "三教",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_daojia,zh_keju,zh_lixue2"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Thi ngôn chí",
+   "han": "詩言志",
+   "cat": "thought",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "zh.wikipedia 夔 (乐官): 帝曰…詩言志，歌永言 (Thượng thư / Kinh Thi tradition)"
+    },
+    {
+     "kind": "named-source",
+     "where": "zh.wikipedia 滄浪詩話: 儒家詩言志之說"
+    },
+    {
+     "kind": "named-source",
+     "where": "vi.corpus (vi_nhohoc): 'văn dĩ tải đạo' và 'thi ngôn chí' as paired reading frames"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Thiên nhân hợp nhất",
+   "han": "天人合一",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_tianren"
+    }
+   ],
+   "ctx": "'''天人合一'''，或稱'''天人合德'''、“[[天人相应]]”，是[[中国]]古代的一种[[哲学]]思想，[[儒家|儒]]、[[道家|道]]、[[佛家|釋]]三家均有闡述。其基本思想是[[人类]]的[[生理]]、[[伦理]]、[[政治]]等[[社会]]现象是[[自然]]的直接反映。最早起源于[[春秋战国]]时期，汉朝[[董仲舒]]引申为["
+  },
+  {
+   "label": "Thiền",
+   "han": "禪",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_daojia,zh_lixue2,zh_wuxing"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Tiên",
+   "han": "仙",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_tdv,vi_tk"
+    }
+   ],
+   "ctx": "-nom|行蜀歌}}), \"Song of Exile to Thục\" [[Nguyễn Thị Bích]], 1885 * [[Lục súc tranh công]] ( ), \"The Quarrel of the Six Beasts\" * [[Lục Vân Tiên]] ( ), epic poem by the blind poet [[Nguyễn Đình Chiểu]], "
+  },
+  {
+   "label": "Tiết nghĩa",
+   "han": "節義",
+   "cat": "thought",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Nhị độ mai': 忠孝節義二度梅"
+    },
+    {
+     "kind": "named-source",
+     "where": "vi.ancl corpus: mục 'phụ nữ tiết nghĩa' in An Nam chí lược"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Trung quân",
+   "han": "忠君",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_duizhang"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Tâm học",
+   "han": "心學",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_lixue,zh_lixue2,zh_xinxue"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Tứ thư ngũ kinh",
+   "han": "四書五經",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_hanzi,zh_sishu"
+    }
+   ],
+   "ctx": "hongwen kanji.svg|100px|thumb|「學好孔孟」的[[合文]]]] [[File:台灣符略圖.jpg|100px|thumb|符咒中「北」字分寫、「勅令」連字]] * 射虎：就是猜[[燈謎]]，也叫打燈虎，與漢字有著密切關係。舊時的射虎大致可以分成兩類，一類是文人射虎，謎面深奧、謎格複雜多樣、謎底多為[[四书五经|四書五經]]中的原句；一類是市井燈謎，謎面謎底均很通俗。射虎"
+  },
+  {
+   "label": "Văn dĩ tải đạo",
+   "han": "文以載道",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Âm dương",
+   "han": "陰陽",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_wuxing,zh_yin"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đạo giáo",
+   "han": "道教",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_chuanqi,zh_daojia,zh_fujiao"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đạo học",
+   "han": "道學",
+   "cat": "thought",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_lixue,zh_lixue2"
+    }
+   ],
+   "ctx": "'''理学'''可以指： * [[宋明理學]]，古代的理學是指宋朝以后的新儒学，又稱道學 * [[程朱理学]]，是宋明理學的一派，有時簡稱為理學，與心學相對。 * [[理科]]，自然科学的通称 "
+  },
+  {
+   "label": "Ẩn dật",
+   "han": "隱逸",
+   "cat": "thought",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "zh_tangshi"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "An Nam chí lược",
+   "han": "安南志略",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_ancl,zh_hanlin"
+    }
+   ],
+   "ctx": "by [[Lê Văn Hưu]], 1272 * [[Dụ chư tì tướng hịch văn]] ( ), Proclamation to the Officers, General [[Trần Hưng Đạo]], 1284 * [[An Nam chí lược]] ( ), Abbreviated Records of Annam, anon. 1335 * [[Gia hu"
+  },
+  {
+   "label": "Bình Ngô đại cáo",
+   "han": "平吳大誥",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_bndc,vi_nt"
+    }
+   ],
+   "ctx": "y of Đại Việt, anon. 1377 * [[Việt điện u linh tập]] ( ), Spirits of the Departed in the Viet Realm, [[Lý Tế Xuyên]] 1400 * [[Bình Ngô đại cáo]] ( ), Great Proclamation upon the Pacification of the Wu"
+  },
+  {
+   "label": "Bạch Vân am thi tập",
+   "han": "白雲庵詩集",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_byat"
+    }
+   ],
+   "ctx": "'''Bạch Vân am thi tập''' (白雲庵詩集, hiểu theo nghĩa nôm na là “tập thơ viết từ [[am (thờ cúng)|am]] Mây Trắng”) là tuyển tập thơ viết bằng [[chữ Hán]] của Trình [[quốc công]] (程國公) [[Nguyễn Bỉnh Khiê"
+  },
+  {
+   "label": "Bạch Đằng giang phú",
+   "han": "白藤江賦",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_bdgp"
+    }
+   ],
+   "ctx": "]] và các chiến thắng trên sông Bạch Đằng | wikisource = [[:s:vi:Bạch Đằng giang phú|Bạch Đằng giang phú]] tại [[Wikisource]] }} '''''Bạch Đằng giang phú''''' ( ), còn gọi là '''''Phú sông Bạch Đằng''"
+  },
+  {
+   "label": "Chinh phụ ngâm khúc",
+   "han": "征婦吟曲",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_cpn"
+    }
+   ],
+   "ctx": "ritten in chữ Nôm, including [[Nguyễn Du]]'s [[The Tale of Kiều|Truyện Kiều]] (傳翹), [[Đoàn Thị Điểm]]'s chữ nôm translation of the poem ''Chinh Phụ Ngâm Khúc'' ( - Song of the Soldier's Wife) from the"
+  },
+  {
+   "label": "Chỉ nam ngọc âm giải nghĩa",
+   "han": "指南玉音解義",
+   "cat": "work",
+   "status": "CONFIRMED",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Cung oán ngâm",
+   "han": "宮怨吟",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit"
+    }
+   ],
+   "ctx": "ier's wife\", translations from Chinese into vernacular chữ Nôm by several translators including [[Phan Huy Ích]] and [[Đoàn Thị Điểm]] * [[Cung oán ngâm khúc]] ( ), \"Song of the Sorrowful Concubine\" b"
+  },
+  {
+   "label": "Cư trần lạc đạo phú",
+   "han": "居塵樂道賦",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_chunom,vi_chunom"
+    }
+   ],
+   "ctx": "t' có phải dịch phẩm Nôm của thế kỉ XII?\"]</ref> [[Nhà Trần]] cũng để lại một số tác phẩm chữ Nôm như mấy bài [[phú]] của vua [[Trần Nhân Tông]]: \"Cư trần lạc đạo phú\" (居塵樂道賦) và \"Đắc thú lâm tuyền th"
+  },
+  {
+   "label": "Dư địa chí",
+   "han": "輿地誌",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nt"
+    }
+   ],
+   "ctx": " lăng của vua [[Lê Thái Tổ]], kể lại thân thế và sự nghiệp của Lê Thái Tổ. === Địa lý === * ''[[Dư địa chí]]'', còn gọi là ''Ức Trai di tập Nam Việt dư địa chí'' (抑齋遺集南越輿地誌), ''Đại Việt địa dư chí'' ("
+  },
+  {
+   "label": "Dụ chư tì tướng hịch văn",
+   "han": "諭諸裨將檄文",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_htt"
+    }
+   ],
+   "ctx": " Southern country, poem by [[Lý Thường Kiệt]] * [[Đại Việt sử ký]] ( ), Annals of Đại Việt by [[Lê Văn Hưu]], 1272 * [[Dụ chư tì tướng hịch văn]] ( ), Proclamation to the Officers, General [[Trần Hưng"
+  },
+  {
+   "label": "Gia huấn ca",
+   "han": "家訓歌",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit"
+    }
+   ],
+   "ctx": "oclamation to the Officers, General [[Trần Hưng Đạo]], 1284 * [[An Nam chí lược]] ( ), Abbreviated Records of Annam, anon. 1335 * [[Gia huấn ca]] ( ), The Family Training Ode, a 976-line Confucian mor"
+  },
+  {
+   "label": "Hoàng Lê nhất thống chí",
+   "han": "皇黎一統志",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_hlntc"
+    }
+   ],
+   "ctx": "Ngô Sĩ Liên]] 1479. * [[Truyền kỳ mạn lục]] ( , Collection of Strange Tales, partly by [[Nguyễn Dữ]], 16th century * [[Hoàng Lê nhất thống chí]] ( ), Unification Records of the Le Emperor, historical "
+  },
+  {
+   "label": "Hoàng Việt văn tuyển",
+   "han": "皇越文選",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "Nom Foundation lib.nomfoundation.org/collection/1/volume/241 — NLVNPF-0171 / R.601, Tồn Am gia tàng: 裴輝璧, Hi Văn Đường 希文堂, Minh Mệnh 6 (1825), 78pp, 26x16cm, woodblock"
+    },
+    {
+     "kind": "named-source",
+     "where": "hannom.nlv.gov.vn same record (nlvnpf-0171, R.601)"
+    },
+    {
+     "kind": "named-source",
+     "where": "chunom.net Thư viện số Hán Nôm cat=242"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Hồng Đức quốc âm thi tập",
+   "han": "洪德國音詩集",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_hđqa"
+    }
+   ],
+   "ctx": "'''''Hồng Đức quốc âm thi tập''''' ([[chữ Nôm]]: 洪德國音詩集) là một tuyển tập thơ chữ Nôm thường được cho là sáng tác bởi vua [[Lê Thánh Tông]] (1442-1497) cùng với các thành viên của nhóm [[Tao đàn nhị t"
+  },
+  {
+   "label": "Khâm định Việt sử thông giám cương mục",
+   "han": "欽定越史通鑑綱目",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_vsttgc"
+    }
+   ],
+   "ctx": "{{Thông tin sách | tên = Khâm định Việt sử Thông giám cương mục | tên gốc = 欽定越史通鑑綱目 | hình = [[Tập tin:《欽定越史通鑑綱目》卷首.jpg|250px]] | chú thích hình = Quyển thứ nhất của Khâm định Việt sử Thông giám cươn"
+  },
+  {
+   "label": "Kim Vân Kiều tân truyện",
+   "han": "金雲翹新傳",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tk,vi_đtts"
+    }
+   ],
+   "ctx": "hay phận đàn bà}} :: === Kim Kiều gặp gỡ === [[Tập tin:Kim Vân Kiều1.png|nhỏ|270px|Hai bản\"Kim Vân Kiều tân truyện\"(金雲翹新傳), bìa bên trái là\"Liễu Văn đường tàng bản\"(柳文堂藏板) in năm [[1871]], bên phải là"
+  },
+  {
+   "label": "Kiến văn tiểu lục",
+   "han": "見聞小錄",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia article titled 見聞小錄 quoting 'cuốn Kiến văn tiểu lục (見聞小錄) của Lê Quý Đôn (bản chữ Hán Nôm)'"
+    },
+    {
+     "kind": "named-source",
+     "where": "vi.pbtl corpus: 'Bộ sách Lê Quý Đôn toàn tập: Phủ biên tạp lục, Kiến văn tiểu lục…'"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Lĩnh Nam chích quái",
+   "han": "嶺南摭怪",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_lncq"
+    }
+   ],
+   "ctx": "5 * [[Gia huấn ca]] ( ), The Family Training Ode, a 976-line Confucian morality poem attributed to [[Nguyễn Trãi]] 1420s * [[Lĩnh Nam chích quái]] ( ), \"The wonderful tales of [[Lingnan|Lĩnh Nam]]\" 14"
+  },
+  {
+   "label": "Lịch triều hiến chương loại chí",
+   "han": "歷朝憲章類誌",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_lthclc"
+    }
+   ],
+   "ctx": "s archipels de Hoàng-sa et de Trường-sa selon les anciens ouvrages vietnamiens d’histoire et de géographie 02.jpg }} '''''Lịch triều hiến chương loại chí''''' ( , nghĩa là \"Phép tắc các triều đại chép"
+  },
+  {
+   "label": "Lục Vân Tiên truyện",
+   "han": "蓼雲仙傳",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit"
+    }
+   ],
+   "ctx": "vi-nom|行蜀歌}}), \"Song of Exile to Thục\" [[Nguyễn Thị Bích]], 1885 * [[Lục súc tranh công]] ( ), \"The Quarrel of the Six Beasts\" * [[Lục Vân Tiên]] ( ), epic poem by the blind poet [[Nguyễn Đình Chiểu]]"
+  },
+  {
+   "label": "Nam Xương nữ tử truyện",
+   "han": "南昌女子傳",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tkml,vi_tnnc,vi_tvtpl"
+    }
+   ],
+   "ctx": " \"[[Chuyện nàng Thúy Tiêu]]\" (Thúy Tiêu truyện) * \"[[Chuyện bữa tiệc đêm ở Đà Giang]]\" (Đà Giang dạ ẩm ký) * \"[[Chuyện người con gái Nam Xương]]\" (Nam Xương nữ tử truyện 南昌女子傳) * \"[[Chuyện Lý tướng qu"
+  },
+  {
+   "label": "Nam quốc sơn hà",
+   "han": "南國山河",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_hannom,en_vietlit,vi_nqsh"
+    }
+   ],
+   "ctx": "Edict on transfer the capital of [[Đại Cồ Việt]] from [[Hoa Lư Ancient Capital|Hoa Lư]] (modern Ninh Bình) to [[Đại La]] (modern Hanoi). * [[Nam quốc sơn hà]] ( ) 1077, Mountains and rivers of the Sou"
+  },
+  {
+   "label": "Nhị độ mai tân truyện",
+   "han": "二度梅",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Nhị độ mai': theo tiểu thuyết Trung Quốc 忠孝節義二度梅"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Phủ biên tạp lục",
+   "han": "撫邊雜錄",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_pbtl"
+    }
+   ],
+   "ctx": "t thông sử]] ( ), history by [[Lê Quý Đôn]] 1749 * [[Vân đài loại ngữ]] ( ), encyclopedia by Lê Quý Đôn 1773 * [[Phủ biên tạp lục]] ( ), Frontier Chronicles by Lê Quý Đôn 1776 * [[Việt Nam vong quốc s"
+  },
+  {
+   "label": "Quốc âm thi tập",
+   "han": "國音詩集",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_hđqa,vi_qatt"
+    }
+   ],
+   "ctx": "{vi-nom|范子玉花}}), Tale of the orphan Phạm Tải and princess Ngọc Hoa * [[Phan Trần]] ( ), The clan of Phan and the clan of Trần * [[Quốc âm thi tập]] ( ), \"National pronunciation poetry collection\" attr"
+  },
+  {
+   "label": "Thiên Nam dư hạ tập",
+   "han": "天南餘暇集",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vietsudo.org quoting Đại Việt sử ký toàn thư, Nội các quan bản 1697, 本紀卷之十三: 纂脩天南餘暇集"
+    },
+    {
+     "kind": "named-source",
+     "where": "hvdic.thivien.net dictionary entry 天南餘暇集 (Từ điển Nguyễn Quốc Hùng)"
+    },
+    {
+     "kind": "named-source",
+     "where": "lichsuthegioi.net shelfmark A.334/1-10 VNCHN"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Thiên Nam ngữ lục",
+   "han": "天南語錄",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tnng"
+    }
+   ],
+   "ctx": "'''''Thiên Nam ngữ lục''''' ([[chữ Nho]]: 天南語錄) là một tác phẩm văn vần theo thể [[Lục bát (thể thơ)|lục bát]] soạn bằng [[chữ Nôm]], tổng cộng là 4.068 câu lục bát, tức 8.136 dòng. Đây là áng văn chư"
+  },
+  {
+   "label": "Thiền tông bản hạnh",
+   "han": "禪宗本行",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "chibs.edu.tw/ch_html/chbs/21/chbs2107.pdf: 《禪宗本行》(Thiền tông bản hạnh) woodblock, Lê Mạnh Thát & Hoàng Thị Ngọ edition"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Thượng kinh ký sự",
+   "han": "上京記事",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Thượng kinh ký sự': (上京記事, Ký sự lên kinh đô), Lê Hữu Trác, shelfmark VHv.2225, khắc in 1885"
+    },
+    {
+     "kind": "named-source",
+     "where": "vi.wikisource.org 'Thượng kinh ký sự' (上京记事)"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Toàn Việt thi lục",
+   "han": "全越詩錄",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_hannom"
+    }
+   ],
+   "ctx": " tháng 12 năm 2022, Viện Nghiên cứu Hán Nôm ra một thông cáo báo chí thông báo Viện đã thất lạc 25 quyển sách cổ bao gồm cả những tài liệu quý như [[Toàn Việt thi lục]] (全越詩錄), tuyển tập thơ của nhà b"
+  },
+  {
+   "label": "Truyền kỳ mạn lục",
+   "han": "傳奇漫錄",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_ndu,vi_tkml"
+    }
+   ],
+   "ctx": "Forces, [[Nguyễn Trãi]] 1428 * [[Đại Việt sử ký toàn thư]] ( ), Complete Annals of [[Đại Việt]], [[Ngô Sĩ Liên]] 1479. * [[Truyền kỳ mạn lục]] ( , Collection of Strange Tales, partly by [[Nguyễn Dữ]],"
+  },
+  {
+   "label": "Tản Viên từ phán sự lục",
+   "han": "傘圓祠判事錄",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "en.wikipedia 'The Tale of the Judge of Tản Viên Temple': chữ Hán: 傘圓祠判事錄"
+    },
+    {
+     "kind": "named-source",
+     "where": "shidianguji.com full text of 傳奇漫錄 卷之二 opens with 傘圓祠判事錄"
+    },
+    {
+     "kind": "named-source",
+     "where": "en.wikipedia 'Truyền kỳ mạn lục' volume-2 story list"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Việt điện u linh tập",
+   "han": "越甸幽靈集",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_vdul"
+    }
+   ],
+   "ctx": " 14th Century, edited [[Vũ Quỳnh]] (1452-1516) * [[Đại Việt sử lược]] ( ), Abbreviated History of Đại Việt, anon. 1377 * [[Việt điện u linh tập]] ( ), Spirits of the Departed in the Viet Realm, [[Lý T"
+  },
+  {
+   "label": "Vân đài loại ngữ",
+   "han": "芸臺類語",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit"
+    }
+   ],
+   "ctx": "fe\", the original Chinese version by [[Đặng Trần Côn]] d.1745 * [[Đại Việt thông sử]] ( ), history by [[Lê Quý Đôn]] 1749 * [[Vân đài loại ngữ]] ( ), encyclopedia by Lê Quý Đôn 1773 * [[Phủ biên tạp l"
+  },
+  {
+   "label": "Vũ trung tùy bút",
+   "han": "雨中隨筆",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "hannom.nlv.gov.vn: 雨中隨筆 - Vũ trung tuỳ bút 1906, nlvnpf-0300 / R.1609, 范廷琥, 125pp, 29x17cm, handwritten"
+    },
+    {
+     "kind": "named-source",
+     "where": "lib.nomfoundation.org/collection/1/volume/447 same record NLVNPF-0300"
+    },
+    {
+     "kind": "named-source",
+     "where": "vi.wikipedia 'Vũ trung tùy bút': (chữ Hán: 雨中隨筆)"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Vịnh Hoa Yên tự phú",
+   "han": "詠花煙寺賦",
+   "cat": "work",
+   "status": "CONFIRMED-INDEPENDENT",
+   "evidence": [
+    {
+     "kind": "named-source",
+     "where": "Tự điển chữ Nôm trích dẫn (nguyendu.com.free.fr) entry 3: 詠花煙寺賦, Huyền Quang 玄光 (1254-1334), trong Thiền tông bản hạnh 1745"
+    },
+    {
+     "kind": "named-source",
+     "where": "hanviet.org.free.fr TDCNTD bảng liệt kê entry 20: 詠花煙寺賦"
+    },
+    {
+     "kind": "named-source",
+     "where": "chibs.edu.tw paper: 《詠花烟寺賦》 full name 《安子山竹林第三祖玄光尊者詠花烟寺賦》, 八言賦 98 câu"
+    }
+   ],
+   "ctx": ""
+  },
+  {
+   "label": "Đoạn trường tân thanh",
+   "han": "斷腸新聲",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_tk,vi_đtts"
+    }
+   ],
+   "ctx": "mall=yes}} {{Thông tin tác phẩm văn học | tên = Truyện Kiều | hình = Đoạn trường tân thanh.png | chú thích hình = Bản ''Đoạn trường tân thanh'' ( ) in năm 1902 và ''Kim Vân Kiều tân tập'' ( ) khắc in "
+  },
+  {
+   "label": "Đại Việt sử ký",
+   "han": "大越史記",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_dvsktt,vi_khoa_bang"
+    }
+   ],
+   "ctx": "]] (modern Hanoi). * [[Nam quốc sơn hà]] ( ) 1077, Mountains and rivers of the Southern country, poem by [[Lý Thường Kiệt]] * [[Đại Việt sử ký]] ( ), Annals of Đại Việt by [[Lê Văn Hưu]], 1272 * [[Dụ "
+  },
+  {
+   "label": "Đại Việt sử ký toàn thư",
+   "han": "大越史記全書",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_dvsktt,vi_khoa_bang"
+    }
+   ],
+   "ctx": "] 1400 * [[Bình Ngô đại cáo]] ( ), Great Proclamation upon the Pacification of the Wu Forces, [[Nguyễn Trãi]] 1428 * [[Đại Việt sử ký toàn thư]] ( ), Complete Annals of [[Đại Việt]], [[Ngô Sĩ Liên]] 1"
+  },
+  {
+   "label": "Đại Việt sử lược",
+   "han": "大越史略",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit,vi_dvsl"
+    }
+   ],
+   "ctx": "* [[Lĩnh Nam chích quái]] ( ), \"The wonderful tales of [[Lingnan|Lĩnh Nam]]\" 14th Century, edited [[Vũ Quỳnh]] (1452-1516) * [[Đại Việt sử lược]] ( ), Abbreviated History of Đại Việt, anon. 1377 * [[V"
+  },
+  {
+   "label": "Đại Việt thông sử",
+   "han": "大越通史",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "en_vietlit"
+    }
+   ],
+   "ctx": " anon. * [[Chinh phụ ngâm]] ( ), \"Lament of the soldier's wife\", the original Chinese version by [[Đặng Trần Côn]] d.1745 * [[Đại Việt thông sử]] ( ), history by [[Lê Quý Đôn]] 1749 * [[Vân đài loại n"
+  },
+  {
+   "label": "Đắc thú lâm tuyền thành đạo ca",
+   "han": "得趣林泉成道歌",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_chunom"
+    }
+   ],
+   "ctx": "ref> [[Nhà Trần]] cũng để lại một số tác phẩm chữ Nôm như mấy bài [[phú]] của vua [[Trần Nhân Tông]]: \"Cư trần lạc đạo phú\" (居塵樂道賦) và \"Đắc thú lâm tuyền thành đạo ca\" (得趣林泉成道歌).<ref name=\"Từ hai bài "
+  },
+  {
+   "label": "Ức Trai di tập",
+   "han": "抑齋遺集",
+   "cat": "work",
+   "status": "CONFIRMED+GLOSS",
+   "evidence": [
+    {
+     "kind": "wiki-corpus",
+     "where": "vi_nt"
+    }
+   ],
+   "ctx": "Lăng - lăng của vua [[Lê Thái Tổ]], kể lại thân thế và sự nghiệp của Lê Thái Tổ. === Địa lý === * ''[[Dư địa chí]]'', còn gọi là ''Ức Trai di tập Nam Việt dư địa chí'' (抑齋遺集南越輿地誌), ''Đại Việt địa dư c"
+  }
+ ],
+ "discovery_heuristic_rejections": [
+  {
+   "label": "Hoàng Việt văn tuyển",
+   "wrong_output": "皇越文選",
+   "why": "discovery returned 平吳大誥 (the work mentioned INSIDE the sentence)"
+  },
+  {
+   "label": "Kiến văn tiểu lục",
+   "wrong_output": "見聞小錄",
+   "why": "discovery returned 撫邊雜錄 (sibling title in the same caption)"
+  },
+  {
+   "label": "Vịnh Hoa Yên tự phú",
+   "wrong_output": "詠花煙寺賦",
+   "why": "discovery returned 大聖陳朝竹林頭陀靜慧覺皇調御祖佛 (author posthumous title on the same page)"
+  },
+  {
+   "label": "Vũ trung tùy bút",
+   "wrong_output": "雨中隨筆",
+   "why": "discovery returned 范廷琥 (the author's name, not the title)"
+  },
+  {
+   "label": "Hoa tiên ký",
+   "wrong_output": "花箋記",
+   "why": "discovery returned 石生新傳 (unrelated neighbouring entry)"
+  }
+ ],
+ "notes": [
+  "Vietnamese sources write both 'Trúc Lâm Tam Tổ' and 'Tam tổ Trúc Lâm'; the Han form 竹林三祖 is confirmed in zh.wikipedia and in a CHIBS paper title (釋清慈《竹林三祖講解》). Query both word orders.",
+  "花煙寺 vs Hoa Yên tự: the Han sources write 煙 (yên, 'smoke/mist') while the Vietnamese reading is 'Yên'. The full title in the CHIBS paper is 安子山竹林第三祖玄光尊者詠花烟寺賦, with the simplified 烟. Query 花煙寺賦, 詠花煙寺賦 and 花烟寺賦.",
+  "上京記事 not 上京紀事: vi.wikipedia and vi.wikisource both give 記事 for Thượng kinh ký sự. A recalled 紀事 is a plausible-looking error; the verified form ships in this table."
+ ],
+ "sources": [
+  {
+   "name": "Kho tàng thư tịch cổ Hán Nôm (Thư viện Quốc gia Việt Nam)",
+   "url": "http://hannom.nlv.gov.vn/",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Catalogue of digitised Han-Nom holdings with shelfmark (Mã kho R.xxx), digitisation code (nlvnpf-xxxx), page count, dimensions, print type, and a Vietnamese abstract that often quotes the original Han title. The single most useful layer-1 entry point. NOTE: the deep path /hannom/ returns 404 to curl while the host root returns 200 — cite record URLs, not the app root."
+  },
+  {
+   "name": "Nom Foundation digital library",
+   "url": "https://lib.nomfoundation.org/",
+   "layer": 1,
+   "reach": "browser-only",
+   "note": "Mirrors the national-library records in a clean bilingual (Viet/English) layout with NLVNPF-xxxx identifiers. curl returns 000 from this network but the host resolves and the records are indexed by search engines, so it is bot-blocking, NOT dead. Use a browser session or reach the same record via hannom.nlv.gov.vn."
+  },
+  {
+   "name": "Nom Foundation (main site, dictionaries and tools)",
+   "url": "https://nomfoundation.org/",
+   "layer": 3,
+   "reach": "curl-ok",
+   "note": "Hosts the Tu dien chu Nom dan giai sources pages, which give per-work Han titles, script (Han vs Nom), verse form, shelfmark and holding institution. Verified in this session as the source of the 天南明鑑 record (HNv.006)."
+  },
+  {
+   "name": "Vietnamese National Library",
+   "url": "http://www.nlv.gov.vn/",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Institutional home of the R-series shelfmarks quoted in every catalogue record."
+  },
+  {
+   "name": "Tạp chí Hán Nôm articles via Viện Nghiên cứu Hán Nôm citations",
+   "url": "https://khoavanhoc-ngonngu.edu.vn/",
+   "layer": 2,
+   "reach": "curl-ok",
+   "note": "University faculty site (literature and linguistics) hosting full-text scholarly articles in Vietnamese, including detailed textual-criticism studies with shelfmarks and edition collations. Verified reachable; used in this session for the Chỉ nam ngọc âm giải nghĩa dating debate."
+  },
+  {
+   "name": "Trung tâm Nghiên cứu Quốc học / journal articles (secondary)",
+   "url": "https://lib.hpu.edu.vn/",
+   "layer": 2,
+   "reach": "curl-ok",
+   "note": "University repository holding records and abstracts for classical works; useful for confirming an edition or a translator when the primary catalogue is silent."
+  },
+  {
+   "name": "中華佛學研究所 CHIBS bulletin (Chinese-language Buddhist scholarship)",
+   "url": "https://www.chibs.edu.tw/ch_html/chbs/21/chbs2107.pdf",
+   "layer": 2,
+   "reach": "curl-ok",
+   "note": "Full-text peer-reviewed PDF. Verified in this session as the source confirming 禪宗本行 and the full title of 詠花煙寺賦 with its 八言賦 98-line form. Chinese-language Buddhist-studies venues are a strong layer-2 source for the Thiền Trúc Lâm corpus."
+  },
+  {
+   "name": "Vietnam Studies / Journal of Vietnamese Studies (JSTOR)",
+   "url": "https://www.jstor.org/journal/jvietstud",
+   "layer": 2,
+   "reach": "curl-ok",
+   "note": "Landing page resolves; article PDFs are paywalled. Use for English-language scholarship discovery, then obtain through a library."
+  },
+  {
+   "name": "Journal of Vietnamese Studies (publisher site)",
+   "url": "https://online.ucpress.edu/jvs",
+   "layer": 2,
+   "reach": "browser-only",
+   "note": "curl 403. Publisher platform blocks non-browser clients; works in a browser."
+  },
+  {
+   "name": "Từ điển Hán Nôm (hvdic.thivien.net)",
+   "url": "https://hvdic.thivien.net/",
+   "layer": 3,
+   "reach": "curl-ok",
+   "note": "Han-Nom dictionary with per-entry Han form and, for book titles, a short definition citing Từ điển Nguyễn Quốc Hùng. Fast way to confirm a Han title. Verified this session for 天南餘暇集."
+  },
+  {
+   "name": "Thi Viện (thivien.net)",
+   "url": "https://www.thivien.net/",
+   "layer": 3,
+   "reach": "curl-ok",
+   "note": "Large poet-and-poem database with Han author names (e.g. 阮秉謙) and long scholarly introductions quoting Vũ Khâm Lân, Phan Huy Chú, Lê Quý Đôn, Trần Văn Giáp on text history. Valuable for the transmission history of a poet's collected works; it is a secondary compilation, so cite the underlying scholar it quotes, not the site."
+  },
+  {
+   "name": "Tự điển chữ Nôm trích dẫn (bibliography of Nom texts)",
+   "url": "http://nguyendu.com.free.fr/nom/ThuMuc_Bia_1.htm",
+   "layer": 3,
+   "reach": "browser-only",
+   "note": "Static bibliography listing 51 Nom works with Han title, author, source edition and date. Verified this session as the source for 詠花煙寺賦 / Huyền Quang. Personal-hosted mirror of a printed reference work: check against a library edition before citing in formal work."
+  },
+  {
+   "name": "中國哲學書電子化計劃 (ctext.org)",
+   "url": "https://ctext.org/",
+   "layer": 3,
+   "reach": "browser-only",
+   "note": "The standard full-text corpus of received Chinese classics. curl returns 000 from this network but the host resolves and the site is heavily mirrored; treat as bot-blocking. Needed for the Chinese side of any comparative genre or thought question (志怪, 傳奇, 理學, 四書五經)."
+  },
+  {
+   "name": "Kanripo 漢籍リポジトリ",
+   "url": "https://kanripo.org/",
+   "layer": 3,
+   "reach": "browser-only",
+   "note": "curl 403. Open repository of Chinese-language texts, useful for edition images."
+  },
+  {
+   "name": "Gallica (BnF)",
+   "url": "https://gallica.bnf.fr/",
+   "layer": 3,
+   "reach": "browser-only",
+   "note": "curl 403. Holds EFEO-era Vietnamese manuscripts and early printed quốc ngữ editions; relevant for transmission history of Nom works."
+  },
+  {
+   "name": "Wikisource tiếng Việt",
+   "url": "https://vi.wikisource.org/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Vietnamese-language public-domain texts, including full translations of works such as Thượng kinh ký sự and Vũ trung tùy bút with translator named. Good for reading a text fast and for confirming a Han title form; not a citable edition."
+  },
+  {
+   "name": "維基文庫 (zh.wikisource.org)",
+   "url": "https://zh.wikisource.org/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Classical Chinese texts, including Vietnamese-authored Han works such as 平吳大誥. Use to read the Han original; confirm against a manuscript or printed edition before quoting."
+  },
+  {
+   "name": "識典古籍 (shidianguji.com)",
+   "url": "https://www.shidianguji.com/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Full-text classical Chinese corpus. Verified this session as holding the complete text of 傳奇漫錄 卷之二 opening with 傘圓祠判事錄, which is how the Han title of that story was confirmed at character level. Strong for reading a work end to end; still layer 4 for citation purposes."
+  },
+  {
+   "name": "漢喃数字圖書館 (chunom.net)",
+   "url": "https://www.chunom.net/",
+   "layer": 4,
+   "reach": "browser-only",
+   "note": "curl 000 but resolvable and indexed; mirrors national-library catalogue records with the same identifiers. Handy cross-check when hannom.nlv.gov.vn is slow."
+  },
+  {
+   "name": "Việt Sử Đồ (vietsudo.org)",
+   "url": "https://vietsudo.org/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Knowledge graph of Vietnamese history that quotes primary sources with the Han original inline. Verified this session as the source of the 大越史記全 thư 1697 Inner Cabinet edition quotation naming 天南餘暇集. Excellent for locating a Han phrase inside a named primary source."
+  },
+  {
+   "name": "Wikipedia (vi / zh / en)",
+   "url": "https://vi.wikipedia.org/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Used in this session as a Han-character verification corpus via the MediaWiki API (142 pages fetched). Appropriate for confirming a character or a title form and for finding which named scholar or catalogue to cite. NOT a citable authority for a scholarly claim."
+  },
+  {
+   "name": "Viện Nghiên cứu Hán Nôm (institute site)",
+   "url": "https://www.hannom.org.vn/",
+   "layer": 2,
+   "reach": "dns-dead",
+   "note": "curl 000 (0.3s, connection refused/failed) while DNS resolves; http://hannom.org.vn returns 301. Measured unusable from this network in this session. The institute's catalogue content survives via hannom.nlv.gov.vn and lib.nomfoundation.org, so cite those instead. Re-probe before relying on it."
+  },
+  {
+   "name": "Viện Văn học / ncvanhoc.org.vn",
+   "url": "https://ncvanhoc.org.vn/",
+   "layer": 2,
+   "reach": "dns-dead",
+   "note": "DNS FAIL measured this session. Do not put this URL in a deliverable."
+  },
+  {
+   "name": "vietnamvanhien.org",
+   "url": "https://www.vietnamvanhien.org/",
+   "layer": 4,
+   "reach": "dns-dead",
+   "note": "DNS FAIL measured this session. Frequently cited in older reference lists; treat any citation to it as needing a replacement source."
+  },
+  {
+   "name": "data.nlv.gov.vn",
+   "url": "https://data.nlv.gov.vn/",
+   "layer": 1,
+   "reach": "dns-dead",
+   "note": "DNS FAIL measured this session. Open-data endpoint does not resolve; use hannom.nlv.gov.vn for catalogue data."
+  },
+  {
+   "name": "tapchinghiencuuvanhoc.vn",
+   "url": "https://tapchinghiencuuvanhoc.vn/",
+   "layer": 2,
+   "reach": "dns-dead",
+   "note": "DNS FAIL measured this session. Search for the journal's articles through a university repository or a database instead of linking the domain."
+  },
+  {
+   "name": "Yale Southeast Asia Collection research guide",
+   "url": "https://guides.library.yale.edu/SoutheastAsiaCollection",
+   "layer": 3,
+   "reach": "browser-only",
+   "note": "curl 000, DNS resolves. Library research guide listing Han-Nom studies resources; useful orientation, open in a browser."
+  },
+  {
+   "name": "hannom-rcv.org (Nom-language wiki)",
+   "url": "http://hannom-rcv.org/wi/",
+   "layer": 4,
+   "reach": "browser-only",
+   "note": "curl 403. Content written IN chữ Nôm with quốc ngữ gloss; of interest for Nom orthography, not a scholarship source."
+  },
+  {
+   "name": "academia.edu",
+   "url": "https://www.academia.edu/",
+   "layer": 2,
+   "reach": "browser-only",
+   "note": "curl 403. Hosts many relevant dissertations; needs a browser and often a login. Never cite an aggregator page — cite the dissertation itself."
+  }
+ ]
+}
