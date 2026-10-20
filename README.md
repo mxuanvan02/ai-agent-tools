@@ -20,6 +20,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`ui-ux-pro-max`](tools/ui-ux-pro-max/) | UI/UX design intelligence with cognitive psychology, calm 60-30-10 color strategy, extreme minimalism, and multi-stack best practices | `tools/ui-ux-pro-max/SKILL.md` |
 | [`web-toolkit`](tools/web-toolkit/) | Three dependency-free browser-automation modules: proxy pool with leases/cooldown/health probes, human-like timing for test stability, and a declarative page-state machine for multi-step forms | `tools/web-toolkit/SKILL.md` |
 | [`jev-form-driver`](tools/jev-form-driver/) | Form automation with a measured code/model split: code orchestrates (checklist, values, arithmetic, termination, verification), a System-One decision model selects each field in one parallel request; library + CLI + MCP tool, 4/5 graded fixtures passed at ~$0.00003/run | `tools/jev-form-driver/SKILL.md` |
+| [`vietnamese-classical-literature-research`](tools/vietnamese-classical-literature-research/) | **Field: văn học.** Vietnamese classical literature (10th–19th c.) and its Hán-Nôm / Confucian-Buddhist-Taoist context: 155 verified Vietnamese↔漢 keyword bridges, 29 sources classified by measured reachability, five bounded research rounds with an evidence ledger, and four feasibility tests for proposing a direction. Encodes seven measured failures (recalled Han characters, frequency-heuristic guessing, dead domains cited as live, witness dates read as composition dates) | `tools/vietnamese-classical-literature-research/SKILL.md` |
 
 ## Validation
 
@@ -49,6 +50,12 @@ python3 tools/ui-ux-pro-max/scripts/public_hygiene_check.py
 python3 tools/google-sheets-formatting/scripts/public_hygiene_check.py
 python3 -m py_compile tools/google-sheets-formatting/scripts/*.py
 python3 -m py_compile tools/jev-routing-relay-ops/scripts/*.py
+# literature research skill: generated references must match the evidence table,
+# 25 integrity tests, hygiene gate, and a compile check
+python3 tools/vietnamese-classical-literature-research/scripts/build_glossary.py --check
+python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
+python3 tools/vietnamese-classical-literature-research/scripts/public_hygiene_check.py
+python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
 # offline gate: reads the live routing config, makes no network call, needs no key
 python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>
 ```

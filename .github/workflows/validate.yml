@@ -95,3 +95,20 @@ jobs:
         run: |
           python3 tools/jev-form-driver/scripts/public_hygiene_check.py
           python3 -m py_compile tools/jev-form-driver/src/*.py tools/jev-form-driver/tests/*.py tools/jev-form-driver/scripts/*.py
+
+      - name: Validate vietnamese-classical-literature-research
+        # Workflow-injection review (this step triggered the repo's Actions
+        # security check): every command below is a static literal path. There is
+        # no ${{ }} expression anywhere in this step, and none of the risky
+        # contexts (event issue/PR/comment bodies, head_ref, commit message or
+        # author, client_payload) is read. Nothing attacker-controlled can reach
+        # a shell, so the check is a false positive on file type, documented here
+        # as the guidance requires.
+        run: |
+          # Generated references must still match the evidence table they are
+          # built from; a hand edit that breaks this link is the drift the test
+          # exists to catch.
+          python3 tools/vietnamese-classical-literature-research/scripts/build_glossary.py --check
+          python3 tools/vietnamese-classical-literature-research/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
+          python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
