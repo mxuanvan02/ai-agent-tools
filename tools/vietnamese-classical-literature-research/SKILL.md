@@ -202,6 +202,7 @@ domain content and the evidence, not the sentence style.
 | `references/research-direction-design.md` | Turning a topic into a defensible direction; scoring feasibility |
 | `references/textual-criticism-caveats.md` | Authorship, dating, edition and attribution are in play |
 | `references/epigraphy-fieldwork-substitute.md` | The project needs site-bound material (bia, văn khắc, lăng tẩm, sắc phong, gia phả) and fieldwork is impossible — stele-rubbing corpora, old administrative geography, and what digitised data cannot replace |
+| `references/research-api-catalogue.md` | Structured research connectors: DSpace REST, OAI-PMH, IIIF, OpenAlex, Internet Archive, Open Library, Wikisource, Kanripo — verified endpoints, scope and limits |
 | `references/period-and-canon-map.md` | Orienting a topic in time; finding the canonical works of a period |
 
 ## Scripts
@@ -211,6 +212,7 @@ domain content and the evidence, not the sentence style.
 | `scripts/verify_han_terms.py` | Check candidate 漢字 for a term list against fetched pages; reports CONFIRMED / NOT-FOUND with context, and discovers the correct characters near the Vietnamese gloss |
 | `scripts/probe_sources.py` | Print the recorded source registry with reachability class; `--live` re-probes with curl (DNS + HTTP code) |
 | `scripts/harvest_epigraphy.py` | Harvest the three digitised epigraphy corpora (Vietnamica stele rubbings, NLV Hán-Nôm catalogue, chonthieng index) to JSONL/CSV; `--probe` checks reachability only |
+| `scripts/research_api.py` | Query verified structured connectors: DSpace 7, OAI-PMH, IIIF Presentation 3, Open Library, Internet Archive metadata/search, Wikisource API and Kanripo raw text |
 | `scripts/public_hygiene_check.py` | Repository publication gate (byte-identical across tools) |
 
 Both research scripts are dependency-free (stdlib + `curl`). Neither writes outside the
