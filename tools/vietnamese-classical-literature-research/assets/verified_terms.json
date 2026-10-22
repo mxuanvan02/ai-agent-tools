@@ -2120,11 +2120,7 @@
    "why": "discovery returned 石生新傳 (unrelated neighbouring entry)"
   }
  ],
- "notes": [
-  "Vietnamese sources write both 'Trúc Lâm Tam Tổ' and 'Tam tổ Trúc Lâm'; the Han form 竹林三祖 is confirmed in zh.wikipedia and in a CHIBS paper title (釋清慈《竹林三祖講解》). Query both word orders.",
-  "花煙寺 vs Hoa Yên tự: the Han sources write 煙 (yên, 'smoke/mist') while the Vietnamese reading is 'Yên'. The full title in the CHIBS paper is 安子山竹林第三祖玄光尊者詠花烟寺賦, with the simplified 烟. Query 花煙寺賦, 詠花煙寺賦 and 花烟寺賦.",
-  "上京記事 not 上京紀事: vi.wikipedia and vi.wikisource both give 記事 for Thượng kinh ký sự. A recalled 紀事 is a plausible-looking error; the verified form ships in this table."
- ],
+ "notes": "[\"Vietnamese sources write both 'Trúc Lâm Tam Tổ' and 'Tam tổ Trúc Lâm'; the Han form 竹林三祖 is confirmed in zh.wikipedia and in a CHIBS paper title (釋清慈《竹林三祖講解》). Query both word orders.\", \"花煙寺 vs Hoa Yên tự: the Han sources write 煙 (yên, 'smoke/mist') while the Vietnamese reading is 'Yên'. The full title in the CHIBS paper is 安子山竹林第三祖玄光尊者詠花烟寺賦, with the simplified 烟. Query 花煙寺賦, 詠花煙寺賦 and 花烟寺賦.\", '上京記事 not 上京紀事: vi.wikipedia and vi.wikisource both give 記事 for Thượng kinh ký sự. A recalled 紀事 is a plausible-looking error; the verified form ships in this table.'] | deep_web_epigraphy: Nguồn thay thế cho khảo sát thực địa: Vietnamica (20.980 thác bản văn bia) + bản đồ định vị CSDL + NLV catalogue 1.778 tựa Hán-Nôm + mục lục chonthieng 12.025 bản ghi. Tất cả đo thực tế, không suy từ trí nhớ.",
  "sources": [
   {
    "name": "Kho tàng thư tịch cổ Hán Nôm (Thư viện Quốc gia Việt Nam)",
@@ -2328,6 +2324,48 @@
    "layer": 2,
    "reach": "browser-only",
    "note": "curl 403. Hosts many relevant dissertations; needs a browser and often a login. Never cite an aggregator page — cite the dissertation itself."
+  },
+  {
+   "name": "Cơ sở dữ liệu Thác bản Văn bia Hán Nôm (Viện Nghiên cứu Hán Nôm × EFEO)",
+   "url": "https://gallery.vietnamica.online/",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Lớp 1 lớn nhất trong lĩnh vực này và là câu trả lời trực tiếp cho nhu cầu 'thay cho đi khảo sát thực địa'. Toàn bộ sưu tập thác bản văn bia do Viện Viễn Đông Bác Cổ Pháp rập tại Việt Nam 1910-1944: 20.980 thác bản, có hệ thống tra cứu trực tuyến. Mỗi bản ghi có tiêu đề Hán tự, tiêu đề Quốc ngữ, niên đại, tỉnh/huyện/tổng/xã hiện tại và theo thời kỳ khắc, số mặt/cột/ký tự, kích thước, nội dung tóm tắt, tên người soạn và thợ khắc, ảnh JPEG thác bản tải trực tiếp. API công khai tại api/search.php. QUAN TRỌNG: token gắn với PHP session — phải tải trang chủ để lấy CÙNG LÚC meta name='api-token' và cookie PHPSESSID, rồi gọi API với header X-API-Token. Gọi API bằng curl không lấy cookie trước sẽ nhận 'Access denied'. Đo thực tế: 10.759 bản ghi có dữ liệu (21.8 MB JSONL), API phân trang 108 trang ở 100 bản/trang (216 trang ở 50 bản/trang), harvest đủ 108/108 trang không lỗi; ảnh 3840x5778 tải thật 2.9 MB."
+  },
+  {
+   "name": "Bản đồ định vị thác bản văn bia (Vietnamica, EPHE-AUF)",
+   "url": "https://carto.vietnamica.online/",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Bản đồ CSDL địa giới hành chính Đồng bằng sông Hồng theo 4 cấp (Tỉnh/Huyện/Tổng/Xã) theo đúng địa giới thời kỳ rập bản 1910-1944, điểm đỏ vị trí từng bia, mã số thác bản và ảnh tải được. Cho phép định vị một văn bia theo địa danh cổ mà không cần đi thực địa — đây là thay thế trực tiếp cho việc đi khảo sát tìm bia. Dữ liệu trong bản đồ cũng lấy từ cùng hệ thống api/ của gallery.vietnamica.online."
+  },
+  {
+   "name": "Danh mục văn bia Hán Nôm chonthieng.com",
+   "url": "https://chonthieng.com/van-bia/",
+   "layer": 4,
+   "reach": "curl-ok",
+   "note": "Mục lục văn bia tổng hợp: 602 trang JetEngine listing, 20 bản ghi/trang, mã VB000200-VB12287. Đo thực tế: harvest toàn bộ index ra 12.025 bản ghi có mã + tiêu đề + URL trang chi tiết. Mỗi trang chi tiết có niên đại, vị trí, kích thước, số ký tự và liên kết thác bản. Dùng như lớp 4: tra cứu chéo và định vị, KHÔNG cite làm nguồn học thuật. Lưu ý kỹ thuật: href mẫu /van-bia/<slug>/, mã VB nằm trong thẻ jet-listing-dynamic-field chứ không nằm trong href."
+  },
+  {
+   "name": "Hán Nôm digital library — bộ sưu tập Văn bia (Nom Foundation)",
+   "url": "https://lib.nomfoundation.org/collection/2/subject/9",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Trang danh mục chủ đề 'Văn Bia / Inscriptions on Stone' của Nom Foundation, mã định danh tnvnpf-vb-001… kèm tiêu đề Hán tự và Quốc ngữ. Gốc thư viện điện tử được xác nhận truy cập được qua HTTP 200 (khác với ghi nhận browser-only trước đây — hãy probe lại: reachability là thuộc tính của mạng và thời điểm, không phải thuộc tính cố định của domain)."
+  },
+  {
+   "name": "Thư viện số Hán-Nôm (Digitizing Việt Nam / Columbia)",
+   "url": "https://www.digitizingvietnam.com/en/our-collections/han-nom-collection",
+   "layer": 1,
+   "reach": "curl-ok",
+   "note": "Trang giới thiệu bộ sưu tập Hán-Nôm số hóa: văn bản Hán-Nôm, bia chữ Siddham, khắc chữ cửa, bảng hiệu chùa Thắng Nghiêm, cùng phần NLV và Nom Foundation số hóa. Có phần học thuật về Hán-Nôm paleography, văn bản học và thư mục Hán-Nôm — dùng để định hướng nghiên cứu, không phải nguồn trích dẫn."
+  },
+  {
+   "name": "Thư mục thác bản văn khắc Hán Nôm Việt Nam (EFEO, 2007)",
+   "url": "http://ci.nii.ac.jp/ncid/BA8546792X",
+   "layer": 3,
+   "reach": "curl-ok",
+   "note": "Thư mục thác bản văn khắc Hán Nôm Việt Nam do Viện Viễn Đông Bác Cổ Pháp (EFEO) biên soạn, NXB Văn hóa Thông tin, 2007 — bản in là mốc tham chiếu cho bản đồ thác bản. Bản ghi trên CiNii xác nhận tên, nhà xuất bản và năm xuất bản."
   }
  ]
 }

@@ -47,6 +47,30 @@ opposite directions.
 - Reachability: **DNS DEAD — do not cite** (`dns-dead`)
 - DNS FAIL measured this session. Open-data endpoint does not resolve; use hannom.nlv.gov.vn for catalogue data.
 
+### Cơ sở dữ liệu Thác bản Văn bia Hán Nôm (Viện Nghiên cứu Hán Nôm × EFEO)
+
+- URL: https://gallery.vietnamica.online/
+- Reachability: **curl OK** (`curl-ok`)
+- Lớp 1 lớn nhất trong lĩnh vực này và là câu trả lời trực tiếp cho nhu cầu 'thay cho đi khảo sát thực địa'. Toàn bộ sưu tập thác bản văn bia do Viện Viễn Đông Bác Cổ Pháp rập tại Việt Nam 1910-1944: 20.980 thác bản, có hệ thống tra cứu trực tuyến. Mỗi bản ghi có tiêu đề Hán tự, tiêu đề Quốc ngữ, niên đại, tỉnh/huyện/tổng/xã hiện tại và theo thời kỳ khắc, số mặt/cột/ký tự, kích thước, nội dung tóm tắt, tên người soạn và thợ khắc, ảnh JPEG thác bản tải trực tiếp. API công khai tại api/search.php. QUAN TRỌNG: token gắn với PHP session — phải tải trang chủ để lấy CÙNG LÚC meta name='api-token' và cookie PHPSESSID, rồi gọi API với header X-API-Token. Gọi API bằng curl không lấy cookie trước sẽ nhận 'Access denied'. Đo thực tế: 10.759 bản ghi có dữ liệu (21.8 MB JSONL), API phân trang 108 trang ở 100 bản/trang (216 trang ở 50 bản/trang), harvest đủ 108/108 trang không lỗi; ảnh 3840x5778 tải thật 2.9 MB.
+
+### Bản đồ định vị thác bản văn bia (Vietnamica, EPHE-AUF)
+
+- URL: https://carto.vietnamica.online/
+- Reachability: **curl OK** (`curl-ok`)
+- Bản đồ CSDL địa giới hành chính Đồng bằng sông Hồng theo 4 cấp (Tỉnh/Huyện/Tổng/Xã) theo đúng địa giới thời kỳ rập bản 1910-1944, điểm đỏ vị trí từng bia, mã số thác bản và ảnh tải được. Cho phép định vị một văn bia theo địa danh cổ mà không cần đi thực địa — đây là thay thế trực tiếp cho việc đi khảo sát tìm bia. Dữ liệu trong bản đồ cũng lấy từ cùng hệ thống api/ của gallery.vietnamica.online.
+
+### Hán Nôm digital library — bộ sưu tập Văn bia (Nom Foundation)
+
+- URL: https://lib.nomfoundation.org/collection/2/subject/9
+- Reachability: **curl OK** (`curl-ok`)
+- Trang danh mục chủ đề 'Văn Bia / Inscriptions on Stone' của Nom Foundation, mã định danh tnvnpf-vb-001… kèm tiêu đề Hán tự và Quốc ngữ. Gốc thư viện điện tử được xác nhận truy cập được qua HTTP 200 (khác với ghi nhận browser-only trước đây — hãy probe lại: reachability là thuộc tính của mạng và thời điểm, không phải thuộc tính cố định của domain).
+
+### Thư viện số Hán-Nôm (Digitizing Việt Nam / Columbia)
+
+- URL: https://www.digitizingvietnam.com/en/our-collections/han-nom-collection
+- Reachability: **curl OK** (`curl-ok`)
+- Trang giới thiệu bộ sưu tập Hán-Nôm số hóa: văn bản Hán-Nôm, bia chữ Siddham, khắc chữ cửa, bảng hiệu chùa Thắng Nghiêm, cùng phần NLV và Nom Foundation số hóa. Có phần học thuật về Hán-Nôm paleography, văn bản học và thư mục Hán-Nôm — dùng để định hướng nghiên cứu, không phải nguồn trích dẫn.
+
 ## Layer 2 — Peer-reviewed scholarship
 
 ### Tạp chí Hán Nôm articles via Viện Nghiên cứu Hán Nôm citations
@@ -153,6 +177,12 @@ opposite directions.
 - Reachability: **browser only (blocks non-browser clients)** (`browser-only`)
 - curl 000, DNS resolves. Library research guide listing Han-Nom studies resources; useful orientation, open in a browser.
 
+### Thư mục thác bản văn khắc Hán Nôm Việt Nam (EFEO, 2007)
+
+- URL: http://ci.nii.ac.jp/ncid/BA8546792X
+- Reachability: **curl OK** (`curl-ok`)
+- Thư mục thác bản văn khắc Hán Nôm Việt Nam do Viện Viễn Đông Bác Cổ Pháp (EFEO) biên soạn, NXB Văn hóa Thông tin, 2007 — bản in là mốc tham chiếu cho bản đồ thác bản. Bản ghi trên CiNii xác nhận tên, nhà xuất bản và năm xuất bản.
+
 ## Layer 4 — Open corpora (verify spelling, do not cite as scholarship)
 
 ### Wikisource tiếng Việt
@@ -202,6 +232,12 @@ opposite directions.
 - URL: http://hannom-rcv.org/wi/
 - Reachability: **browser only (blocks non-browser clients)** (`browser-only`)
 - curl 403. Content written IN chữ Nôm with quốc ngữ gloss; of interest for Nom orthography, not a scholarship source.
+
+### Danh mục văn bia Hán Nôm chonthieng.com
+
+- URL: https://chonthieng.com/van-bia/
+- Reachability: **curl OK** (`curl-ok`)
+- Mục lục văn bia tổng hợp: 602 trang JetEngine listing, 20 bản ghi/trang, mã VB000200-VB12287. Đo thực tế: harvest toàn bộ index ra 12.025 bản ghi có mã + tiêu đề + URL trang chi tiết. Mỗi trang chi tiết có niên đại, vị trí, kích thước, số ký tự và liên kết thác bản. Dùng như lớp 4: tra cứu chéo và định vị, KHÔNG cite làm nguồn học thuật. Lưu ý kỹ thuật: href mẫu /van-bia/<slug>/, mã VB nằm trong thẻ jet-listing-dynamic-field chứ không nằm trong href.
 
 ## Search order that follows from the layering
 

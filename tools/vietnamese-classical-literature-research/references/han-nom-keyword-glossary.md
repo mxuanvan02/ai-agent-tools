@@ -248,9 +248,804 @@ the recalled character is plausible, and a search using it silently returns noth
 
 ## Notes from the verification session
 
-- Vietnamese sources write both 'Trúc Lâm Tam Tổ' and 'Tam tổ Trúc Lâm'; the Han form 竹林三祖 is confirmed in zh.wikipedia and in a CHIBS paper title (釋清慈《竹林三祖講解》). Query both word orders.
-- 花煙寺 vs Hoa Yên tự: the Han sources write 煙 (yên, 'smoke/mist') while the Vietnamese reading is 'Yên'. The full title in the CHIBS paper is 安子山竹林第三祖玄光尊者詠花烟寺賦, with the simplified 烟. Query 花煙寺賦, 詠花煙寺賦 and 花烟寺賦.
-- 上京記事 not 上京紀事: vi.wikipedia and vi.wikisource both give 記事 for Thượng kinh ký sự. A recalled 紀事 is a plausible-looking error; the verified form ships in this table.
+- [
+- "
+- V
+- i
+- e
+- t
+- n
+- a
+- m
+- e
+- s
+- e
+-  
+- s
+- o
+- u
+- r
+- c
+- e
+- s
+-  
+- w
+- r
+- i
+- t
+- e
+-  
+- b
+- o
+- t
+- h
+-  
+- '
+- T
+- r
+- ú
+- c
+-  
+- L
+- â
+- m
+-  
+- T
+- a
+- m
+-  
+- T
+- ổ
+- '
+-  
+- a
+- n
+- d
+-  
+- '
+- T
+- a
+- m
+-  
+- t
+- ổ
+-  
+- T
+- r
+- ú
+- c
+-  
+- L
+- â
+- m
+- '
+- ;
+-  
+- t
+- h
+- e
+-  
+- H
+- a
+- n
+-  
+- f
+- o
+- r
+- m
+-  
+- 竹
+- 林
+- 三
+- 祖
+-  
+- i
+- s
+-  
+- c
+- o
+- n
+- f
+- i
+- r
+- m
+- e
+- d
+-  
+- i
+- n
+-  
+- z
+- h
+- .
+- w
+- i
+- k
+- i
+- p
+- e
+- d
+- i
+- a
+-  
+- a
+- n
+- d
+-  
+- i
+- n
+-  
+- a
+-  
+- C
+- H
+- I
+- B
+- S
+-  
+- p
+- a
+- p
+- e
+- r
+-  
+- t
+- i
+- t
+- l
+- e
+-  
+- (
+- 釋
+- 清
+- 慈
+- 《
+- 竹
+- 林
+- 三
+- 祖
+- 講
+- 解
+- 》
+- )
+- .
+-  
+- Q
+- u
+- e
+- r
+- y
+-  
+- b
+- o
+- t
+- h
+-  
+- w
+- o
+- r
+- d
+-  
+- o
+- r
+- d
+- e
+- r
+- s
+- .
+- "
+- ,
+-  
+- "
+- 花
+- 煙
+- 寺
+-  
+- v
+- s
+-  
+- H
+- o
+- a
+-  
+- Y
+- ê
+- n
+-  
+- t
+- ự
+- :
+-  
+- t
+- h
+- e
+-  
+- H
+- a
+- n
+-  
+- s
+- o
+- u
+- r
+- c
+- e
+- s
+-  
+- w
+- r
+- i
+- t
+- e
+-  
+- 煙
+-  
+- (
+- y
+- ê
+- n
+- ,
+-  
+- '
+- s
+- m
+- o
+- k
+- e
+- /
+- m
+- i
+- s
+- t
+- '
+- )
+-  
+- w
+- h
+- i
+- l
+- e
+-  
+- t
+- h
+- e
+-  
+- V
+- i
+- e
+- t
+- n
+- a
+- m
+- e
+- s
+- e
+-  
+- r
+- e
+- a
+- d
+- i
+- n
+- g
+-  
+- i
+- s
+-  
+- '
+- Y
+- ê
+- n
+- '
+- .
+-  
+- T
+- h
+- e
+-  
+- f
+- u
+- l
+- l
+-  
+- t
+- i
+- t
+- l
+- e
+-  
+- i
+- n
+-  
+- t
+- h
+- e
+-  
+- C
+- H
+- I
+- B
+- S
+-  
+- p
+- a
+- p
+- e
+- r
+-  
+- i
+- s
+-  
+- 安
+- 子
+- 山
+- 竹
+- 林
+- 第
+- 三
+- 祖
+- 玄
+- 光
+- 尊
+- 者
+- 詠
+- 花
+- 烟
+- 寺
+- 賦
+- ,
+-  
+- w
+- i
+- t
+- h
+-  
+- t
+- h
+- e
+-  
+- s
+- i
+- m
+- p
+- l
+- i
+- f
+- i
+- e
+- d
+-  
+- 烟
+- .
+-  
+- Q
+- u
+- e
+- r
+- y
+-  
+- 花
+- 煙
+- 寺
+- 賦
+- ,
+-  
+- 詠
+- 花
+- 煙
+- 寺
+- 賦
+-  
+- a
+- n
+- d
+-  
+- 花
+- 烟
+- 寺
+- 賦
+- .
+- "
+- ,
+-  
+- '
+- 上
+- 京
+- 記
+- 事
+-  
+- n
+- o
+- t
+-  
+- 上
+- 京
+- 紀
+- 事
+- :
+-  
+- v
+- i
+- .
+- w
+- i
+- k
+- i
+- p
+- e
+- d
+- i
+- a
+-  
+- a
+- n
+- d
+-  
+- v
+- i
+- .
+- w
+- i
+- k
+- i
+- s
+- o
+- u
+- r
+- c
+- e
+-  
+- b
+- o
+- t
+- h
+-  
+- g
+- i
+- v
+- e
+-  
+- 記
+- 事
+-  
+- f
+- o
+- r
+-  
+- T
+- h
+- ư
+- ợ
+- n
+- g
+-  
+- k
+- i
+- n
+- h
+-  
+- k
+- ý
+-  
+- s
+- ự
+- .
+-  
+- A
+-  
+- r
+- e
+- c
+- a
+- l
+- l
+- e
+- d
+-  
+- 紀
+- 事
+-  
+- i
+- s
+-  
+- a
+-  
+- p
+- l
+- a
+- u
+- s
+- i
+- b
+- l
+- e
+- -
+- l
+- o
+- o
+- k
+- i
+- n
+- g
+-  
+- e
+- r
+- r
+- o
+- r
+- ;
+-  
+- t
+- h
+- e
+-  
+- v
+- e
+- r
+- i
+- f
+- i
+- e
+- d
+-  
+- f
+- o
+- r
+- m
+-  
+- s
+- h
+- i
+- p
+- s
+-  
+- i
+- n
+-  
+- t
+- h
+- i
+- s
+-  
+- t
+- a
+- b
+- l
+- e
+- .
+- '
+- ]
+-  
+- |
+-  
+- d
+- e
+- e
+- p
+- _
+- w
+- e
+- b
+- _
+- e
+- p
+- i
+- g
+- r
+- a
+- p
+- h
+- y
+- :
+-  
+- N
+- g
+- u
+- ồ
+- n
+-  
+- t
+- h
+- a
+- y
+-  
+- t
+- h
+- ế
+-  
+- c
+- h
+- o
+-  
+- k
+- h
+- ả
+- o
+-  
+- s
+- á
+- t
+-  
+- t
+- h
+- ự
+- c
+-  
+- đ
+- ị
+- a
+- :
+-  
+- V
+- i
+- e
+- t
+- n
+- a
+- m
+- i
+- c
+- a
+-  
+- (
+- 2
+- 0
+- .
+- 9
+- 8
+- 0
+-  
+- t
+- h
+- á
+- c
+-  
+- b
+- ả
+- n
+-  
+- v
+- ă
+- n
+-  
+- b
+- i
+- a
+- )
+-  
+- +
+-  
+- b
+- ả
+- n
+-  
+- đ
+- ồ
+-  
+- đ
+- ị
+- n
+- h
+-  
+- v
+- ị
+-  
+- C
+- S
+- D
+- L
+-  
+- +
+-  
+- N
+- L
+- V
+-  
+- c
+- a
+- t
+- a
+- l
+- o
+- g
+- u
+- e
+-  
+- 1
+- .
+- 7
+- 7
+- 8
+-  
+- t
+- ự
+- a
+-  
+- H
+- á
+- n
+- -
+- N
+- ô
+- m
+-  
+- +
+-  
+- m
+- ụ
+- c
+-  
+- l
+- ụ
+- c
+-  
+- c
+- h
+- o
+- n
+- t
+- h
+- i
+- e
+- n
+- g
+-  
+- 1
+- 2
+- .
+- 0
+- 2
+- 5
+-  
+- b
+- ả
+- n
+-  
+- g
+- h
+- i
+- .
+-  
+- T
+- ấ
+- t
+-  
+- c
+- ả
+-  
+- đ
+- o
+-  
+- t
+- h
+- ự
+- c
+-  
+- t
+- ế
+- ,
+-  
+- k
+- h
+- ô
+- n
+- g
+-  
+- s
+- u
+- y
+-  
+- t
+- ừ
+-  
+- t
+- r
+- í
+-  
+- n
+- h
+- ớ
+- .
 
 ## Why the "most frequent Han run near the gloss" heuristic is rejected
 

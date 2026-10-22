@@ -201,6 +201,7 @@ domain content and the evidence, not the sentence style.
 | `references/deep-research-protocol.md` | Running a multi-round search; keeping the evidence ledger |
 | `references/research-direction-design.md` | Turning a topic into a defensible direction; scoring feasibility |
 | `references/textual-criticism-caveats.md` | Authorship, dating, edition and attribution are in play |
+| `references/epigraphy-fieldwork-substitute.md` | The project needs site-bound material (bia, văn khắc, lăng tẩm, sắc phong, gia phả) and fieldwork is impossible — stele-rubbing corpora, old administrative geography, and what digitised data cannot replace |
 | `references/period-and-canon-map.md` | Orienting a topic in time; finding the canonical works of a period |
 
 ## Scripts
@@ -209,6 +210,7 @@ domain content and the evidence, not the sentence style.
 |---|---|
 | `scripts/verify_han_terms.py` | Check candidate 漢字 for a term list against fetched pages; reports CONFIRMED / NOT-FOUND with context, and discovers the correct characters near the Vietnamese gloss |
 | `scripts/probe_sources.py` | Print the recorded source registry with reachability class; `--live` re-probes with curl (DNS + HTTP code) |
+| `scripts/harvest_epigraphy.py` | Harvest the three digitised epigraphy corpora (Vietnamica stele rubbings, NLV Hán-Nôm catalogue, chonthieng index) to JSONL/CSV; `--probe` checks reachability only |
 | `scripts/public_hygiene_check.py` | Repository publication gate (byte-identical across tools) |
 
 Both research scripts are dependency-free (stdlib + `curl`). Neither writes outside the
