@@ -21,6 +21,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`web-toolkit`](tools/web-toolkit/) | Three dependency-free browser-automation modules: proxy pool with leases/cooldown/health probes, human-like timing for test stability, and a declarative page-state machine for multi-step forms | `tools/web-toolkit/SKILL.md` |
 | [`jev-form-driver`](tools/jev-form-driver/) | Form automation with a measured code/model split: code orchestrates (checklist, values, arithmetic, termination, verification), a System-One decision model selects each field in one parallel request; library + CLI + MCP tool, 4/5 graded fixtures passed at ~$0.00003/run | `tools/jev-form-driver/SKILL.md` |
 | [`vietnamese-classical-literature-research`](tools/vietnamese-classical-literature-research/) | **Field: văn học.** Vietnamese classical literature (10th–19th c.) and its Hán-Nôm / Confucian-Buddhist-Taoist context: 155 verified Vietnamese↔漢 keyword bridges, 29 sources classified by measured reachability, five bounded research rounds with an evidence ledger, and four feasibility tests for proposing a direction. Encodes seven measured failures (recalled Han characters, frequency-heuristic guessing, dead domains cited as live, witness dates read as composition dates) | `tools/vietnamese-classical-literature-research/SKILL.md` |
+| [`code-review-gates`](tools/code-review-gates/) | Review machinery for changes produced faster than a human can read them: risk tier from the change (not the author), findings need evidence and a response, review rounds are capped, and noise is measured from what authors actually do. Four mechanisms, each with a script and tests that prove the gate can fail | `tools/code-review-gates/SKILL.md` |
 
 ## Validation
 
@@ -56,6 +57,10 @@ python3 tools/vietnamese-classical-literature-research/scripts/build_glossary.py
 python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
 python3 tools/vietnamese-classical-literature-research/scripts/public_hygiene_check.py
 python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
+# code-review-gates: risk tier from the change, findings need evidence, rounds capped, noise measured
+python3 tools/code-review-gates/scripts/public_hygiene_check.py
+python3 -m py_compile tools/code-review-gates/scripts/*.py
+python3 -m unittest discover -s tools/code-review-gates/tests -v
 # offline gate: reads the live routing config, makes no network call, needs no key
 python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>
 ```
