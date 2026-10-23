@@ -54,6 +54,7 @@ is the right one to catch it?"*
 | **Risk tier from the change, not the author** | `scripts/risk_tier.py` | tier (low/medium/high) → required human approvals (0/1/2), per-file reasons, fail-closed on unknown paths |
 | **Findings need evidence and a response** | `scripts/review_ledger.py` | every finding carries `file:line` + severity class, is answered (fixed/rejected/intentional/ignored), duplicates rejected |
 | **Review must converge** | `scripts/review_ledger.py gate` | unanswered findings block; rounds capped (default 3); noise rate reported |
+| **One command decides mergeable** | `scripts/pr_review_gate.py` | combines tier + approvals that actually count + ledger, and exits 2 when it cannot tell |
 | **Incidents become the eval** | `references/incident-to-eval.md` | each confirmed incident becomes a permanent case the reviewer is rescored against |
 
 ## Workflow
@@ -69,7 +70,9 @@ is the right one to catch it?"*
    before recording (see `references/finding-verification.md`).
 4. **Answer every finding** — `review_ledger.py respond --action fixed|rejected|intentional|ignored
    --note "..."`. Silence is not an answer; a rejected finding needs a reason.
-5. **Gate** — `review_ledger.py gate --max-rounds 3`. Non-zero exit blocks the merge.
+5. **Gate** — `pr_review_gate.py --pr <n>`. This is the command a workflow calls; it folds the
+   tier, the approvals that actually count, and the ledger into one verdict. Exit 0 mergeable,
+   1 blocked (reasons in the JSON), **2 cannot evaluate — never treat 2 as 0.**
 6. **After the merge** — if it breaks, the change is reverted first and the incident is written
    into the eval set (`references/incident-to-eval.md`). "You land it, you own it" only works
    because changes are small, reversible, and the review looks at the system, not the person.
@@ -132,6 +135,7 @@ which means another commit and another round of review. The stated priority, in 
 
 - `scripts/risk_tier.py` — deterministic tier + approval count from a diff and a rules file.
 - `scripts/review_ledger.py` — append-only finding ledger: `add`, `respond`, `round`, `stats`, `gate`.
+- `scripts/pr_review_gate.py` — one command per PR: tier + approvals that actually count + ledger → exit 0/1/2.
 - `templates/risk-tiers.json` — rules file with a fail-closed default, ready to edit.
 - `templates/REVIEW.md` — code-owner contract for one repository area.
 - `references/risk-tiers.md` — how to write the rules so they stay honest.
@@ -139,6 +143,22 @@ which means another commit and another round of review. The stated priority, in 
 - `references/review-md-contract.md` — what a good REVIEW.md says, and what makes one useless.
 - `references/incident-to-eval.md` — turning reverts into a permanent eval set.
 - `tests/` — unit tests; they include mutants that prove each gate can fail.
+
+## What "approval" means to the gate
+
+`pr_review_gate.py` counts only approvals that are worth something:
+
+- **the person, not the bot** — a login ending in `[bot]`, or a review whose `type` is `Bot`, never
+  fills a human slot. Automated review can clear a low-risk change; it cannot be the one person a
+  medium change requires.
+- **the latest review per person wins** — approve-then-request-changes is a reviewer who changed
+  their mind, and it is not an approval.
+- **bound to the head commit** — an approval whose `commit_id` is not the current head is stale: the
+  code moved after it was given, so it has to be given again.
+- **draft and conflicting PRs block** regardless of approvals.
+
+Exit code `2` means the tool could not tell (gh missing, unreadable PR, empty diff). It is never
+printed as a verdict: a caller that maps 2 to 0 merges anything whose check crashed.
 
 ## Known limits (measured, not guessed)
 
