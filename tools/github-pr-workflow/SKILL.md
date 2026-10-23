@@ -392,6 +392,33 @@ When asked to auto-fix CI, follow this loop:
 
 ## 6. Merging
 
+### Gate the merge on evidence, not on a green CI badge
+
+Green CI proves the checks that exist passed. It does not prove anyone read the change, that the
+change needed the people the policy says it needed, or that an unanswered review finding is not
+sitting on the PR. Run the review gate before merging:
+
+```bash
+python3 <skills>/code-review-gates/scripts/pr_review_gate.py --pr <number>
+```
+
+Three exits, and they are not interchangeable:
+
+| exit | meaning | what to do |
+|---|---|---|
+| 0 | mergeable | proceed to merge |
+| 1 | blocked | read `reasons[]` in the JSON; every one names what is missing |
+| 2 | **cannot evaluate** | fix the input (gh missing, unreadable PR, empty diff). **Never treat 2 as 0** |
+
+A caller that maps `2` to success merges anything whose check crashed. That is the specific
+failure this exit code exists to prevent.
+
+The gate counts only approvals that are worth something: a login ending in `[bot]` or a review of
+type `Bot` never fills a human slot; only the LATEST review per person counts, so
+approve-then-request-changes is not an approval; and an approval whose commit is not the current
+head is stale and must be given again. The number of people required comes from the diff (risk
+tier), not from who is asking.
+
 **With gh:**
 
 ```bash
