@@ -112,3 +112,11 @@ jobs:
           python3 tools/vietnamese-classical-literature-research/scripts/public_hygiene_check.py
           python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
           python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
+
+      - name: Validate code-review-gates
+        # Static literal paths only; no ${{ }} expressions, no attacker-controlled
+        # input reaches a shell. Same pattern as the steps above.
+        run: |
+          python3 tools/code-review-gates/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/code-review-gates/scripts/*.py
+          python3 -m unittest discover -s tools/code-review-gates/tests -v

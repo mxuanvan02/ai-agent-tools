@@ -1,0 +1,33 @@
+{
+  "default_tier": "high",
+  "always_human": [
+    "**/.github/workflows/**",
+    "**/.gitlab-ci.yml",
+    "**/Dockerfile",
+    "**/docker-compose*.yml",
+    "**/requirements*.txt",
+    "**/pyproject.toml",
+    "**/package.json",
+    "**/*lock*.json",
+    "**/migrations/**",
+    "**/alembic/**",
+    "**/auth/**",
+    "**/*auth*",
+    "**/billing/**",
+    "**/*payment*",
+    "**/install.sh",
+    "**/*.pem",
+    "**/*.key"
+  ],
+  "rules": [
+    {"glob": "docs/**", "tier": "low", "reason": "documentation only"},
+    {"glob": "**/*.md", "tier": "low", "reason": "prose change"},
+    {"glob": "**/tests/**", "tier": "medium", "reason": "test code: wrong tests hide bugs"},
+    {"glob": "**/*.tex", "tier": "medium", "reason": "typeset source: renders, does not execute"},
+    {"glob": "**/references/**", "tier": "low", "reason": "reference material, not executed"}
+  ],
+  "large_change": {
+    "lines": 1000,
+    "tier_floor": "medium"
+  }
+}
