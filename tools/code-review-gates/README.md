@@ -108,6 +108,8 @@ which means another commit and another round of review. The stated priority, in 
 - `scripts/risk_tier.py` — deterministic tier + approval count from a diff and a rules file.
 - `scripts/review_ledger.py` — append-only finding ledger: `add`, `respond`, `round`, `stats`, `gate`.
 - `scripts/pr_review_gate.py` — one command per PR: tier + approvals that actually count + ledger → exit 0/1/2.
+- `scripts/pr_tier.py` — quick tier check for one PR (debugging tool).
+- `scripts/backtest_tiers.py` — measure tier distribution across many PRs (validation tool).
 - `templates/risk-tiers.json` — rules file with a fail-closed default, ready to edit.
 - `templates/REVIEW.md` — code-owner contract for one repository area.
 - `references/risk-tiers.md` — how to write the rules so they stay honest.

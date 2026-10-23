@@ -160,6 +160,27 @@ which means another commit and another round of review. The stated priority, in 
 Exit code `2` means the tool could not tell (gh missing, unreadable PR, empty diff). It is never
 printed as a verdict: a caller that maps 2 to 0 merges anything whose check crashed.
 
+## Diagnostic scripts
+
+Two utilities for measuring and debugging the tier policy:
+
+- **`scripts/pr_tier.py`** — quick tier check for one PR:
+  ```bash
+  python3 scripts/pr_tier.py --pr 69 --repo mxuanvan02/ai-agent-tools
+  ```
+  Output: tier, approvals required, line count, file count, per-file breakdown.
+
+- **`scripts/backtest_tiers.py`** — measure tier distribution across many PRs:
+  ```bash
+  python3 scripts/backtest_tiers.py --repo mxuanvan02/ai-agent-tools --limit 40
+  ```
+  Output: tier distribution (low/medium/high counts and percentages), mean approvals required,
+  per-PR summary with the top paths that drove the tier.
+
+Both scripts call `risk_tier.decide()` directly; they do not need separate tests. Use `pr_tier.py`
+to debug why a specific PR got a tier; use `backtest_tiers.py` to validate that the policy matches
+the team's actual PR mix before rolling it out.
+
 ## Known limits (measured, not guessed)
 
 - A path-based tier is a proxy. It cannot see that a one-line change to a config default reroutes
