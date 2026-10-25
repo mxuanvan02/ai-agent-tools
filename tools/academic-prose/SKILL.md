@@ -3,7 +3,7 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.20.0"
+  version: "3.21.0"
 ---
 
 # Academic Prose
@@ -16,6 +16,8 @@ technical term that blocks a global replace, recommend rather than apply, then
 verify counts in the PDF text layer after rebuild.
 
 When revising a manuscript against received peer-review reports for a paper that ships a public code/data artifact, load `references/peer-review-revision-evidence.md` (reproduce-first workflow, code-grounded reviewer responses, targeted re-ablation, figure label-overlap checks without vision, and keeping reviewer identities out of a public reproducibility repo).
+
+When the deliverable is Vietnamese prose about literature, or a comparison of two literary works, load [`references/vietnamese-literary-prose.md`](references/vietnamese-literary-prose.md). Literary Vietnamese fails differently from data Vietnamese: the punctuation scan comes back clean while the prose still reads translated. That reference carries the calque table (`nằm ở chỗ`, `đóng gói`, `cái đứng`, `ở tầng sâu nhất`), the long-`và`-chain repair, the title-syntax test that survived eleven rejected titles, and the hedge inventory for literary claims.
 
 Build academic discourse from claims and evidence, then realize it as precise, appropriately cautious, logically explicit, and natural prose in the target language. This is a **write-first** skill: translation, revision, humanizing, and audit are adapters into the same composition engine. Never create academic authority by inventing evidence or strengthening a claim.
 
@@ -430,6 +432,7 @@ Six rules override the general humanizing instinct in academic text:
 Language-specific registries:
 
 - [Vietnamese AI pattern registry](references/ai-pattern-vietnamese.md) for Vietnamese watched words, calques, ceremonial vocabulary, and false positives.
+- [Vietnamese literary and comparative prose](references/vietnamese-literary-prose.md) for the register-specific calques, title syntax test, and hedge inventory that apply when the subject is literature rather than data.
 - Upstream English watched-word lists apply directly; see [Academic English standard](references/academic-english-standard.md) for the academic exceptions.
 
 When the author supplies a writing sample, the sample governs rhythm,
