@@ -68,7 +68,7 @@ Collect from user's workspace:
 | 14 | Sustainability | Scalability | 3-step deployment + 3 operation screenshots |
 | 15 | Conclusion | Call to action | Product screenshot + 3 value cards + demo link |
 
-### 4. Design Principles
+## Design Principles
 
 **Layout rules**:
 - One slide = one visual purpose
@@ -86,7 +86,7 @@ Collect from user's workspace:
 - Labeled with step names (e.g., "Bước 1", "Đọc", "Phản hồi")
 - Intended for PowerPoint "Appear" animations synced to speaker notes
 
-### 5. Speaker Notes
+## Speaker Notes
 
 Each slide includes detailed speaker notes with:
 - **Timing**: seconds allocated (total ≤ 300s for 5-minute video)
@@ -105,7 +105,7 @@ KỊCH BẢN — SLIDE 7/15 (25 giây)
 - Click 2: Highlight "Bước 1" — "Bước 1: Nhận diện."
 ```
 
-### 6. Scripts
+## Scripts
 
 #### validate_deck.py
 
@@ -132,22 +132,41 @@ python3 scripts/validate_deck.py output.pptx --all
 
 Template script for building product application decks.
 
+School name, presenter and affiliation are supplied on the command line, so the script
+carries no institution of its own.
+
 ```bash
 python3 scripts/create_product_deck.py \
     --screenshots /path/to/screenshots/ \
-    --logos logo_dhsp.png logo_thpt.png \
+    --logos logo_truong.png logo_truong_dai_hoc.png \
+    --school-name "Trường THPT <Tên trường>" \
+    --affiliation "Đại học <Tên trường đại học>" \
+    --presenter "GV: <Tên người trình bày>" \
     --output presentation.pptx
+```
+
+#### check_structure.py
+
+Check this tool's own structure: required files present, scripts compile, documentation
+still carries the sections the workflow depends on.
+
+```bash
+python3 scripts/check_structure.py
 ```
 
 #### public_hygiene_check.py
 
-Verify skill structure and script compilation.
+The repository-wide public-hygiene gate, shipped byte-identically in every tool. It scans
+every file in this tool directory for tokens that must never appear in a public repository:
+institution names, internal host paths, unpublished project codenames, secret-shaped
+strings, and binary assets. A different script under the same filename would mean a PASS
+that means something different from every other tool's PASS.
 
 ```bash
 python3 scripts/public_hygiene_check.py
 ```
 
-### 7. Implementation
+## Implementation
 
 Use `python-pptx` to generate the deck:
 
@@ -204,25 +223,7 @@ def notes(slide, text):
     slide.notes_slide.notes_text_frame.text = text
 ```
 
-### 8. Design Principles
-
-**Layout rules:**
-- One slide = one visual purpose
-- Fixed grid: header (logos + section title) → title → evidence region → caption/footer
-- Preserve screenshot aspect ratios (never force into arbitrary rectangles)
-- Use neutral background/padding for unused space in portrait screenshots
-
-**Content density:**
-- 60-70% area: real product screenshots
-- 20-30%: short explanatory text
-- ≤10%: policy citations or technical details
-
-**Highlight shapes:**
-- Red border rectangles (4pt, no fill) positioned over screenshot regions
-- Labeled with step names (e.g., "Bước 1", "Đọc", "Phản hồi")
-- Intended for PowerPoint "Appear" animations synced to speaker notes
-
-### 9. Validation
+## Validation
 
 Run validation before delivery:
 
@@ -238,7 +239,7 @@ soffice --headless --convert-to pdf output.pptx
 pdfinfo output.pdf | grep Pages  # Should be 15
 ```
 
-### 8. Delivery
+## Delivery
 
 Provide user with:
 1. **PPTX file** (editable, with highlights for animation)

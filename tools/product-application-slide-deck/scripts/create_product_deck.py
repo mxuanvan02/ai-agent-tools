@@ -48,7 +48,7 @@ else:
     WHITE = NAVY = BLUE = TEXT = MUTED = BORDER = PALE = GOLD = GREEN = RED = None
 
 
-def add_header(slide, section, n, logos):
+def add_header(slide, section, n, logos, school_name, affiliation, presenter):
     """Add standard header with logos and section title."""
     # Top accent bar
     bar = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, 0, 0, slide.slide_width, Pt(4))
@@ -56,25 +56,26 @@ def add_header(slide, section, n, logos):
     bar.fill.fore_color.rgb = BLUE
     bar.line.fill.background()
 
-    # Logos
-    if 'dhsp' in logos:
-        slide.shapes.add_picture(logos['dhsp'], Inches(0.42), Inches(0.17),
+    # Logos. The keys are generic slots, not institution names: the script ships
+    # in a public repository, so the institution is supplied by the caller.
+    if 'school' in logos:
+        slide.shapes.add_picture(logos['school'], Inches(0.42), Inches(0.17),
                                 width=Inches(0.58), height=Inches(0.58))
-    if 'thpt' in logos:
-        slide.shapes.add_picture(logos['thpt'], Inches(1.12), Inches(0.17),
+    if 'university' in logos:
+        slide.shapes.add_picture(logos['university'], Inches(1.12), Inches(0.17),
                                 width=Inches(0.58), height=Inches(0.58))
 
     # School names
     tx = slide.shapes.add_textbox(Inches(1.82), Inches(0.17), Inches(4.4), Inches(0.26))
     p = tx.text_frame.paragraphs[0]
-    p.text = "Trường THPT Thuận Hoá"
+    p.text = school_name
     p.font.size = Pt(11)
     p.font.bold = True
     p.font.color.rgb = NAVY
 
     tx = slide.shapes.add_textbox(Inches(1.82), Inches(0.45), Inches(4.5), Inches(0.22))
     p = tx.text_frame.paragraphs[0]
-    p.text = "Trường Đại học Sư Phạm, Đại học Huế"
+    p.text = affiliation
     p.font.size = Pt(9.5)
     p.font.color.rgb = MUTED
 
@@ -97,7 +98,7 @@ def add_header(slide, section, n, logos):
     # Footer
     tx = slide.shapes.add_textbox(Inches(0.48), Inches(7.08), Inches(4), Inches(0.2))
     p = tx.text_frame.paragraphs[0]
-    p.text = "GV: Mai Xuân Văn"
+    p.text = presenter
     p.font.size = Pt(9)
     p.font.color.rgb = MUTED
 
@@ -170,8 +171,14 @@ def main():
                        help="Directory containing product screenshots")
     parser.add_argument("--output", type=Path, required=True,
                        help="Output PPTX file path")
-    parser.add_argument("--logos", type=Path, nargs=2, metavar=("DHSP", "THPT"),
-                       help="Logo files (DHSP, THPT)")
+    parser.add_argument("--logos", type=Path, nargs=2, metavar=("SCHOOL", "UNIVERSITY"),
+                       help="Logo files (school, university)")
+    parser.add_argument("--school-name", default="Trường THPT <Tên trường>",
+                       help="School name shown in the header")
+    parser.add_argument("--affiliation", default="Đại học <Tên trường đại học>",
+                       help="Affiliation line shown under the school name")
+    parser.add_argument("--presenter", default="GV: <Tên người trình bày>",
+                       help="Presenter line shown in the footer")
 
     args = parser.parse_args()
 
@@ -199,8 +206,8 @@ def main():
     # Load logos
     logos = {}
     if args.logos:
-        logos['dhsp'] = str(args.logos[0])
-        logos['thpt'] = str(args.logos[1])
+        logos['school'] = str(args.logos[0])
+        logos['university'] = str(args.logos[1])
 
     # Create presentation
     P = Presentation()
@@ -209,7 +216,8 @@ def main():
 
     # Example: Create cover slide
     slide = P.slides.add_slide(P.slide_layouts[6])
-    add_header(slide, 'BÁO CÁO SẢN PHẨM', 1, logos)
+    add_header(slide, 'BÁO CÁO SẢN PHẨM', 1, logos,
+               args.school_name, args.affiliation, args.presenter)
 
     # Add main screenshot
     if 'home' in screenshots or 'trang-chu' in screenshots:
@@ -235,7 +243,7 @@ def main():
     add_speaker_notes(slide, """KỊCH BẢN VIDEO 5 PHÚT — SLIDE 1/15 (20 giây)
 
 [Lời nói]
-"Kính chào Hội đồng. Tôi là Mai Xuân Văn, giáo viên Tin học Trường THPT Thuận Hoá, Đại học Sư Phạm Huế. Hôm nay tôi xin giới thiệu AInatomy — một phòng thí nghiệm AI offline giúp học sinh không chỉ hỏi AI, mà còn học cách quan sát, kiểm tra và bắt lỗi AI."
+f"Kính chào Hội đồng. Tôi là {args.presenter.removeprefix('GV: ')}, giáo viên Tin học {args.school_name}. Hôm nay tôi xin giới thiệu AInatomy — một phòng thí nghiệm AI offline giúp học sinh không chỉ hỏi AI, mà còn học cách quan sát, kiểm tra và bắt lỗi AI."
 
 [Animation]
 - Không có highlight ở slide này.

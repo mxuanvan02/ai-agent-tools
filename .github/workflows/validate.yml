@@ -113,6 +113,22 @@ jobs:
           python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
           python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
 
+      - name: Validate latex-slide-template
+        # Static literal paths only; no ${{ }} expressions, no attacker-controlled
+        # input reaches a shell. Same pattern as the steps above.
+        run: |
+          python3 tools/latex-slide-template/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/latex-slide-template/scripts/*.py
+
+      - name: Validate product-application-slide-deck
+        # Static literal paths only; no ${{ }} expressions, no attacker-controlled
+        # input reaches a shell. Same pattern as the steps above.
+        run: |
+          python3 tools/product-application-slide-deck/scripts/public_hygiene_check.py
+          python3 tools/product-application-slide-deck/scripts/check_structure.py
+          python3 -m py_compile tools/product-application-slide-deck/scripts/*.py tools/product-application-slide-deck/tests/*.py
+          python3 -m unittest discover -s tools/product-application-slide-deck/tests -v
+
       - name: Validate code-review-gates
         # Static literal paths only; no ${{ }} expressions, no attacker-controlled
         # input reaches a shell. Same pattern as the steps above.
