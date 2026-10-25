@@ -6,7 +6,7 @@ Template LaTeX chuẩn cho slide báo cáo khoa học, phù hợp với các cu�
 
 - **Format**: Beamer 16:9, font 10pt
 - **Ngôn ngữ**: Tiếng Việt (UTF-8, T5 encoding)
-- **Thiết kế**: Header với logo 2 bên, màu sắc chuyên nghiệp
+- **Thiết kế**: Header với vị trí logo 2 bên (đặt logo của bạn vào), màu sắc chuyên nghiệp
 - **Cấu trúc**: Trang bìa → Mục lục → Nội dung → Kết luận → Q&A
 
 ## Cấu trúc thư mục
@@ -14,16 +14,21 @@ Template LaTeX chuẩn cho slide báo cáo khoa học, phù hợp với các cu�
 ```
 latex-slide-template/
 ├── README.md
+├── scripts/
+│   └── public_hygiene_check.py    # Cổng kiểm tra nội dung công khai
 ├── template/
 │   ├── SlideTemplate.tex          # File LaTeX chính
-│   └── logos/
-│       ├── thpt_thuan_hoa.png
-│       └── dhsp_hue.png
+│   └── logos/                     # Thư mục trống: đặt logo của bạn vào đây
 └── examples/
     └── ieeai2026/                 # Ví dụ thực tế
         ├── slide_thuyet_minh.tex
         └── poster_AInatomy.tex
 ```
+
+> **Logo.** Thư mục `template/logos/` để trống trong bản công khai. Template gọi
+> `logos/logo_truong` và `logos/logo_truong_dai_hoc`; đặt file logo của bạn vào
+> đó với đúng tên, hoặc bỏ comment dòng `\includegraphics` tương ứng trong
+> `SlideTemplate.tex`.
 
 ## Cách sử dụng
 
@@ -57,9 +62,9 @@ pdflatex SlideTemplate.tex
 Template sử dụng 3 màu chính:
 
 ```latex
-\definecolor{HUEBlue}{RGB}{0, 51, 102}      # Xanh đậm (tiêu đề, khối)
-\definecolor{HUEOrange}{RGB}{212, 175, 55}  # Vàng (đường kẻ, nhấn mạnh)
-\definecolor{HUEGreen}{RGB}{37, 139, 93}    # Xanh lá (thành công)
+\definecolor{PrimaryBlue}{RGB}{0, 51, 102}    # Xanh đậm (tiêu đề, khối)
+\definecolor{AccentGold}{RGB}{212, 175, 55}   # Vàng (đường kẻ, nhấn mạnh)
+\definecolor{SuccessGreen}{RGB}{37, 139, 93}  # Xanh lá (thành công)
 ```
 
 ## Cấu trúc slide chuẩn
@@ -82,6 +87,19 @@ Xem `examples/ieeai2026/` để biết cách áp dụng template cho cuộc thi 
 - **Font**: Sử dụng `helvet` (Helvetica) cho văn bản
 - **Block**: Dùng `\begin{block}{Tiêu đề}...\end{block}` cho khối nổi bật
 - **Alert block**: Dùng `\begin{alertblock}{...}` cho cảnh báo/vấn đề
+
+## Kiểm tra trước khi phát hành
+
+```bash
+# Quét nội dung công khai (tên cơ quan, đường dẫn nội bộ, khoá bí mật)
+python3 scripts/public_hygiene_check.py
+
+# Biên dịch thử
+pdflatex SlideTemplate.tex
+```
+
+Cổng `public_hygiene_check.py` là bản sao giống hệt của cổng dùng chung trong
+toàn repo. Nếu bạn thêm tên cơ quan vào template, hãy kiểm tra lại bằng cổng ấy.
 
 ## Tài liệu tham khảo
 

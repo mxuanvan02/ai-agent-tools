@@ -22,6 +22,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`jev-form-driver`](tools/jev-form-driver/) | Form automation with a measured code/model split: code orchestrates (checklist, values, arithmetic, termination, verification), a System-One decision model selects each field in one parallel request; library + CLI + MCP tool, 4/5 graded fixtures passed at ~$0.00003/run | `tools/jev-form-driver/SKILL.md` |
 | [`vietnamese-classical-literature-research`](tools/vietnamese-classical-literature-research/) | **Field: văn học.** Vietnamese classical literature (10th–19th c.) and its Hán-Nôm / Confucian-Buddhist-Taoist context: 155 verified Vietnamese↔漢 keyword bridges, 29 sources classified by measured reachability, five bounded research rounds with an evidence ledger, and four feasibility tests for proposing a direction. Encodes seven measured failures (recalled Han characters, frequency-heuristic guessing, dead domains cited as live, witness dates read as composition dates) | `tools/vietnamese-classical-literature-research/SKILL.md` |
 | [`code-review-gates`](tools/code-review-gates/) | Review machinery for changes produced faster than a human can read them: risk tier from the change (not the author), findings need evidence and a response, review rounds are capped, and noise is measured from what authors actually do. Four mechanisms, each with a script and tests that prove the gate can fail | `tools/code-review-gates/SKILL.md` |
+| [`latex-slide-template`](tools/latex-slide-template/) | Beamer 16:9 LaTeX slide template for academic talks: Vietnamese T5 encoding, colour system, cover/contents/content/conclusion/Q&A structure, and placeholder slots for the presenter's own logos and institution names | `tools/latex-slide-template/README.md` |
 | [`product-application-slide-deck`](tools/product-application-slide-deck/) | Build applied-product presentation decks for education competitions: 15-slide structure with real screenshots, speaker notes with video scripts, and highlight animations for demo videos. Validates slide count, element bounds, aspect ratios, and speaker notes | `tools/product-application-slide-deck/SKILL.md` |
 
 ## Validation
@@ -62,8 +63,12 @@ python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.p
 python3 tools/code-review-gates/scripts/public_hygiene_check.py
 python3 -m py_compile tools/code-review-gates/scripts/*.py
 python3 tools/product-application-slide-deck/scripts/public_hygiene_check.py
+python3 tools/product-application-slide-deck/scripts/check_structure.py
 python3 -m py_compile tools/product-application-slide-deck/scripts/*.py
 python3 -m unittest discover -s tools/product-application-slide-deck/tests -v
+# latex slide template: hygiene gate and a compile check
+python3 tools/latex-slide-template/scripts/public_hygiene_check.py
+python3 -m py_compile tools/latex-slide-template/scripts/*.py
 python3 -m unittest discover -s tools/code-review-gates/tests -v
 # offline gate: reads the live routing config, makes no network call, needs no key
 python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>

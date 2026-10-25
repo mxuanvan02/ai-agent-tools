@@ -27,9 +27,15 @@ python3 scripts/validate_deck.py presentation.pptx --all
 # Create a new deck (template)
 python3 scripts/create_product_deck.py \
     --screenshots /path/to/screenshots/ \
-    --logos logo_dhsp.png logo_thpt.png \
+    --logos logo_truong.png logo_truong_dai_hoc.png \
+    --school-name "Trường THPT <Tên trường>" \
+    --affiliation "Đại học <Tên trường đại học>" \
+    --presenter "GV: <Tên người trình bày>" \
     --output presentation.pptx
 ```
+
+Tên trường, tên người trình bày và đường dẫn logo do bạn truyền vào từ dòng lệnh.
+Script không chứa sẵn tên cơ quan nào, nên dùng cho bất kỳ trường nào cũng được.
 
 ## Structure
 
@@ -95,8 +101,20 @@ Template script for building product application decks.
 ```bash
 python3 scripts/create_product_deck.py \
     --screenshots /path/to/screenshots/ \
-    --logos logo_dhsp.png logo_thpt.png \
+    --logos logo_truong.png logo_truong_dai_hoc.png \
+    --school-name "Trường THPT <Tên trường>" \
+    --affiliation "Đại học <Tên trường đại học>" \
+    --presenter "GV: <Tên người trình bày>" \
     --output presentation.pptx
+```
+
+### check_structure.py
+
+Kiểm tra cấu trúc riêng của tool: file bắt buộc có đủ không, script có biên dịch
+được không, tài liệu còn đủ mục không.
+
+```bash
+python3 scripts/check_structure.py
 ```
 
 ## Design Principles
@@ -137,8 +155,11 @@ python3 scripts/create_product_deck.py \
 ## Validation
 
 ```bash
-# Run hygiene check
+# Cổng nội dung công khai (dùng chung toàn repo)
 python3 scripts/public_hygiene_check.py
+
+# Kiểm tra cấu trúc riêng của tool
+python3 scripts/check_structure.py
 
 # Run tests
 python3 -m unittest discover -s tests -v
@@ -146,6 +167,11 @@ python3 -m unittest discover -s tests -v
 # Compile scripts
 python3 -m py_compile scripts/*.py
 ```
+
+`public_hygiene_check.py` là bản sao giống hệt của cổng dùng chung trong toàn repo:
+nó quét mọi file trong thư mục tool tìm tên cơ quan, đường dẫn nội bộ, tên
+dự án chưa công bố, khoá bí mật và ảnh nhị phân. Thêm logo hoặc tên trường thật
+vào thư mục tool thì phải kiểm tra lại bằng cổng này.
 
 ## Dependencies
 
@@ -182,4 +208,6 @@ MIT
 
 ## Author
 
-Mai Xuân Văn — Trường THPT Thuận Hoá, Đại học Sư Phạm, Đại học Huế
+Tool này do [Tên tác giả] xây dựng. Bản công khai không ghi tên cơ quan cụ thể;
+tên trường, tên người trình bày và logo được truyền vào qua tham số dòng lệnh
+khi dựng deck.

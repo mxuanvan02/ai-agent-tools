@@ -55,18 +55,18 @@
 \setbeamertemplate{navigation symbols}{}
 
 % Màu sắc
-\definecolor{HUEBlue}{RGB}{0, 51, 102}
-\definecolor{HUEOrange}{RGB}{212, 175, 55}
-\definecolor{HUEGreen}{RGB}{37, 139, 93}
+\definecolor{PrimaryBlue}{RGB}{0, 51, 102}
+\definecolor{AccentGold}{RGB}{212, 175, 55}
+\definecolor{SuccessGreen}{RGB}{37, 139, 93}
 \definecolor{DarkText}{RGB}{40, 40, 40}
 \definecolor{LightGray}{RGB}{100, 100, 100}
 
-\setbeamercolor{structure}{fg=HUEBlue}
-\setbeamercolor{title}{fg=HUEBlue}
-\setbeamercolor{frametitle}{fg=HUEBlue}
-\setbeamercolor{section in head/foot}{bg=HUEBlue, fg=white}
-\setbeamercolor{author in head/foot}{bg=HUEBlue!10, fg=HUEBlue}
-\setbeamercolor{date in head/foot}{bg=HUEBlue!10, fg=HUEBlue}
+\setbeamercolor{structure}{fg=PrimaryBlue}
+\setbeamercolor{title}{fg=PrimaryBlue}
+\setbeamercolor{frametitle}{fg=PrimaryBlue}
+\setbeamercolor{section in head/foot}{bg=PrimaryBlue, fg=white}
+\setbeamercolor{author in head/foot}{bg=PrimaryBlue!10, fg=PrimaryBlue}
+\setbeamercolor{date in head/foot}{bg=PrimaryBlue!10, fg=PrimaryBlue}
 
 % --- 3. GIAO DIỆN ---
 \setbeamertemplate{headline}{
@@ -74,16 +74,16 @@
     \hbox{
         \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm,dp=0.5ex]{white}
             \hspace{0.3cm}
-            \raisebox{0.2cm}{\includegraphics[height=0.6cm, keepaspectratio]{logos/thpt_thuan_hoa}}
+            % \raisebox{0.2cm}{\includegraphics[height=0.6cm, keepaspectratio]{logos/logo_truong}}
             \hfill
-            \raisebox{0.2cm}{\color{LightGray}\tiny TRƯỜNG THPT THUẬN HOÁ -- TRƯỜNG ĐẠI HỌC SƯ PHẠM, ĐẠI HỌC HUẾ}
+            \raisebox{0.2cm}{\color{LightGray}\tiny TRƯỜNG THPT <TÊN TRƯỜNG> -- TRƯỜNG ĐẠI HỌC <TÊN TRƯỜNG ĐẠI HỌC>}
             \hfill
-            \raisebox{0.2cm}{\includegraphics[height=0.6cm, keepaspectratio]{logos/dhsp_hue}}
+            % \raisebox{0.2cm}{\includegraphics[height=0.6cm, keepaspectratio]{logos/logo_truong_dai_hoc}}
             \hspace{0.3cm}
         \end{beamercolorbox}
     }
     \vskip0pt
-    {\color{HUEOrange}\hrule height 2pt}
+    {\color{AccentGold}\hrule height 2pt}
 }
 
 \setbeamerfont{frametitle}{size=\Large, series=\bfseries}
@@ -94,8 +94,8 @@
     {\color{LightGray}\small \insertframesubtitle}
 }
 
-\setbeamercolor{block title}{fg=white, bg=HUEBlue}
-\setbeamercolor{block body}{fg=DarkText, bg=HUEBlue!10}
+\setbeamercolor{block title}{fg=white, bg=PrimaryBlue}
+\setbeamercolor{block body}{fg=DarkText, bg=PrimaryBlue!10}
 \setbeamertemplate{blocks}[rounded][shadow=false]
 
 \AtBeginSection[]{
@@ -108,8 +108,8 @@
 \title[AInatomy]{XÂY DỰNG PHÒNG THÍ NGHIỆM AI OFFLINE (AINATOMY) NHẰM PHÁT TRIỂN NĂNG LỰC KIỂM CHỨNG AI CHO HỌC SINH THPT THEO CHƯƠNG TRÌNH GIÁO DỤC PHỔ THÔNG 2018}
 \subtitle{Báo cáo sản phẩm ứng dụng -- Giải thưởng Tiên phong Ứng dụng AI trong Giáo dục Việt Nam 2026}
 \author[ Mai Xuân Văn]{\textbf{Chủ trì:} Mai Xuân Văn\\
-\textbf{Đơn vị:} Trường THPT Thuận Hoá, Đại học Sư Phạm, Đại học Huế}
-\institute[THPT Thuận Hoá]{Trường THPT Thuận Hoá -- Đại học Sư Phạm, Đại học Huế}
+\textbf{Đơn vị:} Trường THPT <Tên trường>, Đại học <Tên trường đại học>}
+\institute[Tên trường]{Trường THPT <Tên trường> -- Đại học <Tên trường đại học>}
 \date{Năm học 2025--2026}
 
 % ================= NỘI DUNG SLIDE =================
@@ -122,19 +122,19 @@
     \begin{columns}
         \column{0.5\textwidth}
         \centering
-        \includegraphics[height=1.5cm, keepaspectratio]{logos/thpt_thuan_hoa}
+        % \includegraphics[height=1.5cm, keepaspectratio]{logos/logo_truong}
         \column{0.5\textwidth}
         \centering
-        \includegraphics[height=1.5cm, keepaspectratio]{logos/dhsp_hue}
+        % \includegraphics[height=1.5cm, keepaspectratio]{logos/logo_truong_dai_hoc}
     \end{columns}
     \vspace{0.3cm}
-    {\color{HUEOrange}\rule{0.8\textwidth}{2pt}}\\
+    {\color{AccentGold}\rule{0.8\textwidth}{2pt}}\\
     \vspace{0.5em}
-    {\large \bfseries \color{HUEBlue} BÁO CÁO SẢN PHẨM ỨNG DỤNG} \\
+    {\large \bfseries \color{PrimaryBlue} BÁO CÁO SẢN PHẨM ỨNG DỤNG} \\
     \vspace{1em}
     {\Large \bfseries \inserttitle} \\
     \vspace{0.5em}
-    {\color{HUEOrange} \insertsubtitle} \\
+    {\color{AccentGold} \insertsubtitle} \\
     \vspace{0.8cm}
     \insertauthor \\
     \vspace{0.4cm}
@@ -199,7 +199,7 @@
         \textbf{Phạm vi:}
         \begin{itemize}
             \item 28 bài học, 22 YCCĐ
-            \item Trường THPT Thuận Hoá
+            \item Trường THPT <Tên trường>
             \item Năm học 2025--2026
             \item HTML5, CSS3, JS, Three.js
         \end{itemize}
@@ -291,7 +291,7 @@
     \end{columns}
     
     \vspace{0.5em}
-    \textbf{Giai đoạn 3: Triển khai \& đánh giá} tại Trường THPT Thuận Hoá.
+    \textbf{Giai đoạn 3: Triển khai \& đánh giá} tại Trường THPT <Tên trường>.
 \end{frame}
 
 % ================= PHẦN 3: KẾT QUẢ =================
@@ -369,7 +369,7 @@
     \begin{enumerate}
         \item \textbf{Bộ GD\&ĐT:} Khuyến khích công cụ AI offline, đặc biệt vùng khó khăn.
         \item \textbf{Trường THPT:} Tích hợp AInatomy vào Tin học 10, tập huấn giáo viên.
-        \item \textbf{Giáo viên:} Sử dụng AInatomy, khuyến khích học sinh质疑 AI.
+        \item \textbf{Giáo viên:} Sử dụng AInatomy, khuyến khích học sinh nghi ngờ AI.
         \item \textbf{Nghiên cứu tiếp:} Đánh giá tác động dài hạn, mở rộng khối 11--12.
     \end{enumerate}
 \end{frame}
@@ -389,11 +389,11 @@
 \begin{frame}[plain]
     \centering
     \vspace{1cm}
-    \includegraphics[height=1.5cm, keepaspectratio]{logos/thpt_thuan_hoa} \hspace{2cm}
-    \includegraphics[height=1.5cm, keepaspectratio]{logos/dhsp_hue}
+    % \includegraphics[height=1.5cm, keepaspectratio]{logos/logo_truong} \hspace{2cm}
+    % \includegraphics[height=1.5cm, keepaspectratio]{logos/logo_truong_dai_hoc}
     
     \vspace{1.5cm}
-    {\Huge \bfseries \color{HUEBlue} TRÂN TRỌNG CẢM ƠN!}\\
+    {\Huge \bfseries \color{PrimaryBlue} TRÂN TRỌNG CẢM ƠN!}\\
     \vspace{0.5cm}
     {\Large Q\&A}
 \end{frame}
