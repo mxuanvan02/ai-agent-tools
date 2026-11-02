@@ -117,6 +117,94 @@ Vietnamese academic prose favours shorter sentences than English academic
 prose. A manuscript that reads as translated usually has correct grammar and
 sentences one clause too long.
 
+### T6. Information density test
+
+**Principle:** every word occurrence must carry information not already
+present in the immediately preceding context. Repetition without new
+information is a structural symptom, not a vocabulary problem.
+
+**Fails when:** a content word recurs without introducing a new aspect,
+relation, or consequence. The failure is not that the word appears twice —
+it is that the sentence structure could not accommodate the second
+occurrence without redundancy.
+
+**Repair:** restructure the sentence so the concept appears once and
+governs multiple predicates, or delete the redundant occurrence. Do not
+reach for a synonym — synonym substitution over an empty structure produces
+inflated prose that fails T1.
+
+**Exception:** locked technical terms repeat by design when each occurrence
+anchors a new inferential step. A term that appears five times because it
+is the paper's subject and each appearance advances the argument is
+correct; a term that appears five times because the writer could not
+consolidate the structure is not.
+
+### T7. Referential immediacy test
+
+**Principle:** every referring expression (pronoun, demonstrative,
+definite description) must have an antecedent recoverable within the
+reader's immediate working memory — the current clause or the preceding
+clause's subject.
+
+**Fails when:** the reader must hold multiple candidates in mind before
+selecting one, or must search backward more than one clause. The failure
+is not ambiguity in the strict sense — it is cognitive load. A pronoun
+whose referent is unambiguous but distant has already lost the reader.
+
+**Repair:** repeat the noun, or restructure so the pronoun falls within
+the referential window. Vietnamese tolerates zero-pronoun more than
+English, but only when the referent is the immediately preceding subject
+and no competing noun is present.
+
+### T8. Structural proportionality test
+
+**Principle:** the syntactic complexity of an enumeration must be
+proportional to the conceptual complexity of the items enumerated. When
+items contain internal structure (subordinate clauses, parentheticals,
+multiple arguments), the enumeration device must make that structure
+visible.
+
+**Fails when:** semicolons separate items that themselves contain commas
+or clauses. The reader cannot parse where one item ends and the next
+begins. The failure is not punctuation choice — it is a mismatch between
+item complexity and enumeration clarity.
+
+**Repair:** promote each complex item to its own sentence with an explicit
+discourse marker (`Thứ nhất`, `Thứ hai`, or numbered list). Reserve
+semicolons for short parallel phrases without internal structure. The
+principle generalizes: any time a list grows in internal complexity, the
+enumeration device must grow in explicitness.
+
+## 2b. Punctuation as structural commitment
+
+**Principle:** every punctuation mark that alters clause boundaries
+(question marks, colons, semicolons, em-dashes) is a structural
+commitment, not a stylistic choice. The mark commits the writer to a
+specific discourse relation, and the surrounding prose must fulfill that
+relation.
+
+**Question marks** commit to an interrogative structure: the question must
+be answered by the subsequent discourse. A question that opens a section
+and is resolved by the section's claims is licensed. A question in the
+middle of an argument breaks the claim-evidence chain and signals the
+writer is thinking aloud rather than presenting a result. A question in
+the conclusion signals the writer has not decided.
+
+**Colons** commit to an explanatory relation: what follows must elaborate,
+exemplify, or enumerate what precedes. A colon followed by an independent
+clause that does not explain the preceding clause is a structural fault.
+
+**Em-dashes** commit to parenthetical or contrastive insertion: the
+material between dashes must be removable without destroying the main
+clause's grammaticality. If the dash material is essential to the
+argument, it belongs in the main clause, not as an aside.
+
+**Repair:** identify the discourse relation the punctuation commits to,
+then verify the surrounding prose fulfills it. If the relation is not
+fulfilled, either restructure the prose to fulfill it or replace the
+punctuation with a device that commits to a weaker relation (comma,
+period).
+
 ## 3. Voice standard
 
 The tests in §2 keep prose from being empty. They do not make it literature.
