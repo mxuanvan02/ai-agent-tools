@@ -71,11 +71,25 @@ Template sử dụng 3 màu chính:
 
 1. **Trang bìa**: Logo, tiêu đề, chủ trì, đơn vị
 2. **Mục lục**: Các phần chính
-3. **Mở đầu**: Lý do, mục tiêu, đối tượng, phạm vi, phương pháp
-4. **Nội dung**: Giải pháp, triển khai, tính năng
-5. **Kết quả**: Số liệu, tác động, bền vững
-6. **Kết luận**: Tóm tắt, kiến nghị, tài liệu tham khảo
-7. **Q&A**: Slide cảm ơn
+3. **Bức tranh toàn cảnh (Big Picture)**: Demo sản phẩm hoàn thiện (screenshot/video), liên hệ thực tế (Zalo/Messenger), câu hỏi dẫn dắt ("Điều gì xảy ra phía sau?"). Lý do: não xử lý thông tin cụ thể nhanh hơn trừu tượng — tạo "mỏ neo" trước khi đi vào khái niệm.
+4. **Mở đầu**: Lý do, mục tiêu, đối tượng, phạm vi, phương pháp
+5. **Nội dung**: Giải pháp, triển khai, tính năng
+6. **Kết quả**: Số liệu, tác động, bền vững
+7. **Kết luận**: Tóm tắt, kiến nghị, tài liệu tham khảo
+8. **Q&A**: Slide cảm ơn
+
+## Cấu trúc sư phạm (theo Gagne's 9 Events + Cognitive Psychology)
+
+Khi báo cáo trước hội đồng/người nghe không chuyên, tuân thủ nguyên tắc **từ tổng quát đến chi tiết**:
+
+1. **Tạo mỏ neo cụ thể** — Cho xem sản phẩm hoàn thiện (screenshot, demo, video) TRƯỚC khi giải thích kiến trúc. Người nghe cần hình dung "đầu ra" trước khi hiểu "đầu vào".
+2. **Kích hoạt kiến thức nền** — Liên hệ với thứ quen thuộc (Zalo, Messenger, Uber) để tạo bối cảnh. Không bắt đầu bằng khái niệm trừu tượng.
+3. **Đặt câu hỏi dẫn dắt** — "Khi gửi tin nhắn, điều gì xảy ra phía sau?" — tạo curiosity gap trước khi đi vào giải pháp kỹ thuật.
+4. **Từ vấn đề → giải pháp** — Trình bày vấn đề trước, sau đó mới đưa giải pháp. Không đưa giải pháp rồi mới giải thích vấn đề.
+
+Trong Beamer: thêm section "Bức tranh toàn cảnh" ngay sau mục lục, trước "Mở đầu", với 2 slide: (a) screenshot sản phẩm + caption ngắn + câu hỏi dẫn dắt; (b) sơ đồ luồng hoạt động tổng quan (TikZ đơn giản: 2 actor + 2 mũi tên Send/Recv).
+
+**Lưu ý TikZ trong Beamer**: KHÔNG dùng `\resizebox{\textwidth}{!}{...}` cho diagram cao (>12 đơn vị TikZ) — co quá mức làm diagram biến mất hoặc render sai. Đơn giản hóa diagram (bỏ note box, chỉ giữ actor + mũi tên ngang) thay vì resize.
 
 ## Ví dụ: iEEAI 2026
 
