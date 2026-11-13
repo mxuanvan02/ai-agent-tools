@@ -67,5 +67,136 @@ Rules:
 3. An instruction to "write findings to a file after each part" is not self-enforcing. If the deliverable is the report, require the reviewer to emit it in its final message as well, and treat the file as a bonus.
 4. Stop the run when the evidence gathered already covers the brief; a reviewer at 100+ minutes emitting no new claims is spending tokens, not finding defects.
 
+## A co-author's dataset is a citable source, and blinding changes its form
+
+A survey table, coding sheet, or corpus compiled by one of the authors reads as
+"ours" and therefore tends to be introduced with an agentless sentence: `Một tác giả
+thực hiện mã hóa, không có kiểm tra liên mã hóa`. That sentence names a limitation
+but erases ownership, and a reviewer cannot tell whose work it is, whether it is
+published, or how to check it. Ownership is a citation obligation even inside the
+authors' own paper.
+
+Rules:
+1. **Name the compiler and give the artifact a reference entry.** `Bảng khảo sát dùng
+trong bài do <tên> lập và mã hóa (<Họ> <năm>)`, plus an APA entry typed as an
+unpublished manuscript when it has not appeared anywhere: `Họ, T. (2026). *Tiêu đề*
+[Bản thảo chưa công bố]. Đơn vị.` Do not cite it as a published work, and do not
+leave it uncited because it feels like an internal file.
+2. **Say where the full table can be inspected.** `Toàn bộ bảng mã hóa được công bố ở
+Phụ lục A và Phụ lục B để người đọc có thể kiểm tra lại từng trường hợp.` A
+single-author coding scheme is only defensible if a reader can recode it.
+3. **Put the source note under each table, not only in the Method paragraph.** A
+reader who enters at Table 2 never sees section 2. `*Nguồn:* <tên> lập và mã hóa từ
+<văn bản> (Phụ lục A).`
+4. **In the blinded version, the same citation must survive with the identity
+removed.** `compiled and coded by the first author ([Author] 2026)`, table notes
+`*Source:* Compiled and coded by the first author`, reference entry
+`[Author]. (2026). ... [Unpublished manuscript]`. Then verify: `grep -c '<tên tác
+giả>' <bản ẩn danh>` must return 0. Blinding a paper and leaving the author's name
+in a table note is the failure this check exists to catch — and the fix is not to
+delete the citation, because an uncited dataset is the worse defect.
+
+## A date attached to an event belongs to that event, not to a nearby landmark
+
+Measured on a conference manuscript about two Vietnamese literary works: the draft said
+*Tướng về hưu* and *Những ngọn gió Hua Tát* received the State Prize in **2021**, because
+the author died in March 2021. Four independent notices carrying the award announcement
+give **2022** — the decision was signed in December 2022, in the posthumous round. The
+wrong year is the plausible one: it is the year the person died, and it sits beside the
+real one.
+
+Rules:
+1. An award year comes from the awarding body's own decision or announcement, never from
+   the year the recipient died, published, or was honoured by something else. Search
+   `<work> <award name> truy tặng` and read the dated notice, not a biography summary.
+2. Prefer the notice's own date over a secondary page's summary line. An infobox and a
+   newspaper article can disagree; the awarding association's announcement is the
+   tiebreak.
+3. The same rule governs a reissue year. Two sources dated a novel's reissue under the
+   author's own title to 1991, another to 1992. When sources split, name the year they
+   agree on or state the uncertainty — never the year that fits the narrative
+   (`một năm sau`).
+
+## A sample size comes from the paper's Methods, not from its press release
+
+The same manuscript wrote `hơn 300 người viết` for Doshi & Hauser (2024). The paper's own
+dataset statement says `N=293`; 300 is the recruitment figure in the university press
+release. Both are true of something; only one is true of the analysed sample.
+
+Rules:
+1. Read `N` from the Methods or the dataset description, not from abstract prose and not
+   from a press release. Recruited ≠ analysed; excluded participants leave the
+   denominator.
+2. A replication paper can quote the original's post-exclusion N while the original
+   headline quotes the pre-exclusion N. When two papers disagree, the original paper wins
+   for the original's claim.
+3. Give the analysed N with its referent (`293 người viết`), or hedge explicitly
+   (`khoảng 300`). An unhedged rounded number becomes false precision.
+
+## A preprint and its journal version carry different registered titles
+
+A reference entry gave the journal-version title while its identifier pointed at the
+arXiv preprint, whose registered title differs. An identifier that resolves proves the
+record exists; it does not prove the title matches.
+
+Rule: cite the title registered at the identifier you actually print, and when both
+versions exist name which one you read (`arXiv:2504.13868` for the preprint, a `doi.org`
+link for the journal version). A reader who opens the link must land on the title and
+author list the entry names.
+
+## A reviewer's finding is a hypothesis — verify the artifact before editing
+
+Across five adversarial review rounds on one manuscript, nine findings were raised and
+four were false. Acting on them would have introduced the defects the review existed to
+remove. The false classes are repetitive, and each names a specific artifact that
+settles it in one command.
+
+| Finding | Why it was false | Check that settles it |
+| --- | --- | --- |
+| "source X is never cited" | cited in the Vietnamese in-text form `Tên và nnk. (năm)`; reviewer grepped `X et al.` | grep the source's **Vietnamese** author form, not the English one |
+| "reference Y is never cited" | present; `pdftotext` broke the string across a line | count on `pdftotext - \| tr '\n' ' '`, never on raw line output |
+| "bottom margin is 2.86 cm, spec is 2.50" | measured from the last text baseline, not the page box | read `python-docx` `section.bottom_margin`; a short final page inflates any text-based measure |
+| "statistic Z is wrong" | reviewer confused two statistics from the same paper | fetch the paper's own sentence and quote it against the draft |
+
+Rules:
+
+1. Before accepting a finding, name the artifact that would prove it and check that
+   artifact. A finding not tied to a file, a page, or a quoted source sentence is not
+   actionable.
+2. **Never change a number because a reviewer disputes it.** Change it only after
+   reading the source's own sentence. Two statistics from one paper (a novelty gain and
+   a similarity shift, both in the same results section) are the commonest confusion.
+3. **Never change a layout spec from a text-position measurement.** Section properties
+   are authoritative for margins; PDF `bbox` measures the last glyph drawn.
+4. Keep a per-round ledger of findings adjudicated false, so the next round does not
+   re-raise them and a real finding is not lost in the noise. Phrase each entry as the
+   artifact checked and what it showed.
+5. A review that reports only false positives and never a real defect is still useful
+   data: it means the manuscript is converging. Do not loosen a gate to manufacture a
+   finding.
+
+## A quotation attributed to a literary work must be found in the work
+
+A draft carried a line in quotation marks attributed to a novel, with a page-free
+`(Author, năm)` parenthetical. The line was not the novel's prose — it was a critic's
+commentary about the novel, recast to read like the text. Nothing flagged it: the
+sentence was fluent, the attribution looked complete, and it sat inside an analysis that
+read correctly.
+
+Commentary and paraphrase are the common source of a misattributed quotation because
+they share the work's vocabulary. The tell is grammatical: commentary **describes** the
+text ("the novel shows", "the author sends") while the text **is** the utterance.
+
+Rules:
+
+1. Verify a quoted line from a primary literary work against the work's own text — a
+   full-text copy, a scholarly edition, or an excerpt that carries the passage. A
+   secondary study quoting the work is not the work.
+2. When the exact wording cannot be located, drop the quotation marks and report the
+   content, citing the study that discussed it. Never keep quotation marks on text you
+   could not find.
+3. Apply this hardest to the passages the argument leans on: a load-bearing quotation
+   is the one least likely to be checked and most damaging when wrong.
+
 ## Pointer in SKILL.md
 Section "Evidence-Bound Revision" item 6 now references this file.

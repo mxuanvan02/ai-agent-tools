@@ -184,12 +184,49 @@ HEDGE = [
     r"có\s+xu\s+hướng",
 ]
 
+# Registry §11: Vietnamese self-reference and first-person register.
+#
+# A Vietnamese manuscript that refers to itself as "bài" and speaks in the bare
+# first person "ta" reads as a machine rendering of an English draft. These are
+# STRUCTURAL tells, not a vocabulary list: the detector matches the slot, and
+# the repair table lives in the registry, not here.
+#
+# The "bài" match excludes the compound nouns that legitimately take "bài"
+# ("bài báo", "bài học", "bài toán", "bài tập", ...), because those name an
+# object rather than the manuscript.
+# Compound nouns that legitimately take "bài" and therefore name an OBJECT
+# rather than the manuscript: "bài báo", "bài toán", "bài học", "bài tập",
+# "bài kiểm tra", "bài nghiên cứu", ... A match on one of these is ordinary
+# Vietnamese and must not be reported.
+BAI_COMPOUND = (
+    r"báo|học|toán|tập|viết|phát|thuyết|trình|kiểm|đề|nội\s+dung|quan|"
+    r"trắc|đối|chiếu|song|hát|cổ|sử|thơ|tốn|phụ|lục|văn|nghệ|"
+    r"nghiên\s+cứu"
+)
+
+SELF_REFERENCE = [
+    r"của\s+bài(?!\s+(?:" + BAI_COMPOUND + r"))",
+    r"\bbài(?!\s+(?:" + BAI_COMPOUND + r"))\s+(?:không|chưa|đã|được|có|"
+    r"đặt\s+ra|trình\s+bày|cung\s+cấp|chỉ\s+ra)\b",
+]
+
+# The bare first person "ta" is only a tell in a VERB slot: "ta cần phải",
+# "ta đề xuất", "ta thấy". As a noun ("héc-ta", "đơn vị ta") it is ordinary
+# Vietnamese and must not be flagged. The lookbehind for "chúng " is fixed
+# width because Python's `re` rejects a variable-width lookbehind.
+FIRST_PERSON_TA = [
+    r"(?<!chúng )(?<![\w-])ta\s+(?:cần|phải|thấy|đề\s+xuất|cho\s+rằng|"
+    r"khẳng\s+định|có\s+thể|cho\s+thấy|quyết|định\s+ý)\b",
+]
+
 PATTERNS: dict[str, list[str]] = {
     "ceremonial_padding": CEREMONIAL,
     "unquantified_intensifier": UNQUANTIFIED,
     "empty_framing": EMPTY_FRAMING,
     "translation_calque": CALQUE,
     "symmetric_padding": DECORATIVE_PAIR,
+    "self_reference": SELF_REFERENCE,
+    "bare_first_person": FIRST_PERSON_TA,
 }
 
 # --- licences (registry §7 and measured false positives) ---------------------
@@ -256,6 +293,8 @@ THRESHOLDS = {
     "hedge_stack": 0,
     "machine_marked_passage": 0,
     "explanatory_colon": 0,
+    "self_reference": 0,
+    "bare_first_person": 0,
 }
 
 VERDICTS = ("replace_with_measurement", "delete", "recast", "license")

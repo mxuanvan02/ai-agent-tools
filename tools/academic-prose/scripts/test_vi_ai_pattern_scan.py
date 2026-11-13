@@ -242,6 +242,64 @@ class TestFixtures(unittest.TestCase):
         self.assertIn("partial verification", result["note"])
 
 
+class TestSelfReferenceRegister(unittest.TestCase):
+    """Registry §11: Vietnamese self-reference and first-person register.
+
+    Every case here was measured on a real Vietnamese manuscript. The
+    "bài toán" case is a measured FALSE POSITIVE: the first draft of the
+    detector excluded only "bài báo", so it flagged "Mục tiêu của bài toán là
+    giảm thiểu sai số bám" — an ordinary Vietnamese compound naming an object,
+    not the manuscript. A retracted finding costs more trust than the defect it
+    hunts, so the compound exclusion is a regression test.
+    """
+
+    def test_self_reference_is_a_candidate(self) -> None:
+        for sentence in (
+            "Quy ước đếm của bài là độ sâu khai của mỗi lệnh.",
+            "Mô phỏng của bài không rơi vào ô thứ hai.",
+            "Bài không có dữ liệu thực địa để hiệu chỉnh vùng này.",
+        ):
+            with self.subTest(sentence=sentence):
+                result = scan(sentence)
+                self.assertIn("self_reference", codes(result))
+                self.assertEqual(result["exit_code"], 2)
+
+    def test_bare_first_person_ta_is_a_candidate(self) -> None:
+        result = scan("Ta cần phải chuyển đổi chỉ báo của bài sang phát thải mê-tan.")
+        self.assertIn("bare_first_person", codes(result))
+
+    def test_bai_compound_naming_an_object_is_licensed(self) -> None:
+        """`bài toán`, `bài báo`, `bài học` name an object, not the manuscript."""
+        for sentence in (
+            "Mục tiêu của bài toán là giảm thiểu sai số bám trên toàn tuyến.",
+            "Bài báo này trình bày phương pháp dựa trên bản sao số FAO-56.",
+            "Các bài học rút ra từ thực nghiệm cần được kiểm chứng lại.",
+        ):
+            with self.subTest(sentence=sentence):
+                result = scan(sentence)
+                self.assertNotIn("self_reference", codes(result))
+
+    def test_ta_as_a_noun_is_licensed(self) -> None:
+        """`héc-ta` and `đơn vị ta` are ordinary Vietnamese, not first person."""
+        for sentence in (
+            "Việt Nam cam kết một triệu héc-ta lúa phát thải thấp vào năm 2030.",
+            "Đơn vị ta không đồng ý với kết luận của nhóm tác giả.",
+        ):
+            with self.subTest(sentence=sentence):
+                result = scan(sentence)
+                self.assertNotIn("bare_first_person", codes(result))
+
+    def test_chung_ta_is_licensed(self) -> None:
+        result = scan("Chúng ta đã biết điều này từ trước.")
+        self.assertNotIn("bare_first_person", codes(result))
+
+    def test_threshold_key_registered(self) -> None:
+        result = scan("Quy ước đếm của bài là độ sâu khai.")
+        checks = {c["check"] for c in result["thresholds"]}
+        self.assertIn("self_reference", checks)
+        self.assertIn("bare_first_person", checks)
+
+
 class TestPatternInventoryIsPinned(unittest.TestCase):
     """Every regex is pinned by identity.
 
@@ -365,6 +423,21 @@ class TestPatternInventoryIsPinned(unittest.TestCase):
         'có\\s+xu\\s+hướng',
     )
 
+    SELF_REFERENCE = (
+        'của\\s+bài(?!\\s+(?:báo|học|toán|tập|viết|phát|thuyết|trình|kiểm|đề|'
+        'nội\\s+dung|quan|trắc|đối|chiếu|song|hát|cổ|sử|thơ|tốn|phụ|lục|'
+        'văn|nghệ|nghiên\\s+cứu))',
+        '\\bbài(?!\\s+(?:báo|học|toán|tập|viết|phát|thuyết|trình|kiểm|đề|'
+        'nội\\s+dung|quan|trắc|đối|chiếu|song|hát|cổ|sử|thơ|tốn|phụ|lục|'
+        'văn|nghệ|nghiên\\s+cứu))\\s+(?:không|chưa|đã|được|có|đặt\\s+ra|'
+        'trình\\s+bày|cung\\s+cấp|chỉ\\s+ra)\\b',
+    )
+
+    FIRST_PERSON_TA = (
+        '(?<!chúng )(?<![\\w-])ta\\s+(?:cần|phải|thấy|đề\\s+xuất|cho\\s+rằng|'
+        'khẳng\\s+định|có\\s+thể|cho\\s+thấy|quyết|định\\s+ý)\\b',
+    )
+
     def test_inventory_matches_module(self) -> None:
         for name in (
             "CEREMONIAL",
@@ -374,6 +447,8 @@ class TestPatternInventoryIsPinned(unittest.TestCase):
             "DECORATIVE_PAIR",
             "ORNAMENT",
             "HEDGE",
+            "SELF_REFERENCE",
+            "FIRST_PERSON_TA",
         ):
             with self.subTest(list=name):
                 self.assertEqual(
@@ -385,7 +460,8 @@ class TestPatternInventoryIsPinned(unittest.TestCase):
 
     def test_every_pattern_compiles(self) -> None:
         for name in ("CEREMONIAL", "UNQUANTIFIED", "EMPTY_FRAMING", "CALQUE",
-                     "DECORATIVE_PAIR", "ORNAMENT", "HEDGE"):
+                     "DECORATIVE_PAIR", "ORNAMENT", "HEDGE", "SELF_REFERENCE",
+                     "FIRST_PERSON_TA"):
             for pattern in getattr(module, name):
                 with self.subTest(list=name, pattern=pattern):
                     re.compile(pattern)

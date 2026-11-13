@@ -109,6 +109,8 @@ Vietnamese equivalent of §7, sourced from English generation. These are grammat
 
 Also watch: `sự` and `việc` stacked across a clause (`việc thực hiện sự đánh giá quá trình cải thiện chất lượng`), pervasive `được`/`bị` with no discourse reason, and long prenominal modifier chains copied from English noun stacks.
 
+**When the subject is literature, this table is incomplete.** English literary criticism has its own idiom, and translating it yields calques absent from the list above (`nằm ở chỗ` rendering *lies in the fact that*, `đóng gói` for *packages*, `cái đứng` for *that standing*, `ở tầng sâu nhất` for *at the deepest level*). Those, plus the long-`và`-chain repair, the tertium comparationis requirement, and the literary hedge inventory, are in [Vietnamese prose about literature and comparison](vietnamese-literary-prose.md). Load it whenever the deliverable is Vietnamese prose about literature rather than data.
+
 ## 5. Ornamental synonym cycling
 
 Vietnamese equivalent of §11, and a genuine hazard because Vietnamese offers a Sino-Vietnamese and a native word for most concepts. A model alternates them to avoid repetition; a reader infers two constructs.
@@ -164,3 +166,87 @@ The colon-split title (`Chủ đề lớn: Phụ đề thu hẹp`) is a high-sig
 Repair by recasting into a single nominal phrase. A course-essay title built as `PHẦN MỀM NGUỒN MỞ TRONG KỶ NGUYÊN CHUỖI CUNG ỨNG PHẦN MỀM: GIẤY PHÉP, MÔ HÌNH PHÁT TRIỂN VÀ AN TOÀN CHUỖI CUNG ỨNG` becomes `GIẤY PHÉP, MÔ HÌNH PHÁT TRIỂN VÀ AN TOÀN CHUỖI CUNG ỨNG CỦA PHẦN MỀM MÃ NGUỒN MỞ` — same scope, one phrase, no repeated token, no colon.
 
 The rule extends to section headings. Table and figure captions are the licensed exception: `Bảng 1: Tên bảng` is the established Vietnamese house convention and appears in the author's own approved theses; `vi_ai_pattern_scan` flags caption colons as candidates — adjudicate them as licensed, do not rewrite. Apply it before delivery rather than after the author points it out, and re-run `vi_ai_pattern_scan` with URLs and DOIs stripped so citation strings do not hide the real colon density in prose.
+
+The same scrutiny applies to a title with no colon at all. A title stacked as two
+nominalizations (`Biến hình không hoàn tất và sự im lặng của cơ thể nữ`) reads
+crowded, repeats the `X của Y` skeleton, and leaves it unclear whether the two
+halves are the axes the argument actually makes. Prefer concrete noun phrases
+naming the analytical object (`tiếng nói bị tước` over `sự im lặng của cơ thể
+nữ`), then re-read the body and confirm both halves are truly argued. A title
+promising an axis the paper only touches is framing drift, the same defect the
+colon-split title commits.
+
+## 11. Vietnamese self-reference and first-person register
+
+A Vietnamese manuscript that refers to itself as "bài" and speaks in the bare first person "ta" reads as a machine rendering of an English draft. Both are **structural** tells: the detector matches the SLOT, not a vocabulary list, because the repair is a register change, not a word swap.
+
+### 11.1 Self-reference
+
+The manuscript naming itself as "bài" is not wrong in isolation, but it is a conversational register that Vietnamese academic prose does not use for its own argument. The natural self-references are "nghiên cứu này", "nghiên cứu", "công trình này", and the first person "chúng tôi".
+
+| Machine register | Vietnamese academic register |
+| --- | --- |
+| "chỉ báo của bài" | "chỉ báo mà chúng tôi dùng" / "chỉ báo của nghiên cứu" |
+| "quy ước đếm của bài" | "quy ước đếm trong nghiên cứu này" |
+| "mô phỏng của bài" | "mô phỏng của nghiên cứu" / "mô phỏng trong nghiên cứu này" |
+| "bài không đo được độ lớn đó" | "nghiên cứu không đo được độ lớn đó" |
+| "phát hiện quan trọng nhất của bài" | "phát hiện quan trọng nhất của nghiên cứu" |
+| "bài báo đặt ra câu hỏi" | "nghiên cứu đặt ra câu hỏi" |
+
+**Licensed, because they name an object rather than the manuscript:** "bài báo" (a paper), "bài toán" (a problem), "bài học" (a lesson), "bài tập" (an exercise), "bài nghiên cứu" (a study). A detector that excludes only "bài báo" flags "Mục tiêu của bài toán là giảm thiểu sai số bám" — a measured false positive that became a regression test.
+
+### 11.2 Bare first person "ta"
+
+"Ta" in a VERB slot is a spoken register; Vietnamese academic prose uses "chúng tôi" (including for a single author, where the venue permits it).
+
+| Machine register | Vietnamese academic register |
+| --- | --- |
+| "ta cần phải chuyển đổi..." | "chúng tôi cần chuyển đổi..." / "nghiên cứu cần chuyển đổi..." |
+| "ta đề xuất phương pháp..." | "chúng tôi đề xuất phương pháp..." |
+| "ta thấy rằng..." | "chúng tôi thấy rằng..." / "kết quả cho thấy..." |
+
+**Licensed, because "ta" is a noun there:** "héc-ta", "đơn vị ta", "nhà nghiên cứu ta". The detector therefore requires a following verb from a closed set, not the token alone.
+
+### 11.3 Audit
+
+Count in the Vietnamese text layer only:
+
+- `của bài` and `bài +` a finite verb, excluding the licensed compound nouns — each occurrence is a candidate.
+- bare `ta` followed by a verb — each occurrence is a candidate.
+
+One occurrence is a stylistic choice; the register becomes a defect when it recurs through the document. The scanner reports both as separate classes (`self_reference`, `bare_first_person`) with limit 0, because a Vietnamese manuscript for a journal or thesis does not use either register at all.
+
+## 10. A clean `translation_calque` count does not certify a translation
+
+`vi_ai_pattern_scan.py` hunts fixed calque phrases (`mở đường cho`, `cung cấp một cái nhìn`, `nó được phát hiện ra rằng`). A word-by-word translation that is wrong at the SENTENCE-STRUCTURE level scores `translation_calque = 0` while still reading as machine output. Measured on a translated manuscript the author rejected as “văn phong còn dịch word by word, câu chữ lủng củng”: the scanner reported 0 calques, 0 symmetric padding, 0 hedge stacks, and `machine_marked_passage = 0`, while the structural layer measured 29 em dashes, 126 unreasoned `được` (19,2 per 1.000 words), 28 `sự + V`, 10 `việc + V`, and 47 explanatory colons (7,2 per 1.000 words against the §2b ceiling of 1,0).
+
+Before delivering any `translate`, `humanize`, or `audit` output in Vietnamese, measure the structural layer separately from the phrase registries:
+
+| Signal | Ceiling | Repair |
+| --- | --- | --- |
+| em dash `—` in body prose | 0 | the four construction types in [Academic Vietnamese standard](academic-vietnamese-standard.md) |
+| explanatory colons per 1.000 prose words | 1,0 | §2b connective table (`vì`, `khi`, `theo đó`, `cụ thể là`, `gồm`) |
+| colons in headings and captions | 0 | fold into one noun phrase; `Bảng 1:` / `Hình 2:` stay |
+| `được` / `bị` | no ceiling; compare against the source | rewrite active or drop the subject, never delete mechanically |
+| `sự + V`, `việc + V` | no ceiling; compare against the source | replace the nominalisation with its verb |
+
+Count on the prose subset only: strip code fences, markdown table rows, headings, blockquotes, and `$...$` / `\[...\]` math before counting colons, or math notation (`\hat\varepsilon{=}0.2369:\ q{=}...`) and table rows report false hits.
+
+Every hit remains a candidate, not a verdict, and the repair is to rewrite the whole sentence — a global `được` deletion destroys meaning and a global colon replacement leaves clauses dangling. Adjudicate, then re-read the paragraph.
+
+**Gate the gate.** Such a structural scan must be run against one known-good and one known-bad fixture and prove it exits 0 on the good one and non-zero on the bad one. A scanner that only ever reports FAIL cannot distinguish a bad translation from a strict threshold.
+
+### Let the parser adjudicate markdown damage, never a regex
+
+Undigested markdown (a literal `**` printed on the page) is visible to the reader and invisible to the XeLaTeX log, so it must be gated. Two regexes written for it produced measured false positives:
+
+1. Counting `\*\*\s|\s\*\*` indicted 41 lines, of which **26 were valid bold** such as `**Nguyễn Tương Tri** (tác giả liên hệ),` — the space sits AFTER the closing pair, where CommonMark allows it.
+2. Even after stripping `**…**` pairs, the regex still indicted `**H2 Không có mỏ neo.** … OPT\_\* …` purely because the line contains a deliberately escaped asterisk. Pandoc bolds that run correctly and renders `OPT_*` correctly.
+
+The arbiter is the parser. `pandoc SRC -t native` turns a broken `**` pair into a bare text token `Str "**"`, while valid bold becomes `Strong [...]`:
+
+```bash
+pandoc "$SRC" -t native 2>/dev/null | grep -cE 'Str "\*\*?"'   # must be 0
+```
+
+Calibrate on three variants before trusting the count: broken bold = 1, valid bold containing an escaped `\*` = 0, plain valid bold = 0. The usual cause is a space on the INNER edge (`** text **`), which fails flanking and leaves the pair as text.

@@ -281,6 +281,8 @@ class RepositoryContractTests(unittest.TestCase):
             "translation_calque",
             "hedge_stack",
             "machine_marked_passage",
+            "self_reference",
+            "bare_first_person",
         ):
             with self.subTest(gate_class=gate_class):
                 self.assertIn(gate_class, rubric)
