@@ -9,6 +9,12 @@ Writing failures are defined in [Academic Writing Failure Taxonomy](writing-fail
 
 Establish the problem or gap -> state purpose -> identify method/material -> report principal result -> state bounded contribution. Do not add background, claims, or implications absent from the study.
 
+The opening sentence has its own gate — subject identity, term repetition,
+denominator, causal middle step, object-first opening. Move order does not
+satisfy it. Run [The opening sentence gate](abstract-opening-sentence-gate.md)
+before the first build; skipping it cost six build-and-look rounds on one
+abstract.
+
 ## Introduction
 
 Define the research territory -> identify a consequential and evidenced gap -> delimit the problem -> state purpose/question -> preview the contribution without promotional inflation. A gap is not merely “few studies exist”; explain what remains unresolved and why it matters.

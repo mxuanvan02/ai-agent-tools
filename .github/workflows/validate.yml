@@ -32,6 +32,14 @@ jobs:
           python3 tools/academic-prose/scripts/public_hygiene_check.py
           python3 -m py_compile tools/academic-prose/scripts/*.py
 
+      - name: Validate academic-document-production
+        # Static literal paths only; no ${{ }} expressions, no attacker-controlled
+        # input reaches a shell. Same pattern as the steps below.
+        run: |
+          python3 tools/academic-document-production/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/academic-document-production/scripts/*.py
+          python3 tools/academic-document-production/scripts/verify_journal_docx.py --help >/dev/null
+
       - name: Validate PowerPoint integration
         run: |
           python3 -m unittest discover -s tools/ppt-master-officecli/tests -v

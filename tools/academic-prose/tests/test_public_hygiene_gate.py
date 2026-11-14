@@ -179,9 +179,11 @@ class TestAllowlistIsNarrow(unittest.TestCase):
     def test_real_tool_directory_passes_with_both_citations_present(self) -> None:
         rc, out = run_gate(TOOL_DIR)
         self.assertEqual(rc, 0, out)
-        word_limit = (TOOL_DIR / WORD_LIMIT_FILE).read_text(encoding="utf-8")
-        self.assertIn("Đại học " + "Huế", word_limit,
-                      "second citation gone from %s -- update this suite" % WORD_LIMIT_FILE)
+        # The second allowlisted citation moved out with the artifact-side reference it belonged
+        # to; guard instead that the surviving one is still present, so the suite cannot go vacuous.
+        standard = (TOOL_DIR / CITATION_FILE).read_text(encoding="utf-8")
+        self.assertIn(INSTITUTION_1, standard,
+                      "citation gone from %s -- update this suite" % CITATION_FILE)
 
     def test_removing_the_citation_framing_makes_the_real_file_fail(self) -> None:
         mutated = self.real.replace(FRAMING + "/", "Decision /", 1)

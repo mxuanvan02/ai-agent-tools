@@ -157,6 +157,10 @@ ALLOWED_CITATIONS: list[tuple[str, str, str, str]] = [
     # The journal and its faculty are the source of the word-limit rule quoted verbatim below it.
     ("references/word-budget-and-rendered-artifact-compliance.md", "institution-2",
      "Đại học " + "Huế", "Tạp chí"),
+    # The university is the issuing authority for the format rule; the citation is the evidence a
+    # reader checks, not an employer claim.
+    ("references/thesis-format-authority.md", "institution-2",
+     "Đại học " + "Huế", "1538"),
 ]
 
 
