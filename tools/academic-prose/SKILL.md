@@ -3,7 +3,7 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.25.0"
+  version: "3.26.0"
 ---
 
 # Academic Prose
@@ -145,6 +145,37 @@ itself to define an abbreviation before treating its position as a defect.
 Then follow the manual procedure in
 [Terminology consistency audit](references/prose-checks-and-terminology-audit.md)
 for the variant-pair sweep, and verify every fix on the built PDF's text layer.
+
+## Independent prose review sweep
+
+When the user asks for a prose review of a finished manuscript, or asks for more
+style factors after an automated pass came back clean, run the sweep in
+[Independent prose review sweep](references/independent-prose-review-sweep.md).
+
+**The gates are half the sweep, not the whole of it.** Every scanner here matches
+a lexical pattern and reports one finding per occurrence; none divides. Measured
+on a 10-page bilingual manuscript, six gates returned 5 findings while 34
+explanatory colons sat in 6,326 words — 5.4× the registry ceiling. No gate was
+wrong; a rate is invisible to a pattern match. Run
+[`scripts/style_metrics.py`](scripts/style_metrics.py) on the extracted prose
+after the gates: it measures the colon rate, `được` rate, nominalisation, em
+dashes, sentence-length CV, paragraph length, repeated openings, connective
+distribution, and hedge inventory against the registry numbers.
+
+The colon is the one to act on. An explanatory colon stands in for a logical
+relation the writer did not name, so repair it by naming the relation (`gồm`,
+`vì`, `trong đó`, `cụ thể là`) or by splitting the sentence — never by deleting
+the colon and leaving the relation implicit. Confirm the repair by the connective
+distribution, not the colon count: if the count falls and no connective rises,
+the proposition was dropped rather than connected.
+
+Adjudicate every candidate into `author_prose_fix`,
+`immutable_source_false_positive`, or `needs_human_review`, and report the
+preserved items with the evidence that licenses them. A repeated opening shared
+by the abstract and the body is IMRaD convention, not duplication; an em dash in
+a published title is immutable, while the same dash in an author-written figure
+label is prose and gets fixed. The test is who wrote the string, not where it
+sits.
 
 ## Internal Register (prohibited)
 
