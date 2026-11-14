@@ -21,7 +21,6 @@ REQUIRED = (
     "references/ai-pattern-vietnamese.md",
     "references/domain-profiles.md",
     "references/quality-rubric.md",
-    "references/pdf-translate-integration.md",
     "references/composition-workflow.md",
     "references/capability-matrix.md",
     "references/argument-and-evidence.md",

@@ -35,7 +35,6 @@ class RepositoryContractTests(unittest.TestCase):
             "references/ai-pattern-vietnamese.md",
             "references/domain-profiles.md",
             "references/quality-rubric.md",
-            "references/pdf-translate-integration.md",
             "references/terminology-localization.md",
             "references/internal-register-gate.md",
             "references/skill-repository-maintenance.md",
@@ -373,7 +372,6 @@ class RepositoryContractTests(unittest.TestCase):
             "README.md",
             "SKILL.md",
             "references/capability-matrix.md",
-            "references/pdf-translate-integration.md",
         )
         core_text = "\n".join(
             (ROOT / path).read_text(encoding="utf-8") for path in core_paths

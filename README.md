@@ -7,6 +7,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | Tool | Purpose | Entry point |
 |---|---|---|
 | [`academic-prose`](tools/academic-prose/) | Bilingual Vietnamese/English academic writing, translation, revision, humanization, and fidelity auditing | `tools/academic-prose/SKILL.md` |
+| [`academic-document-production`](tools/academic-document-production/) | The artifact side of academic writing: page/word budgets measured on the rendered file, journal template verification, DOCX accepted-view mechanics, LaTeX pre-submission checks, bibliography rebuild, and thesis format authority | `tools/academic-document-production/SKILL.md` |
 | [`ppt-master-officecli`](tools/ppt-master-officecli/) | Beautiful PowerPoint generation/redesign with PPT Master plus read-only OfficeCLI QA and controlled publication | `tools/ppt-master-officecli/SKILL.md` |
 | [`jev-decision-benchmark`](tools/jev-decision-benchmark/) | Evidence-first harness to decide whether TypeSafe Jev should replace an LLM at a harness decision point (guardian, monitor); head-to-head benchmark + verified Jevbridge MCP integration | `tools/jev-decision-benchmark/README.md` |
 | [`evidence-first-research`](tools/evidence-first-research/) | Evidence-first applied research workflow: divergent ideation, live literature gap-scan, claim-to-source gates (TypeSafe Jev via Jevbridge MCP), and reviewer-standard manuscript integrity | `tools/evidence-first-research/SKILL.md` |

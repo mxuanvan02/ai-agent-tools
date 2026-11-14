@@ -3,7 +3,7 @@ name: academic-prose
 description: Think through, structure, write, translate, revise, humanize, and audit academic discourse in Vietnamese and English. Automatically use whenever content serves an academic, scientific, research, higher-education, or scholarly purpose, including prose, manuscripts, reports, slides, teaching content, course materials, speaker notes, assessment items, English-to-Vietnamese and Vietnamese-to-English translation, and removal of AI writing patterns from scholarly text. Do not use to invent evidence, search literature, validate methods, discover citations, or manipulate document layout.
 license: MIT
 metadata:
-  version: "3.23.0"
+  version: "3.26.0"
 ---
 
 # Academic Prose
@@ -49,7 +49,10 @@ answers stay one clause; the two comment boxes do not share numbers.
 This skill owns reasoning expressed through academic discourse: rhetorical
 purpose, claim hierarchy, evidence placement, paragraph progression, stance,
 cohesion, and sentence realization. It does not establish whether a method,
-statistic, citation, or factual claim is true. When paired with a PDF
+statistic, citation, or factual claim is true. Nor does it own the artifact that
+carries the prose: page and word budgets, journal templates, DOCX mechanics,
+LaTeX pre-submission checks, and bibliography rebuild belong to
+`academic-document-production`. When paired with a PDF
 translation tool, it supplies handoff translations while that tool owns
 extraction and reconstruction.
 
@@ -101,6 +104,79 @@ procedure. (A lesson learned on one manuscript is recorded there as a test,
 authority, or distinction — never as a single-field word list; see
 [Skill repository maintenance](references/skill-repository-maintenance.md).)
 
+## Terminology consistency audit
+
+Use after writing or revising a Vietnamese scientific manuscript when the user
+asks for term consistency ("đồng nhất thuật ngữ, các cụm từ"), or when a
+reviewer flags wording drift.
+
+**Drift has four directions, not one.** Counting variant pairs catches only the
+first. The other three are invisible to every prose scanner, survive a clean
+build and a clean citation check, and are the ones that reach a reviewer:
+
+| Direction | Shape | Why counting misses it |
+|---|---|---|
+| `variant_pair` | many names, one concept | this is the one counting catches |
+| `referent_collision` | one name, several referents | counts agree; the numbers don't |
+| `format_zone` | one quantity, two conventions across language zones | both are correct in their own language |
+| `self_count` | a claim about the manuscript's own contents that the artifact contradicts | the sentence is fluent and the number is wrong |
+
+A `referent_collision` is the dangerous one, because both occurrences look
+right. Measured: one label named a 14.210-record intermediate pool in Methods
+and the 688-item scored test set in Results. Every count of that label was
+consistent; a reader would conclude the scored set had 14.210 items.
+
+Run [`scripts/consistency_audit.py`](scripts/consistency_audit.py) on every
+`revise`, `audit`, and `translate` delivery of a manuscript with floats, plus
+`--terms` naming the labels whose referent you are least sure of. It reports
+`FORMAT_ZONE`, `SELF_COUNT`, `CROSSREF_HARDCODE`, `ABBREV_LATE`,
+`KEYWORD_PARITY`, `CAPTION_TERMINAL`, and `REFERENT_COLLISION`; each finding is a
+candidate, never a verdict.
+
+The gate's own calibration is the lesson: the first version fired 23 times on a
+clean manuscript (`bốn mô hình` compared against an unrelated 8-row table) and
+missed the real defect it was written for. A check earns its place only when a
+dirty fixture produces the finding **and** a clean fixture stays silent — see
+[`scripts/test_consistency_audit.py`](scripts/test_consistency_audit.py). Two
+guards fixed it, and both generalise: compare a count claim only against a table
+whose caption or header names the same counted noun, and require the document
+itself to define an abbreviation before treating its position as a defect.
+
+Then follow the manual procedure in
+[Terminology consistency audit](references/prose-checks-and-terminology-audit.md)
+for the variant-pair sweep, and verify every fix on the built PDF's text layer.
+
+## Independent prose review sweep
+
+When the user asks for a prose review of a finished manuscript, or asks for more
+style factors after an automated pass came back clean, run the sweep in
+[Independent prose review sweep](references/independent-prose-review-sweep.md).
+
+**The gates are half the sweep, not the whole of it.** Every scanner here matches
+a lexical pattern and reports one finding per occurrence; none divides. Measured
+on a 10-page bilingual manuscript, six gates returned 5 findings while 34
+explanatory colons sat in 6,326 words — 5.4× the registry ceiling. No gate was
+wrong; a rate is invisible to a pattern match. Run
+[`scripts/style_metrics.py`](scripts/style_metrics.py) on the extracted prose
+after the gates: it measures the colon rate, `được` rate, nominalisation, em
+dashes, sentence-length CV, paragraph length, repeated openings, connective
+distribution, and hedge inventory against the registry numbers.
+
+The colon is the one to act on. An explanatory colon stands in for a logical
+relation the writer did not name, so repair it by naming the relation (`gồm`,
+`vì`, `trong đó`, `cụ thể là`) or by splitting the sentence — never by deleting
+the colon and leaving the relation implicit. Confirm the repair by the connective
+distribution, not the colon count: if the count falls and no connective rises,
+the proposition was dropped rather than connected.
+
+Adjudicate every candidate into `author_prose_fix`,
+`immutable_source_false_positive`, or `needs_human_review`, and report the
+preserved items with the evidence that licenses them. A repeated opening shared
+by the abstract and the body is IMRaD convention, not duplication; an em dash in
+a published title is immutable, while the same dash in an author-written figure
+label is prose and gets fixed. The test is who wrote the string, not where it
+sits.
+
 ## Internal Register (prohibited)
 
 Publication-facing prose is about the world. Prose about the manuscript, the
@@ -113,54 +189,24 @@ Three tests decide, in order: the semantic subject must be admissible; the
 sentence must survive both a work-continues probe and a re-typesetting probe; a
 reader holding only the published artifact must be able to verify it. Four
 verdicts are licensed (`delete`, `recast`, `relocate`, `license`); **soften is
-forbidden**. Recast preserves the scope the internal sentence was carrying,
-or the repair becomes an overclaim.
+forbidden**. Recast preserves the scope the internal sentence was carrying, or the
+repair becomes an overclaim.
 
-### Venue ambition is a separate register, not a strong claim
-
-The publication target — the venue, its tier, its indexing, the referee you expect —
-is a **planning decision between author and collaborator**, and it does not belong
-in the artifact a reader holds. This leak is not bookkeeping and not self-address:
-it is *strategy*, which is fluent and motivating, so ordinary editing preserves it.
-
-Code `venue_ambition_leak`, blocking. Three sub-types: venue tier used as an
-argument (*top-tier journal*, *tạp chí thuộc nhóm Q1*), stated intent to publish
-(*we aim to publish this in…*), and referee anticipation (*reviewers will likely
-ask for an ablation*, *nhằm thuyết phục phản biện*).
-
-Repair by **recasting to the scientific reason, never by deleting the substance**.
-An ablation added to preempt a referee is still an ablation the argument needs —
-say why the argument needs it. `we ablate each stage so reviewers cannot object`
-becomes `each stage is ablated to establish which components carry the result`.
-Softening is not a verdict: the strategy survives and the sentence becomes vague.
-
-Licensing is by **genre**, because the same sentence is required in one artifact
-and prohibited in another. A cover letter argues venue fit to the editor by
-design; revision notes discuss the referees by design. Both are licensed. A
-manuscript, thesis, report, or abstract is not. Run
-[`scripts/internal_register_scan.py`](scripts/internal_register_scan.py) with
-`--genre` set to what the artifact actually is; a cover letter that scores clean
-as a cover letter and blocks as a manuscript is the gate working.
-
-Calibration matters here more than elsewhere, because `Q1`, `quartile`, `impact`,
-`Scopus`, and `venue` all occur in correct scientific prose — an interquartile
-range, a fiscal quarter, a database named in Methods, `Revenue` containing the
-substring `venue`. Every pattern therefore requires co-occurrence with a
-publication-target term and is word-boundaried. A bare tier token is not evidence;
-the claim must be *about* the venue. See
-[Internal register gate](references/internal-register-gate.md) section 11.
+Venue ambition — venue tier, indexing, referee anticipation — is a **planning
+decision between author and collaborator**, not a claim about the world. It is
+licensed by genre (cover letter, revision notes) and blocking in a manuscript,
+thesis, report, or abstract. Repair by recasting to the scientific reason, never
+by deleting the substance.
 
 Run the gate on every `draft`, `develop`, `revise`, `humanize`, `audit`, and
-`translate` delivery. One confirmed hit requires a whole-document sweep of both
-language versions before reply. See [Internal register gate](references/internal-register-gate.md)
-§11 for reusable forms.
+`translate` delivery; one confirmed hit requires a whole-document sweep of both
+language versions. A gate is not implemented until its fixture executes: run one
+deliberately dirty and one clean fixture before reporting it as available, and
+treat a scanner hit as a candidate for the four-verdict review, never as an
+automatic rewrite.
 
-**A gate is not implemented until its fixture executes.** Documentation, patterns,
-and a scanner file establish only a proposed control. Before reporting the gate as
-available, run one deliberately dirty fixture and one clean fixture; verify that
-the former yields a finding/non-zero exit and the latter yields zero. Treat a
-scanner hit as a candidate for the recorded four-verdict review, never as an
-automatic rewrite or final scholarly judgment.
+Full patterns, calibration false positives, bilingual marker parity, and the
+genre table: [Internal register gate](references/internal-register-gate.md).
 
 ## Process Logic (chronology and modifier scope)
 
@@ -297,7 +343,7 @@ put them in a separate unresolved-action matrix. Never turn a requested experime
 expert assessment, release state, or rights declaration into an achieved result.
 
 When that revision is delivered directly as DOCX—especially as paired clean and
-Track Changes copies—also apply the [DOCX manuscript revision and delivery gate](references/docx-manuscript-revision-gate.md).
+Track Changes copies—also apply the DOCX manuscript revision and delivery gate (`academic-document-production`).
 Recover logical headings from OOXML rather than appearance alone, adjudicate scanner
 hits manually, generate both copies from one replacement map, and do not call the
 files final until package, content, office-smoke, render, and cross-copy checks pass.
@@ -308,7 +354,7 @@ entirely, so a correct tracked copy fails assertions its clean twin passes, and
 numbers living in tables vanish from word counts and bilingual parity checks.
 
 Three bulk-replace guards that this session proved necessary: (1) scope terminology
-replacements by language and zone — Vietnamese `metadata` → `siêu dữ liệu`/`thông tin nguồn` must not touch the English Abstract or code-adjacent `metadata` that is the defined term, and a second pass must not re-translate its own output (`source thông tin nguồn`); guard by paragraph language and by `w:lang`/`Abstract` zone. (2) Renumbering a caption (`Bảng 1a` → `Bảng 1`, then shift `Bảng 1`→`2` etc.) must also patch every in-text `Bảng X báo cáo` reference and relocate a detached `Ghi chú Bảng X` paragraph to immediately after its table — verify by paragraph index, not visual adjacency. (3) Reconcile any `loại N; A có điểm, B thiếu điểm` split against the section prose (`411 + 335 − 204 = 542`) so the table and the text present one consistent total. Global `str.replace` without these guards produced `phiên bản phiên bản checkpoint` (double prefix) and a misplaced note in the measured edit. See [DOCX bulk-replace guard](references/docx-bulk-replace-guard.md).
+replacements by language and zone — Vietnamese `metadata` → `siêu dữ liệu`/`thông tin nguồn` must not touch the English Abstract or code-adjacent `metadata` that is the defined term, and a second pass must not re-translate its own output (`source thông tin nguồn`); guard by paragraph language and by `w:lang`/`Abstract` zone. (2) Renumbering a caption (`Bảng 1a` → `Bảng 1`, then shift `Bảng 1`→`2` etc.) must also patch every in-text `Bảng X báo cáo` reference and relocate a detached `Ghi chú Bảng X` paragraph to immediately after its table — verify by paragraph index, not visual adjacency. (3) Reconcile any `loại N; A có điểm, B thiếu điểm` split against the section prose (`411 + 335 − 204 = 542`) so the table and the text present one consistent total. Global `str.replace` without these guards produced `phiên bản phiên bản checkpoint` (double prefix) and a misplaced note in the measured edit. See DOCX bulk-replace guard (`academic-document-production`).
 
 ### Before accepting that a request needs a new study, search the project's artifacts
 
@@ -462,7 +508,11 @@ Read these references as needed:
 - [Capability matrix](references/capability-matrix.md)
 - [Argument and evidence](references/argument-and-evidence.md)
 - [Genre playbooks](references/genre-playbooks.md)
+- [The opening sentence gate](references/abstract-opening-sentence-gate.md) — a move checklist does not gate the first sentence; five rows (subject identity, term repetition, denominator, causal middle step, object-first opening) run on the source before the first build
 - [Research genre blueprints](references/research-genre-blueprints.md)
+- [Document architecture](references/document-architecture.md) — **read first for any long document**: the three parts (open/body/close) repeat at every level; chapter openings state function not structure, chapter closings state obligation not summary; body chapters map one-to-one to the objectives; plus the sentence-move order for abstract, Mở đầu, chapter opening/closing, and Kết luận. Genre tables for article / thesis / project report / khóa luận / tiểu luận.
+- [Thesis architecture, one instance](references/thesis-architecture.md) — a worked instantiation of the general model on a Vietnamese project report: front/back matter order, `Tính cấp thiết` four-link repair, paper-to-thesis by function
+- [Thesis section layouts, measured](references/thesis-section-layouts.md) — word and paragraph counts per section from that same instance, usable as a sanity band
 - [Legal research genres](references/legal-research-genres.md)
 - [Deliverable playbooks](references/deliverable-playbooks.md)
 - [Rhetorical move registry](references/rhetorical-moves.md)
@@ -473,7 +523,7 @@ Read these references as needed:
 - [Veracity-protestation gate](references/veracity-protestation-gate.md)
 - [Academic discourse gate](references/academic-discourse-gate.md)
 - [Metric and formula exposition](references/metric-and-formula-exposition.md)
-- [LaTeX pre-submission verification](references/latex-pre-submission-verification.md) — prose-extract recipe for paragraph-level scans on `.tex`, the polyglossia `\refname` truncated-heading trap, deriving declarations placement from a published OJS article, per-record verification of dataset claims against the released HF artifact, the manuscript↔GitHub↔HF drift sweep, Crossref-verified citation insertion with Vancouver render-order check, renaming public GH/HF artifacts mid-submission, and the no-numbers-in-conclusion gate
+- LaTeX pre-submission verification (`academic-document-production`) — prose-extract recipe for paragraph-level scans on `.tex`, the polyglossia `\refname` truncated-heading trap, deriving declarations placement from a published OJS article, per-record verification of dataset claims against the released HF artifact, the manuscript↔GitHub↔HF drift sweep, Crossref-verified citation insertion with Vancouver render-order check, renaming public GH/HF artifacts mid-submission, and the no-numbers-in-conclusion gate
 - [Skill repository maintenance](references/skill-repository-maintenance.md)
 - [Self-narration and config dump](references/self-narration-and-config-dump.md)
 - [Artifact register to scientific register](references/artifact-register-to-scientific-register.md)
@@ -488,7 +538,7 @@ Read these references as needed:
 - [Revision response genres](references/revision-response-genres.md)
 - [Submission integrity declarations](references/submission-integrity-declarations.md)
 - [Quality rubric](references/quality-rubric.md)
-- [PDF Translate integration](references/pdf-translate-integration.md)
+- PDF Translate integration (`academic-document-production`)
 
 ## Claim Integrity Contract
 
@@ -528,7 +578,7 @@ These constraints hold in both languages. Language-specific realization lives in
 - Make logical relations explicit only when licensed by the evidence or stated reasoning.
 - Preserve calibrated hedging; academic tone is not stronger claims or heavier formal vocabulary.
 - Frame the gap as a property of process, artifacts or scale, not the person; no strawman, no defensive negation. See references/framing-gap-motivation.md.
-- Numbered footnote/table edits: a new criterion needs its own citation; renumber captions, mentions and count headings; verify in the DOCX. See references/numbered-footnote-table-manuscript.md.
+- Numbered footnote/table edits: a new criterion needs its own citation; renumber captions, mentions and count headings; verify in the DOCX. See `academic-document-production`.
 - Avoid journalistic emphasis, promotional claims, bureaucratic padding, conversational fillers, ceremonial vocabulary, and ornamental synonyms.
 - Never build a Vietnamese title or heading as `Chủ đề: Phụ đề`; recast into one nominal phrase that repeats no word it already contains. See references/ai-pattern-vietnamese.md §9.
 
@@ -557,7 +607,7 @@ For revisions that change an abstract, results interpretation, or quantitative f
 3. Treat labels, manifests, and checksums as part of the evidence boundary. If a manifest label conflicts with its count, repair the label and update every covering digest before reporting the artifact as valid.
 4. Preserve distinctions between processing failure, unresolved judgment, semantic rejection, replay recovery, and expert validation. An outage or missing retrieval result must not be narrated as legal/content incorrectness.
 5. After edits, rebuild with the document's declared engine rather than assuming `pdflatex`; record the actual page count with `pdfinfo` or PyMuPDF. Compare against a baseline build of the pre-edit source, not only against stale status notes.
-6. Run text-level checks for citation/reference resolution, overfull boxes, notation and dash integrity, abstract word limits, and presence of every new quantitative claim. Explicitly verify bibliography presence: extract bracket citations (`[1]`, `[1–5]`, `[6,7]`) from accepted text and confirm a References / Tài liệu tham khảo section exists covering the cited range. A manuscript with in-text citations but no bibliography is a submission blocker even when all four prose scans are clean. Never invent missing entries — emit a placeholder or request the source list. If automated visual review is unavailable, report that limitation and inspect rendered pages directly; do not call the visual gate fully passed. See `references/citation-bibliography-integrity.md` and `references/bibliography-reconstruction.md` for the extraction → verification → remap recipe.
+6. Run text-level checks for citation/reference resolution, overfull boxes, notation and dash integrity, abstract word limits, and presence of every new quantitative claim. Explicitly verify bibliography presence: extract bracket citations (`[1]`, `[1–5]`, `[6,7]`) from accepted text and confirm a References / Tài liệu tham khảo section exists covering the cited range. A manuscript with in-text citations but no bibliography is a submission blocker even when all four prose scans are clean. Never invent missing entries — emit a placeholder or request the source list. If automated visual review is unavailable, report that limitation and inspect rendered pages directly; do not call the visual gate fully passed. See `references/citation-bibliography-integrity.md` and ``academic-document-production`` for the extraction → verification → remap recipe.
 7. Treat any prose edit after packaging as invalidating the release archive, even when the edit is only stylistic. Freeze the source only after the final content and visual gates, recreate the PDF and archive from that frozen tree, then extract the archive into a clean directory and rebuild it. Compare page count and fatal/citation/reference/overfull status with the release build; record final digests only after this clean rebuild. Never deliver an older archive beside a newer PDF.
 
 ## From Project Artifacts to Scientific Prose
@@ -828,14 +878,14 @@ This gate prevents a plausible-looking but noncompliant submission artifact, and
 10. **A word cap "including footnotes and references" is three budgets.** Measure
    body, footnote definitions, and bibliography separately in the delivered
    artifact, and treat only the body as compressible. See
-   [Venue constraint budget](references/venue-constraint-budget.md) for the
+   Venue constraint budget (`academic-document-production`) for the
    measurement procedure, the citation-style verification order, and the
    archive-enumeration recipe;
    [`scripts/docx_journal_build.py`](scripts/docx_journal_build.py) builds a
    compliant DOCX from Markdown and prints the three-bucket count plus every
    declared format constraint, so compliance is measured rather than asserted.
    For HUL journal submissions with a decoy form template and orphan
-   `Hình`/`Bảng` captions, see [HUL template decoy and caption orphan fix](references/hul-template-caption-fix.md).
+   `Hình`/`Bảng` captions, see HUL template decoy and caption orphan fix (`academic-document-production`).
 
 11. **A same-folder `template.docx` can be a decoy.** Measured HUL case:
     `template.docx` (12K) was only the author-declaration form
@@ -855,7 +905,7 @@ This gate prevents a plausible-looking but noncompliant submission artifact, and
     figures as `wp:inline` with a real `blip` embed so they cannot drift to
     another page. Verify by body-order walk (caption index immediately before
     its table/image), not by visual skim. See
-    [HUL template decoy and caption orphan fix](references/hul-template-caption-fix.md).
+    HUL template decoy and caption orphan fix (`academic-document-production`).
 
 ### A verified cap still has to be budgeted before drafting
 
@@ -874,7 +924,7 @@ Two rules that prevent an entire session of convergence passes:
    sentences and cut rhetorical redundancy structurally. In the measured case nine passes
    crawled 11,647 → 9,999 and one pass moved *up* (11,173 → 11,211).
 
-See [Word-cap budget compliance](references/word-cap-budget-compliance.md) for the
+See Word-cap budget compliance (`academic-document-production`) for the
 budget formula, the citation-density trade-off, the build+verify script contract, the
 pandoc/python-docx pitfalls (missing `Table Grid` style, footnote survival checks), and
 the source-retrieval notes.
@@ -951,86 +1001,28 @@ failure, not a formatting decision — see the preservation list in
 shipping a thinner argument.
 
 Full procedure, worked numbers, and the citation-apparatus cost table:
-[Word budget and rendered-artifact compliance](references/word-budget-and-rendered-artifact-compliance.md).
-
+Word budget and rendered-artifact compliance (`academic-document-production`).
 ## Page Budget Is Measured in Points, Not Words
 
-A page ceiling behaves nothing like a word ceiling, and the instinct that works
-for words — shorten prose until the count fits — **does not work for pages**. In
-a measured session a 15-page LaTeX manuscript that had to absorb two new figures
-and a new results subsection was cut by ~350 words of duplicated prose and
-stayed at 16 pages, because every page was already full to the last line: each
-removal only *reflowed* text into the same number of lines. Page count moved only
-when the levers below were used. Measure before cutting, or the cutting is
-theatre.
+A page ceiling behaves nothing like a word ceiling: shortening prose until the
+count fits **does not work for pages**, because each removal only reflows text
+into the same number of lines. Measure before cutting, or the cutting is theatre.
 
-**Lock a numeric invariant before any compression pass.** Extract the distinct
-set of numeric tokens across all prose files (`\d+(?:[.,]\d+)*`, comments
-stripped) and keep it as a baseline; re-check after every batch that
-`baseline − now` is empty. This is what makes aggressive prose compression safe:
-word count may move freely, evidence may not. Two cautions from measurement —
-a set that *shrinks* means a number was lost, and a set that *grows* is usually
-harmless (a `\label{eq:g78}` contributes the token `78`), so inspect additions
-before calling them findings. Repeat-counts legitimately collapse when a
-duplicated figure is de-duplicated to one site plus a cross-reference; only the
-distinct set is the invariant.
+Lock a numeric invariant before any compression pass — the distinct set of numeric
+tokens across all prose files, re-checked after every batch so `baseline − now`
+stays empty. Word count may move freely; evidence may not. Then rank levers by
+what they actually free: captions first, then cross-section duplication (keep each
+number at one site and cross-reference it), then typography that changes no content
+(`microtype` protrusion/expansion only), and prose last. `\looseness=-1` and
+shortening already-full pages both failed in measurement — do not retry them blind.
 
-**Diagnose by drift analysis, not by word count.** Extract text per section
-heading from both the old and the new built PDF and compare line counts. In the
-measured case the body had *fewer* words than the original (6,242 against
-6,391) yet ran one page longer, and the drift table localised it exactly: +16
-lines in Results, +6 in References, −4 in Conclusion. Word counts cannot tell
-you this; line counts can.
+Never buy a page by deleting what a reviewer asked for; stop at the floor and
+report the measured ceiling instead. Moving material to an appendix does not
+reduce total page count of the same PDF — say which rule applies rather than
+promising a saving that will not arrive.
 
-**Rank the levers by what they actually free.** Measured, in order:
-
-1. **Captions.** A hand-written caption ran 102 and 109 words against the
-   author's own 34-word caption for a comparable figure — three times the
-   density, repeating body text. Trimming both to ~55 words freed a page on its
-   own. Captions are the highest-yield target precisely because authors do not
-   think of them as prose.
-2. **Cross-section duplication.** The same numbers (admission rates, prompt
-   lengths, per-gate rejection counts) appeared in abstract, introduction,
-   methods, results *and* discussion. Keep each figure at one site and
-   cross-reference it; do not delete it. This freed ~200 words without touching
-   a single datum.
-3. **Typography that changes no content.** `microtype` (protrusion/expansion
-   only) was absent from the preamble; adding it moved the last page's overflow
-   from 235 to 163 words with zero content change. Legitimate when it does not
-   alter font size, type area, or margins the venue or author has fixed.
-4. **Prose.** Last, not first, and only where it is genuinely redundant.
-
-**Two levers that failed — do not retry them blind.** `\looseness=-1` on four
-long paragraphs changed nothing: TeX cannot compress a paragraph that has no
-slack. And shortening prose in a document where every page is already full to
-666/666pt produces reflow, not relief. Check whether pages are actually full
-(measure each page's text bottom) before assuming prose is the lever.
-
-**Figures cost height, and the legibility floor bounds how short they can get.**
-A TikZ figure embedded at `\textwidth` scales by `345.83pt / canvas_width`, and
-*every* font in it scales with it — including math subscripts, which
-`\footnotesize` renders at 6pt. The floor therefore sets a **maximum canvas
-width**: `canvas ≤ subscript_pt × 345.83 / 6`. Two figures measured at 323pt and
-340pt canvas against a 346pt ceiling were already at the limit, so neither could
-be widened (and thereby shortened) without dropping below 6pt. Compute this
-ceiling *before* designing the layout; a figure drawn wide-then-scaled-down is
-the usual cause of an unreachable budget. Measure the embedded font on the
-**built manuscript page**, never on the standalone crop — the same figure
-reported 5.5pt standalone and 4.34pt embedded. A pre-existing author figure can
-carry the same defect: its `×` marks measured 4.34pt embedded, 50 sub-floor
-spans, identically in the original build — fix in the generating script, verify
-only the font changed (page size, cell multiset, and mark counts identical).
-
-**Never buy a page by deleting what a reviewer asked for.** The remaining
-candidates for cutting were the stratified bounds and the limitations a peer
-review had required. Stop at the floor and ask instead; report the measured
-ceiling rather than shipping a thinner argument. Note also that moving material
-to an appendix does **not** reduce total page count of the same PDF — it only
-helps when the venue counts the main body separately. Say which applies rather
-than promising a page saving that will not arrive.
-
-Full recipe, measurement scripts, and the worked 15→16 page case:
-[Page-budget compression for LaTeX](references/page-budget-compression.md).
+Measurement scripts, the legibility floor for scaled TikZ figures, and the worked
+15→16 page case: Page-budget compression (`academic-document-production`).
 
 ## Evidence-bound full-manuscript audit
 
@@ -1082,41 +1074,33 @@ rather than papering over it with a formula.
 See [Metric and formula exposition](references/metric-and-formula-exposition.md)
 for the worked subsection, the concept–formula–boundary pattern per statistic, and
 the placement verification recipe.
-
 ## Auditing Someone Else's Numbers
 
-An audit that recomputes an author's quantity introduces a second source of
-error: **the audit's own unstated inputs**. The failure is asymmetric and it
-survives any amount of re-reading, because re-reading examines the document while
-the defect lives in the auditor's assumptions.
+An audit that recomputes an author's quantity introduces a second source of error:
+**the audit's own unstated inputs**. The failure survives re-reading, because
+re-reading examines the document while the defect lives in the auditor's
+assumptions.
 
-Classify every recomputed quantity before writing it:
+Classify every recomputed quantity before writing it. **`CLOSED`** — every input is
+printed in the audited document or is a universal constant; a disagreement is
+evidence. **`OPEN`** — at least one input comes from an external parameter table,
+convention, or software default the document never states; an `OPEN` recomputation
+yields one member of a family of defensible values, so a disagreement is not
+evidence of author error.
 
-- **`CLOSED`** — every input is printed in the audited document, or is a
-  universal constant. A count against a stated denominator, an interval derived
-  from that count, a value compared against a range the document itself prints.
-  A `CLOSED` disagreement is evidence.
-- **`OPEN`** — at least one input comes from an external parameter table,
-  convention, or software default the document never states: an atomic-radius or
-  electronegativity table, a rounding convention, a library default, a unit
-  choice. An `OPEN` recomputation yields **one member of a family of defensible
-  values**, so a disagreement is not evidence of author error.
+The repair for an `OPEN` disagreement is never "the author's number is wrong": ask
+for the unstated parameter source and state explicitly that the audit asserts no
+competing value. Where the convention space is small, sweep it and report the
+range — if the author's value is reachable inside it, withdraw the finding rather
+than softening it.
 
-The repair for an `OPEN` disagreement is never "the author's number is wrong". It
-is a request for the unstated parameter source, with an explicit statement that
-the audit asserts no competing value. Where the convention space is small, sweep
-it and report the range: if the author's value is reachable inside it, withdraw
-the finding rather than softening it.
+Codes `open_input_recomputation` and `gather_only_verification`, both blocking. The
+second is a process defect: a multi-pass audit whose every pass examines the
+document cannot detect an error in its own assumptions, so the pass count is not
+evidence of rigour.
 
-Codes `open_input_recomputation` and `gather_only_verification`, both blocking.
-The second is a **process** defect: a multi-pass audit whose every pass examines
-the document cannot detect an error in its own assumptions, so the pass count is
-not evidence of rigour. At least one pass must vary the audit's own inputs and
-attempt to construct the reading under which the author is correct.
-
-See [Reviewer recomputation gate](references/reviewer-recomputation-gate.md) for
-the classification procedure, the sweep protocol, the falsification pass, and the
-worked case where a swept convention withdrew a finding.
+Procedure, sweep protocol, and the falsification pass:
+[Reviewer recomputation gate](references/reviewer-recomputation-gate.md).
 
 ## Peer Review, Reporting, and Submission Artifacts
 
@@ -1321,3 +1305,12 @@ them, is covered in
 whose style is really the model, figures generated from the measurement bundle,
 glyph and vision gates, caption placement, built-artifact verification, and
 prose cuts that never touch a verifier's pinned string.
+
+## Rewrite from English: when prose sounds translated
+
+When the user says prose "nghe English quá", the problem is structural —
+machine rhythm (uniform sentence lengths), calques that survive word-level
+editing, and semantic contradictions introduced by the rewrite. The procedure
+is in [Rewrite from English prose](references/rewrite-from-english-prose.md):
+the machine-rhythm tell, the calque hunt list, semantic contradiction detection,
+and the seven-step rewrite procedure.

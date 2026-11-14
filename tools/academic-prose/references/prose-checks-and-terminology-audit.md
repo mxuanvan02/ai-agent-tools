@@ -45,7 +45,73 @@ Two references sit outside the manuscript pipeline and are easy to miss:
 
 Use after writing or revising a Vietnamese scientific manuscript when the user
 asks for term consistency ("đồng nhất thuật ngữ, các cụm từ"), or when a
-reviewer flags wording drift. Real failing case (a legal-QA revision round):
+reviewer flags wording drift.
+
+### Four directions of drift
+
+Variant-pair counting sees one direction. Three others survive every prose
+scanner, every clean build, and a clean citation check, and they are the ones a
+reviewer notices first.
+
+| Direction | Shape | Detection |
+|---|---|---|
+| `variant_pair` | many names, one concept | count both sides, fix toward the majority |
+| `referent_collision` | one name, several referents | co-occurring quantities under one label |
+| `format_zone` | one quantity, two surface conventions across language zones | separator character vs zone language |
+| `self_count` | a claim about the manuscript's own contents the artifact contradicts | number word vs the table it introduces |
+
+`REFERENT_COLLISION` is the dangerous one because both occurrences look correct
+and every count of the label is internally consistent. Measured in a legal-QA
+revision: one label named a 14.210-record intermediate pool in Methods and the
+688-item scored test set in Results. A reader following the term concludes the
+scored set contains 14.210 items — a false statement produced by no single wrong
+sentence. Repair by renaming the intermediate pool (`tập ứng viên đánh giá`
+alongside `tập ứng viên phát hành`), not by rewording either mention.
+
+`FORMAT_ZONE` is not a typo in either language: Vietnamese writes `54,5` and
+English writes `54.5`, and the defect is only ever a convention applied to the
+wrong zone. Detect by classifying each zone from its own diacritic density rather
+than from a declaration, because a bilingual manuscript often declares one
+language globally and inherits it for both abstracts.
+
+`SELF_COUNT` is where an off-by-one hides: prose introducing "seven checks" above
+a six-row table. The count is fluent and the sentence is grammatical, so nothing
+in a prose scan reacts.
+
+### Automated pass
+
+```bash
+python3 scripts/consistency_audit.py manuscript.tex \
+  --terms "tập đánh giá,tập kiểm tra" --report audit.md
+```
+
+Reports the four directions plus `CROSSREF_HARDCODE`, `ABBREV_LATE`,
+`KEYWORD_PARITY`, and `CAPTION_TERMINAL`. Each finding is a candidate for human
+adjudication; `REFERENT_COLLISION` in particular prints the co-occurring
+quantities so a reader decides whether they name one population.
+
+Two calibration guards decide whether the gate is usable, and both came from
+measuring the gate itself rather than the manuscript:
+
+- **A count claim belongs to a table only when the counted noun appears in that
+  table's caption or header row.** Comparing against the nearest table regardless
+  produced 23 findings on a clean manuscript — `bốn mô hình` matched against an
+  unrelated eight-row results table — while the real defect was a table whose
+  caption did name the noun.
+- **An abbreviation is only late if the document defines it somewhere.** Inferring
+  the expansion from initials missed the real case and invented one for a unit
+  (`GB` from an accidental two-word match). Require the document's own
+  `full form (ACR)` pattern; names and units then fall out of scope by
+  construction.
+
+A check is not implemented until a dirty fixture produces the finding **and** a
+clean fixture stays silent:
+`python3 scripts/test_consistency_audit.py`. A gate that fires on clean prose is
+worse than no gate, because it trains the author to skip the report.
+
+### Manual variant-pair sweep
+
+Real failing case (a legal-QA revision round):
 `thí nghiệm` vs `thực nghiệm`, `không có ngữ cảnh` vs `không ngữ cảnh`,
 `mức độ nhận thức` vs `mức nhận thức`, `bản phát hành cuối cùng` vs
 `bản phát hành cuối` — each appeared 1–4 times against a 6–21 count majority.
