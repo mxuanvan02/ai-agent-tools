@@ -121,6 +121,14 @@ jobs:
           python3 -m py_compile tools/vietnamese-classical-literature-research/scripts/*.py tools/vietnamese-classical-literature-research/tests/*.py
           python3 -m unittest discover -s tools/vietnamese-classical-literature-research/tests -v
 
+      - name: Validate van-hoc-de-cuong-luan-van
+        # Static literal paths only; no ${{ }} expressions, no attacker-controlled
+        # input reaches a shell. Same pattern as the steps above.
+        run: |
+          python3 tools/van-hoc-de-cuong-luan-van/scripts/public_hygiene_check.py
+          python3 -m py_compile tools/van-hoc-de-cuong-luan-van/scripts/*.py tools/van-hoc-de-cuong-luan-van/tests/*.py
+          python3 -m unittest discover -s tools/van-hoc-de-cuong-luan-van/tests -v
+
       - name: Validate latex-slide-template
         # Static literal paths only; no ${{ }} expressions, no attacker-controlled
         # input reaches a shell. Same pattern as the steps above.
