@@ -26,6 +26,7 @@ A curated monorepo of installable tools and skills for AI agents. Each tool is i
 | [`code-review-gates`](tools/code-review-gates/) | Review machinery for changes produced faster than a human can read them: risk tier from the change (not the author), findings need evidence and a response, review rounds are capped, and noise is measured from what authors actually do. Four mechanisms, each with a script and tests that prove the gate can fail | `tools/code-review-gates/SKILL.md` |
 | [`latex-slide-template`](tools/latex-slide-template/) | Beamer 16:9 LaTeX slide template for academic talks: Vietnamese T5 encoding, colour system, cover/contents/content/conclusion/Q&A structure, and placeholder slots for the presenter's own logos and institution names | `tools/latex-slide-template/README.md` |
 | [`product-application-slide-deck`](tools/product-application-slide-deck/) | Build applied-product presentation decks for education competitions: 15-slide structure with real screenshots, speaker notes with video scripts, and highlight animations for demo videos. Validates slide count, element bounds, aspect ratios, and speaker notes | `tools/product-application-slide-deck/SKILL.md` |
+| [`latex-diff-and-revision-audit`](tools/latex-diff-and-revision-audit/) | Revised LaTeX manuscript workflow: additions-only yellow highlight PDF (`latexdiff` + `lualatex` + `lua-ul` with `Verbatim` restoration and body-only deletion stripping), AST prompt-to-source sync, and Vietnamese academic prose lint | `tools/latex-diff-and-revision-audit/SKILL.md` |
 
 ## Validation
 
@@ -74,6 +75,10 @@ python3 -m py_compile tools/latex-slide-template/scripts/*.py
 python3 -m unittest discover -s tools/code-review-gates/tests -v
 # offline gate: reads the live routing config, makes no network call, needs no key
 python3 tools/jev-routing-relay-ops/scripts/probe_routing_pool.py --self-check --prefix <relay-prefix>
+# latex-diff-and-revision-audit: highlight diff sanitizer, AST prompt sync, and Vietnamese prose lint
+python3 tools/latex-diff-and-revision-audit/scripts/public_hygiene_check.py
+python3 -m py_compile tools/latex-diff-and-revision-audit/scripts/*.py tools/latex-diff-and-revision-audit/tests/*.py
+python3 -m unittest discover -s tools/latex-diff-and-revision-audit/tests -v
 ```
 
 The PowerPoint integration does not vendor the upstream engines. Its installer fetches pinned upstream versions, applies a narrowly scoped MIT-compatible patch, installs only the pinned core generation dependencies, and excludes optional AGPL `PyMuPDF` by default.
