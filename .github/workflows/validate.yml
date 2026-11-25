@@ -26,6 +26,7 @@ jobs:
           (cd scripts && python3 test_internal_register_scan.py)
           (cd scripts && python3 test_process_logic_scan.py)
           (cd scripts && python3 test_vi_ai_pattern_scan.py)
+          (cd scripts && python3 test_run_writing_gates.py)
 
       - name: Validate academic-prose hygiene
         run: |
